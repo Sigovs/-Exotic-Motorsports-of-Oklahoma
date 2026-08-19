@@ -84,7 +84,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=57`**.
+  browser serves stale styles. Currently at **`?v=59`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -143,7 +143,13 @@ one has a reason:
   black and the photograph never showed. The ground below the fade is a second
   image layer sized to the remainder.
 
-Retune all three together: lengthening the hold moves the stagger percentages,
+- **Each line runs TWO animations on that one timeline** — it arrives, then it
+  leaves. The entry fills `both`; the exit fills `forwards` only. With `both` on
+  the exit, its from-state (`opacity: 1`) would win over the entry for the whole
+  first half of the timeline, because the later animation in the list takes the
+  property. The background never animates: only the type comes and goes.
+
+Retune all four together: lengthening the hold moves the stagger percentages,
 and changing the fade height changes 07's `padding-block-start`, which is set to
 match it exactly so no void opens between the fade and the first line.
 

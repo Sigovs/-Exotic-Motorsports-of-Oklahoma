@@ -767,25 +767,41 @@
   from { opacity: 0; transform: translateY(1.75rem); }
   to   { opacity: 1; transform: none; }
 }
+/* The exit. Same order as the entry, so the passage leaves the way it was
+   written rather than collapsing all at once — and upward, because 07 is
+   arriving from below and two masses crossing in opposite directions read as
+   one being replaced by the other rather than as both sliding. */
+@keyframes principle-out {
+  from { opacity: 1; transform: none; }
+  to   { opacity: 0; transform: translateY(-2.5rem); }
+}
 
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
     .sticky-stack { view-timeline-name: --stack; view-timeline-axis: block; }
 
+    /* Two phases on one timeline. The entry fills BOTH ways — it must hold the
+       hidden state before its range. The exit fills FORWARDS only: with `both`
+       its from-state (opacity 1) would win over the entry for the whole first
+       half, because the later animation in the list takes the property. */
     .texture .plate,
     .texture .sec-head,
     .texture .pillar,
     .texture .principles__coda {
-      animation: principle-in linear both;
-      animation-timeline: --stack;
+      animation: principle-in linear both, principle-out linear forwards;
+      animation-timeline: --stack, --stack;
     }
 
-    .texture .plate                 { animation-range: cover 8%  cover 16%; }
-    .texture .sec-head              { animation-range: cover 13% cover 22%; }
-    .texture .pillar:nth-child(1)   { animation-range: cover 19% cover 28%; }
-    .texture .pillar:nth-child(2)   { animation-range: cover 23% cover 32%; }
-    .texture .pillar:nth-child(3)   { animation-range: cover 27% cover 36%; }
-    .texture .principles__coda      { animation-range: cover 32% cover 41%; }
+    /* The exits start three points later than they first did: the passage
+       now stands complete for about 300px of scroll before the first line
+       goes. Assembled-and-still is the frame this chapter is FOR.        */
+    /*                                   ARRIVES              LEAVES          */
+    .texture .plate               { animation-range: cover 8%  cover 16%, cover 47% cover 54%; }
+    .texture .sec-head            { animation-range: cover 13% cover 22%, cover 49% cover 56%; }
+    .texture .pillar:nth-child(1) { animation-range: cover 19% cover 28%, cover 51% cover 58%; }
+    .texture .pillar:nth-child(2) { animation-range: cover 23% cover 32%, cover 53% cover 60%; }
+    .texture .pillar:nth-child(3) { animation-range: cover 27% cover 36%, cover 55% cover 62%; }
+    .texture .principles__coda    { animation-range: cover 32% cover 41%, cover 57% cover 64%; }
   }
 }
 
