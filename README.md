@@ -81,7 +81,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=39`**.
+  browser serves stale styles. Currently at **`?v=41`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -105,8 +105,16 @@ a frame that is bright along its top edge.
 **The hero is one full screen and the photograph is its ground.** The claim,
 the action, the short form and the register sit ON the picture, so hero
 legibility is a scrim problem at every width. Measured on the composited
-render, glyph pixels only: desktop H1 4.37:1, locator 6.39:1, register label
-17.26:1; mobile H1 6.04:1, locator 11.32:1. The scrim runs left-to-right on
+render, glyph pixels only: desktop H1 6.81:1, locator 10.11:1, register label
+17.26:1; mobile H1 6.04:1, locator 11.32:1.
+
+The desktop figures are what they are because the claim is TOP-aligned with the
+form. Bottom-aligned it sat over the wet apron and measured 4.37:1; moving it up
+put it across the white Range Rover and it fell to 3.06:1 — still passing the
+3:1 large-text floor, but on a two percent margin, which is not a margin. The
+horizontal pass was deepened through the 34-66% band instead, and the showroom
+kept its light (brightest pixel L=0.98). **Any change to the headline's position
+or length moves it onto different pixels — re-measure.** The scrim runs left-to-right on
 desktop (the lit showroom keeps its light, the headline side goes dark) and
 bottom-up on mobile, where the column is tall and the type sits mid-screen.
 **Re-measure both axes if the hero image or the headline length changes.**

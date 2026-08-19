@@ -82,7 +82,7 @@
   pointer-events: none;
   background:
     linear-gradient(to right,
-      #0D0E10E6 0%, #0D0E10BF 30%, #0D0E106B 52%, #0D0E1000 72%),
+      #0D0E10F0 0%, #0D0E10D9 34%, #0D0E10A6 54%, #0D0E1040 66%, #0D0E1000 78%),
     linear-gradient(to top,
       #0D0E10B3 0%, #0D0E1038 24%, #0D0E1000 48%);
 }
@@ -92,11 +92,15 @@
   padding-block: calc(var(--header-h) + var(--space-8)) var(--space-7);
 }
 
+/* The two columns start together. Bottom-aligned, the short claim sank to the
+   foot of the tall form and the two masses read as unrelated objects that
+   happened to end at the same line. Aligned at the top they read as one row:
+   the proposition and the means of acting on it, stated at the same moment. */
 .hero__grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 25rem;
   gap: var(--space-8);
-  align-items: end;
+  align-items: start;
 }
 
 .hero__title { color: var(--ink); max-inline-size: 20ch; }
