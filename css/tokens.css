@@ -159,7 +159,7 @@
   --container:      78rem;   /* 1248px */
   --container-wide: 90rem;   /* 1440px */
   --container-text: 46rem;   /* long-form column */
-  --header-h:       5rem;    /* 80px — sized to carry the supplied mark legibly;
+  --header-h:       6.25rem;  /* 100px — was 80; the extra height is air ABOVE the bar */    /* 80px — sized to carry the supplied mark legibly;
                                counted as a mass (anti-patterns U10) */
   --stickybar-h:    4rem;    /* 64px mobile action bar — also counted */
 

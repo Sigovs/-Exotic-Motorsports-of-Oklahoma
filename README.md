@@ -81,7 +81,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=32`**.
+  browser serves stale styles. Currently at **`?v=39`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -101,6 +101,15 @@ The frame is deep blue sky across the whole header strip — luminance 0.001 to
 replaced (active 10.65, inactive 5.13, logo 10.31). Inactive nav is still the
 tightest pair. **Re-measure it if the hero image changes again**, especially to
 a frame that is bright along its top edge.
+
+**The hero is one full screen and the photograph is its ground.** The claim,
+the action, the short form and the register sit ON the picture, so hero
+legibility is a scrim problem at every width. Measured on the composited
+render, glyph pixels only: desktop H1 4.37:1, locator 6.39:1, register label
+17.26:1; mobile H1 6.04:1, locator 11.32:1. The scrim runs left-to-right on
+desktop (the lit showroom keeps its light, the headline side goes dark) and
+bottom-up on mobile, where the column is tall and the type sits mid-screen.
+**Re-measure both axes if the hero image or the headline length changes.**
 
 **`?static` disables every piece of motion**, which is what it is for — it
 exists so a full-page screenshot captures one settled frame. Reviewing motion at

@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=32">
-<link rel="stylesheet" href="css/base.css?v=32">
-<link rel="stylesheet" href="css/components.css?v=32">
-<link rel="stylesheet" href="css/page.css?v=32">
+<link rel="stylesheet" href="css/tokens.css?v=39">
+<link rel="stylesheet" href="css/base.css?v=39">
+<link rel="stylesheet" href="css/components.css?v=39">
+<link rel="stylesheet" href="css/page.css?v=39">
 </head>
 
 <body>
@@ -154,9 +154,14 @@
      Three components, and that is now what this screen has.
 -->
 <section class="hero" aria-labelledby="hero-title">
-  <!-- One source, two authored crops (object-position per breakpoint) rather
-       than two files: the frame is a 3:4 portrait and every crop of it is a
-       window onto the same subject, so a second file would only duplicate it. -->
+  <!-- THE PHOTOGRAPH IS THE GROUND, NOT A BAND.
+       It was a frame stacked above a plate; the claim now sits ON the picture,
+       which is what makes the first screen one event instead of two stacked
+       ones. Consequences, both handled at the background layer rather than by
+       thickening the type (color-taste I4): the scrim runs left-to-right, so
+       the lit showroom on the right keeps its light while the headline side
+       goes dark; and the form is an opaque panel, so it needs no scrim of its
+       own and can sit over the brightest part of the frame. -->
   <div class="hero__media">
     <picture>
       <img src="assets/img/hero/service-hero.jpg"
@@ -165,41 +170,63 @@
     </picture>
   </div>
 
-  <!-- The plate carries the whole claim: proposition, action, evidence. One
-       composed system, not a caption bolted under a banner. -->
-  <div class="hero__claim">
+  <div class="hero__inner">
     <div class="container container--wide">
-
       <div class="hero__grid">
-        <!-- One mass, three lines, one silhouette. The locator is the same size
-             and weight as the rest of the sentence and steps down only in tone,
-             so it recedes without becoming a second rank (typography I1). -->
-        <h1 class="t-h1 hero__title" id="hero-title">
-          European &amp; Luxury Auto Service and Repair
-          <span class="hero__place">in Edmond, Oklahoma</span>
-        </h1>
 
-        <!-- The action sits on the headline's own last baseline — a decided
-             relationship, not whatever the column heights left over. -->
-        <div class="cta-row hero__cta">
-          <a class="btn btn--primary" href="#schedule">Request service</a>
-          <a class="btn btn--secondary" href="tel:+14056331142">
-            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
-            Call
-          </a>
+        <div class="hero__claim">
+          <!-- The locator keeps the same face, size and weight as the rest of
+               the sentence and steps down only in tone, so it recedes without
+               becoming a second rank (typography I1). -->
+          <h1 class="t-h1 hero__title" id="hero-title">
+            European &amp; Luxury Auto Service and Repair
+            <span class="hero__place">in Edmond, Oklahoma</span>
+          </h1>
+
+          <div class="cta-row hero__cta">
+            <a class="btn btn--primary" href="#schedule">Request service</a>
+            <a class="btn btn--secondary" href="tel:+14056331142">
+              <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+              Call
+            </a>
+          </div>
         </div>
+
+        <!-- THE SHORT FORM.
+             Three fields, because a first-screen form is a door and not an
+             intake: everything else the schedule section already asks is asked
+             there, on a page the visitor reached by choosing to. Duplicated
+             deliberately at the client's request; it posts to the same place. -->
+        <form class="hero__form" novalidate aria-labelledby="hero-form-title">
+          <p class="label hero__form-title" id="hero-form-title">Request service</p>
+
+          <div class="field">
+            <label class="field__label" for="h-name">Name</label>
+            <input class="input" id="h-name" name="name" type="text" autocomplete="name" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="h-phone">Phone</label>
+            <input class="input" id="h-phone" name="phone" type="tel" autocomplete="tel" required>
+          </div>
+          <div class="field">
+            <label class="field__label" for="h-vehicle">Year, make and model</label>
+            <input class="input" id="h-vehicle" name="vehicle" type="text" placeholder="2019 Porsche Macan S" required>
+          </div>
+
+          <button class="btn btn--primary btn--wide" type="submit">Request service</button>
+          <p class="hero__form-note">Or call <a href="tel:+14056331142">(405)&nbsp;633-1142</a></p>
+        </form>
+
       </div>
 
-      <!-- 1b · EVIDENCE REGISTER — the service claim the inventory photograph
-           cannot make. Inside the plate, one rank below the action, so the
-           first screen resolves on proof instead of stopping on a band. -->
+      <!-- The four commitments the photograph cannot make, closing the screen
+           on proof rather than stopping on the action. -->
       <ul class="trust">
         <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-inspection"/></svg>Digital inspections</li>
         <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-oem"/></svg>OEM procedures</li>
         <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-photo"/></svg>Photo documentation</li>
         <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-quality"/></svg>Quality control</li>
       </ul>
-
     </div>
   </div>
 </section>
@@ -731,22 +758,27 @@
          a viewer that these are not real customers.
          BEFORE THIS SHIPS: replace with the real Google feed, or delete the
          section. It must never go out as it stands (content-provenance). -->
-    <div class="sec-body" data-reveal data-carousel>
-      <div class="reviews__head">
-        <p class="label t-dim">
-          <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
-          What customers say
-        </p>
-        <!-- Controls live beside the heading, not floating over the cards: an
-             arrow sitting on top of a quote covers the thing it is moving. -->
-        <div class="carousel__nav">
-          <button class="carousel__btn" type="button" data-rev-prev aria-controls="reviews-track" aria-label="Previous review">
-            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </button>
-          <button class="carousel__btn" type="button" data-rev-next aria-controls="reviews-track" aria-label="Next review">
-            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
-          </button>
-        </div>
+
+    <div class="sec-body cta-row" data-reveal>
+      <a class="btn btn--primary" href="#schedule">Request service</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================ REVIEWS
+     Lifted out of the paper chapter into a band of its own, on the deep
+     ground, with the page glow behind it. Two reasons it is a band and not
+     a panel inside the argument: proof is a different kind of statement from
+     the argument it supports, and a dark interval between two paper chapters
+     is the cadence this page already runs on.
+
+     CONTENT WARNING, unchanged: every quote below is invented and nothing
+     visible says so. Replace with the real Google feed or delete the band. -->
+<section class="section reviews-band" data-surface="deep" aria-labelledby="reviews-title">
+  <div class="container">
+    <div data-carousel>
+      <h2 class="t-h2 reviews__title" id="reviews-title" data-reveal>What customers say</h2>
       </div>
 
       <ul class="reviews" id="reviews-track" tabindex="0" aria-label="Customer reviews">
@@ -784,15 +816,21 @@
           <p class="review__by">Sample name <span>&middot; via Google</span></p>
         </li>
       </ul>
-      <div class="carousel__dots" data-rev-dots role="tablist" aria-label="Choose a review"></div>
+      <div class="carousel__controls">
+        <div class="carousel__nav">
+          <button class="carousel__btn" type="button" data-rev-prev aria-controls="reviews-track" aria-label="Previous review">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+          <button class="carousel__btn" type="button" data-rev-next aria-controls="reviews-track" aria-label="Next review">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+        </div>
+        <div class="carousel__dots" data-rev-dots role="tablist" aria-label="Choose a review"></div>
+      </div>
     </div>
-
-    <div class="sec-body cta-row" data-reveal>
-      <a class="btn btn--primary" href="#schedule">Request service</a>
-    </div>
-
   </div>
 </section>
+
 
 
 <!-- ========================================================= 6 · PROCESS
@@ -1261,6 +1299,6 @@
   <a class="btn btn--primary" href="#schedule">Request service</a>
 </div>
 
-<script src="js/main.js?v=32" type="module"></script>
+<script src="js/main.js?v=39" type="module"></script>
 </body>
 </html>

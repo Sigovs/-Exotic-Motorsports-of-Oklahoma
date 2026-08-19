@@ -592,7 +592,13 @@
   pointer-events: none;
 }
 .site-header__inner {
+  /* The padding is on the TOP only, so the bar's content sits low in its own
+     height rather than centred in it: the logo clears the edge of the screen
+     and the nav stops reading as if it were printed on the frame. The token
+     grew with it, so the hero's negative offset and every anchor's
+     scroll-margin still resolve against the real bar height. */
   display: flex; align-items: center; gap: var(--space-6);
+  padding-block-start: var(--space-4);
   inline-size: 100%;
   max-inline-size: var(--container-wide);
   margin-inline: auto;
