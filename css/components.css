@@ -307,44 +307,38 @@
 /* ============================================================================
    7 · TRUST STRIP — the four-claim band under each hero
    ========================================================================= */
-/* THE EVIDENCE REGISTER — four cards, not four cells of a table.
-   It was a single ruled strip: one border top and bottom, hairlines between,
-   items butted edge to edge. That reads as a spec row on a datasheet, which is
-   the wrong register for the four commitments the page is actually making. Each
-   is now a discrete unit on its own ground with air around it, so the eye can
-   count four things instead of scanning one band. Kept horizontal (mark beside
-   label, not above it) because this sits above the fold and a stacked card
-   would cost the hero the height it needs. */
+/* THE EVIDENCE REGISTER — marks and labels, no containers.
+   It has been three things: a ruled strip that read as a datasheet row, then
+   four cards, and now neither. The cards were the wrong answer once the block
+   moved up beside the form: four bordered boxes next to a bordered panel made
+   five containers on one screen, and each commitment is a mark plus three
+   words — it does not need a ground to be a unit. A single hairline seats the
+   group under the claim; the intervals separate the items (anti-patterns D4).
+   Two columns rather than four: at the claim's measure, four tracked uppercase
+   labels do not fit on one line, and a label that wraps stops being a label. */
 .trust {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: var(--space-3);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-4) var(--space-6);
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--rule);
 }
 .trust__item {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-4) var(--space-4);
-  border: 1px solid var(--rule);
-  border-radius: var(--r-md);
-  background: var(--surface-raised);
   font-family: var(--font-display);
   font-size: var(--text-micro);
   font-weight: var(--weight-strong);
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
   color: var(--on-surface);
-  transition: border-color var(--dur-2) var(--ease), background-color var(--dur-2) var(--ease);
 }
-.trust__item:hover { border-color: var(--rule-strong); }
 .trust__item svg { flex: none; color: var(--red-ink); }
 [data-surface="paper"] .trust__item svg { color: var(--red); }
 
-@media (max-width: 60rem) {
-  .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-}
 @media (max-width: 30rem) {
-  .trust { grid-template-columns: minmax(0, 1fr); }
+  .trust { grid-template-columns: minmax(0, 1fr); gap: var(--space-3); }
 }
 
 

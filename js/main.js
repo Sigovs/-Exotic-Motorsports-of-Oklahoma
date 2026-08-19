@@ -288,7 +288,11 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
   const prev = document.querySelector('[data-rev-prev]');
   const next = document.querySelector('[data-rev-next]');
 
-  if (track && dotsBox && prev && next) {
+  /* The dots were removed from the markup: with two views they duplicated
+     the arrows, and a control that says the same thing twice is one control
+     too many. Everything below still measures the reachable stops — the
+     arrows need them — and simply skips drawing dots when the box is absent. */
+  if (track && prev && next) {
     const cards = [...track.children];
     let stops = [];
 
@@ -301,8 +305,8 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
         if (!stops.length || Math.abs(at - stops[stops.length - 1]) > 2) stops.push(at);
       });
 
-      dotsBox.textContent = '';
-      stops.forEach((at, i) => {
+      if (dotsBox) dotsBox.textContent = '';
+      if (dotsBox) stops.forEach((at, i) => {
         const d = document.createElement('button');
         d.type = 'button';
         d.className = 'carousel__dot';
@@ -331,7 +335,7 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
        counted in a variable, so a swipe and a click stay in agreement. */
     const sync = () => {
       const active = current();
-      [...dotsBox.children].forEach((d, i) => d.setAttribute('aria-selected', String(i === active)));
+      if (dotsBox) [...dotsBox.children].forEach((d, i) => d.setAttribute('aria-selected', String(i === active)));
       prev.disabled = active === 0;
       next.disabled = active === stops.length - 1;
     };

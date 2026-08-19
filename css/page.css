@@ -64,7 +64,12 @@
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  object-position: 50% 52%;
+  /* Lower Y shows more of the TOP of the source, which slides the picture DOWN
+     inside the frame. At 1905x1080 the image covers to 1905x1278, so 198px is
+     hidden; 52% split that 103/95 and 35% splits it 69/129 — the scene sits
+     about 34px lower, which buys sky above the roofline and drops the cars
+     clear of the headline's last line. */
+  object-position: 50% 35%;
 }
 
 /* THE SCRIM, ON THE HORIZONTAL AXIS.
@@ -122,11 +127,8 @@
   backdrop-filter: blur(10px);
 }
 .hero__form-title { color: var(--ink); }
-.hero__form-note { font-size: var(--text-micro); color: var(--ink-muted); }
-.hero__form-note a { color: var(--ink); border-block-end: 1px solid var(--rule-on-dark-str); }
-.hero__form-note a:hover { border-block-end-color: var(--ink); }
 
-.hero .trust { margin-block-start: var(--space-7); }
+.hero .trust { margin-block-start: var(--space-6); }
 
 /* MOBILE — a separate composition.
    The form leaves. It is a duplicate of the one in the schedule section, and
@@ -154,22 +156,13 @@
         #0D0E10F7 0%, #0D0E10E6 30%, #0D0E10A6 58%, #0D0E1040 78%, #0D0E1000 96%);
   }
 
-  /* The second button goes. Call is carried permanently by the fixed action
-     bar two thumb-widths below it, so the pair was the same action twice in
-     one screen — and it cost the register the room it needed. */
-  .hero__cta .btn--secondary { display: none; }
+  /* The whole row goes. All that is left in it is Call, and the fixed action
+     bar carries Call permanently two thumb-widths below — the same tap, in a
+     better place, and the register gets the room. */
+  .hero__cta { display: none; }
 
   /* Four full-width cards ate the screen and the fourth landed under the
      action bar. Two by two: the same four commitments, one glance. */
-  /* overrides the component's own single-column rule below 30rem: in the
-     hero the register competes with the fold, everywhere else it does not */
-  .hero .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-2); }
-  .hero .trust__item { padding: var(--space-3); gap: var(--space-2); }
-}
-
-@media (max-width: 20rem) {
-  /* Only under 320px does a tracked uppercase label stop fitting two-up. */
-  .hero .trust { grid-template-columns: minmax(0, 1fr); }
 }
 
 /* ---------------------------------------------------------------------------
@@ -278,14 +271,24 @@
 
 /* ---- SPEC PLATE — section number + label, in the sign's register ---------
    One job: rank and locate the reader inside a long page. -------------------*/
+/* The numeral is a column, not a word in a line.
+   As a flex row with baseline alignment the label's wrap fell wherever the
+   column edge put it — in chapter 01 that stranded a single word, "VEHICLES",
+   on a second line beside a 30px numeral, and the block read as a mistake
+   rather than as two lines (typography I6). A two-column grid fixes both ends
+   of it: the numeral owns a fixed track so every plate on the page starts its
+   label at the same x, and the label owns the rest and balances its own lines,
+   so a wrap is an even pair rather than an orphan. */
 .plate {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: baseline;
   gap: var(--space-4);
   padding-block-end: var(--space-4);
   border-block-end: 1px solid var(--rule-strong);
   margin-block-end: var(--space-7);
 }
+.plate__label { text-wrap: balance; }
 .plate__no {
   font-family: var(--font-display);
   font-size: var(--text-h3);
@@ -488,12 +491,27 @@
 .texture > img {
   position: absolute; inset: 0; z-index: -2;
   inline-size: 100%; block-size: 100%;
-  object-fit: cover; object-position: 50% 40%;
+  /* Anchored low: the subject is the row of service bays and the cars in front
+     of them, which sit in the lower two thirds. The sunset above them is the
+     part the crop can afford to lose. */
+  object-fit: cover; object-position: 50% 62%;
 }
+/* The ground used to be a flat concrete wall and took a flat 87% wash. This
+   frame is a sunset — a flat wash that dark turns it to mud and throws away the
+   only reason to use it. A graded pass instead: lighter at the top where the
+   sky and the roofline are and nothing is read, deepening through the band the
+   three pillars occupy. The photograph stays a photograph and the body copy
+   still clears AA (measured below). */
 .texture::before {
   content: "";
   position: absolute; inset: 0; z-index: -1;
-  background: #0D0E10DE;   /* 87% — the wall stays readable as material; ink still 11.8:1 */
+  background: linear-gradient(
+    to bottom,
+    #0D0E10B8 0%,
+    #0D0E10CC 22%,
+    #0D0E10E6 52%,
+    #0D0E10F0 100%
+  );
 }
 
 /* ---------------------------------------------------------------------------
@@ -505,10 +523,10 @@
    sections around it. No new hue, no shadow, and it is one rule rather than a
    per-component decision (anti-patterns D3 — the shadow ban stands).
 --------------------------------------------------------------------------- */
-.card, .feature, .marque, .review, .disc, .form, .trust__item {
+.card, .feature, .marque, .review, .disc, .form {
   background-image: radial-gradient(120% 140% at 0% 0%, #FFFFFF08 0%, #FFFFFF00 58%);
 }
-[data-surface="paper"] :is(.card, .feature, .marque, .review, .disc, .form, .trust__item) {
+[data-surface="paper"] :is(.card, .feature, .marque, .review, .disc, .form) {
   background-image: radial-gradient(120% 140% at 0% 0%, #14161A08 0%, #14161A00 58%);
 }
 
@@ -644,8 +662,9 @@
 
 .reviews-band .reviews { margin-block-start: var(--space-8); }
 
-/* Arrows and dots as one centred cluster, so the whole control reads as a
-   single object under the track instead of two controls at opposite ends. */
+/* Just the arrows, centred under the track. The dots said the same thing the
+   arrows say — with two reachable views, "which view" and "next view" are the
+   same fact — so the pair was one control drawn twice. */
 .carousel__controls {
   display: flex;
   align-items: center;
