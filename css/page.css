@@ -1,0 +1,425 @@
+/* ============================================================================
+   PAGE COMPOSITION — the shells both landing pages compose inside.
+   Not a design-system layer: no new tokens, no new voices, no new button.
+   Everything here is layout of the masses declared in the Composition Plan.
+   ========================================================================= */
+
+/* ---------------------------------------------------------------------------
+   HERO
+   Declared before build:
+     viewport ownership  the first screen below the 72px header, owned by the
+                         composed event — photograph, claim and action — not
+                         by the photograph alone
+     scene treatment     environment: the real facility under overcast sky
+     object scale        as supplied by Alex; the crop is not re-composed
+     focal point         the sign, then the three cars
+     negative space      the sky above the sign, and the black plate the claim
+                         sits on — the same material the sign is made of
+     text safe zone      BELOW the frame. Tried first as a bottom-left scrim
+                         over the concrete apron and rejected in the render:
+                         the apron is only the lower fifth of a 2.13:1 crop,
+                         so the headline climbed into the cars, and a scrim
+                         deep enough to rescue it flattened the whole
+                         photograph. The subject was being damaged to rescue
+                         one text block (color-taste I4 escalation order).
+     desktop crop        facility-desktop.jpg 1920x900, used as supplied
+     mobile crop         facility-mobile.jpg 430x520, used as supplied
+     asset suitability   an inventory frame, not a service frame: it proves
+                         identity and place. The service proposition is
+                         carried by the headline and the strip beneath it.
+--------------------------------------------------------------------------- */
+.hero { position: relative; background: var(--black); }
+
+/* The band's ratio is taken from the photograph's own content, not chosen:
+   in the 1920x900 crop the sign starts at 2% of the height and the cars end
+   at 73%, so the frame keeps the top 78% and drops the empty apron below it.
+   1920 / (900 x 0.78) = 2.735. Anchored to the top so that ratio holds while
+   the width changes; the height cap only bites on very tall viewports. */
+.hero__media {
+  position: relative;
+  isolation: isolate;
+  aspect-ratio: 1920 / 702;
+  max-block-size: 70svh;
+  overflow: clip;
+}
+/* <picture> is inline by default; without this it sizes itself from the file
+   and pushes the frame past the ratio above. */
+.hero__media picture { display: block; block-size: 100%; }
+.hero__media img {
+  inline-size: 100%;
+  block-size: 100%;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+/* Not a scrim — nothing sits on the subject. A short foot so the frame meets
+   the plate below it instead of cutting against it. */
+.hero__media::after {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  inset-block-end: 0;
+  block-size: 9%;
+  background: linear-gradient(to top, var(--black) 0%, #0D0E1000 100%);
+}
+
+.hero__claim { padding-block: clamp(2rem, 3.5vw, 3rem); }
+.hero__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-7);
+  align-items: end;
+}
+
+.hero__title { color: var(--ink); max-inline-size: 17ch; }
+.hero__place {
+  display: block;
+  margin-block-start: var(--space-3);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-heading);
+  color: var(--ink-muted);
+}
+.hero__lead { color: var(--ink); max-inline-size: 34ch; }
+
+/* MOBILE — a separate composition, not a squeezed desktop one. */
+@media (max-width: 60rem) {
+  /* Same reasoning as desktop, measured on the portrait crop: the sign sits
+     at 8-25% of the height and the cars end at 68%, so the frame keeps the
+     top 76% and drops the empty apron. 430 / (520 x 0.76) = 430/395. */
+  .hero__media {
+    aspect-ratio: 430 / 395;
+    max-block-size: 46svh;
+  }
+  .hero__media img { object-position: 50% 0%; }
+  .hero__media::after { block-size: 16%; }
+  .hero__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
+  .hero__title { max-inline-size: none; }
+  .hero__lead { max-inline-size: none; }
+}
+
+/* ---------------------------------------------------------------------------
+   PULL LINE — the brand's three words, used once per page as the one
+   committed gesture. Not a decorative repeat.
+--------------------------------------------------------------------------- */
+.pull {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-3) var(--space-5);
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-display);
+  letter-spacing: var(--ls-heading);
+  color: var(--on-surface);
+}
+.pull span { display: inline-flex; align-items: baseline; gap: var(--space-3); }
+.pull span::before {
+  content: "";
+  inline-size: var(--space-4);
+  block-size: 2px;
+  background: var(--red);
+  translate: 0 -0.28em;
+}
+
+/* ---------------------------------------------------------------------------
+   PILLAR — Precision / Integrity / Performance definitions
+--------------------------------------------------------------------------- */
+.pillar { border-block-start: 2px solid var(--red); padding-block-start: var(--space-4); }
+.pillar__name { color: var(--on-surface); }
+.pillar__text { margin-block-start: var(--space-3); color: var(--on-surface-muted); font-size: var(--text-sm); }
+
+/* ---------------------------------------------------------------------------
+   MARQUE BLOCK — one per brand, capability stated rather than claimed
+--------------------------------------------------------------------------- */
+.marque { display: flex; flex-direction: column; gap: var(--space-4); }
+.marque__head { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-4); }
+.marque__name { color: var(--on-surface); }
+.marque__text { color: var(--on-surface-muted); font-size: var(--text-sm); }
+
+/* ---------------------------------------------------------------------------
+   INSPECTION LEGEND — realises the "digital vehicle inspection" slot as a
+   drawn element rather than a photograph we do not have. Every word in it is
+   the client's own (content-provenance: nothing invented to fill a shape).
+--------------------------------------------------------------------------- */
+.legend { display: grid; gap: var(--space-4); }
+.legend__row { display: flex; align-items: flex-start; gap: var(--space-4); }
+.legend__key {
+  flex: none;
+  inline-size: 0.75rem; block-size: 0.75rem;
+  margin-block-start: 0.34em;
+  border-radius: 2px;
+}
+.legend__key--now  { background: var(--red); }
+.legend__key--soon { background: var(--warn); }
+.legend__key--ok   { background: var(--ok); }
+.legend__name { color: var(--on-surface); font-weight: var(--weight-strong); font-size: var(--text-sm); }
+.legend__text { color: var(--on-surface-muted); font-size: var(--text-micro); line-height: 1.5; }
+
+/* ---------------------------------------------------------------------------
+   CONTACT PANEL
+--------------------------------------------------------------------------- */
+.contact__row { display: grid; gap: var(--space-2); padding-block: var(--space-5); border-block-start: 1px solid var(--rule); }
+.contact__row:first-child { border-block-start: 0; padding-block-start: 0; }
+.contact__k { font-family: var(--font-display); font-size: var(--text-micro); font-weight: var(--weight-strong); letter-spacing: var(--ls-label); text-transform: uppercase; color: var(--on-surface-muted); }
+.contact__v { color: var(--on-surface); font-size: var(--text-lead); line-height: 1.35; }
+.contact__v--sm { font-size: var(--text-body); }
+
+/* a value still waiting on the client, marked so it cannot ship unnoticed */
+[data-placeholder] {
+  border-block-end: 1px dashed var(--red);
+  color: var(--on-surface-muted);
+}
+
+/* ---------------------------------------------------------------------------
+   CLOSING BAND
+--------------------------------------------------------------------------- */
+.promise { display: grid; gap: var(--space-5); max-inline-size: 34rem; }
+.promise__line { font-family: var(--font-display); font-size: var(--text-h2); font-weight: var(--weight-display); line-height: var(--lh-heading); letter-spacing: var(--ls-heading); color: var(--ink); }
+.promise__coda { color: var(--ink-muted); }
+
+/* ---------------------------------------------------------------------------
+   ICON SET — one set, drawn on a 24 grid at a single 1.5 stroke, sized
+   optically against the label beside it (typography I9).
+--------------------------------------------------------------------------- */
+.icon { inline-size: 1.25rem; block-size: 1.25rem; stroke-width: 1.5; fill: none; stroke: currentColor; stroke-linecap: round; stroke-linejoin: round; }
+.icon--lg { inline-size: 1.75rem; block-size: 1.75rem; }
+
+/* ============================================================================
+   ART DIRECTION LAYER
+   Added after the first render was judged and found to be a document rather
+   than a page: nine equal boxes, no dominant, no imagery for 11,000px, and a
+   device stated twice. What follows fixes rank and reintroduces the subject.
+
+   Every image below is a frame cut from the client's own master photograph
+   (assets/img/frames/*), not a stock or generated substitute.
+   ========================================================================= */
+
+/* ---- SPEC PLATE — section number + label, in the sign's register ---------
+   One job: rank and locate the reader inside a long page. -------------------*/
+.plate {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-4);
+  padding-block-end: var(--space-4);
+  border-block-end: 1px solid var(--rule-strong);
+  margin-block-end: var(--space-7);
+}
+.plate__no {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-display);
+  font-style: italic;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  color: var(--red);
+}
+[data-surface="dark"] .plate__no,
+[data-surface="deep"] .plate__no { color: var(--red-ink); }
+.plate__label {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-eyebrow);
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+}
+
+/* ---- BLEED SPLIT — text on the page grid, image to the viewport edge -----
+   The one asymmetric relationship the page repeats: argument against
+   evidence. Image side alternates so the rhythm develops. ------------------ */
+.bleed-split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+}
+/* The section carries no block padding of its own here: the frame runs to the
+   top and bottom edges of the chapter, and the text column holds the air. */
+.section--bleed { padding-block: 0; }
+.bleed-split__text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-inline-start: max(var(--gutter), (100vw - var(--container)) / 2);
+  padding-inline-end: clamp(var(--space-6), 4vw, var(--space-9));
+  padding-block: clamp(var(--space-8), 7vw, var(--space-10));
+}
+.bleed-split__media { position: relative; block-size: 100%; min-block-size: clamp(20rem, 40vw, 34rem); overflow: clip; }
+.bleed-split__media img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+
+.bleed-split--flip .bleed-split__media { order: -1; }
+.bleed-split--flip .bleed-split__text {
+  padding-inline-start: clamp(var(--space-6), 4vw, var(--space-9));
+  padding-inline-end: max(var(--gutter), (100vw - var(--container)) / 2);
+}
+
+@media (max-width: 60rem) {
+  .bleed-split { grid-template-columns: minmax(0, 1fr); }
+  .bleed-split__media { min-block-size: 0; aspect-ratio: 16 / 10; order: -1; }
+  .bleed-split__text,
+  .bleed-split--flip .bleed-split__text {
+    padding-inline: var(--gutter);
+    padding-block: var(--space-7) var(--space-6);
+  }
+}
+
+/* ---- BAND — a full-bleed photographic beat between chapters --------------
+   Scrim axis is horizontal: the band is wide and short, so a bottom-up pass
+   deep enough to carry type would cover the cars, which are the subject
+   (color-taste I4 escalation order, I6 axis clause). ----------------------- */
+.band { position: relative; isolation: isolate; background: var(--black); }
+.band__media { block-size: clamp(15rem, 30vw, 27rem); overflow: clip; }
+.band__media img { inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 50% 58%; }
+.band::after {
+  content: "";
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(to right, #0D0E10F5 0%, #0D0E10E0 26%, #0D0E1000 62%);
+}
+.band__content {
+  position: absolute; inset-block: 0; inset-inline: 0; z-index: 2;
+  display: flex; align-items: center;
+}
+.band__inner { max-inline-size: 30rem; }
+.band__line {
+  font-family: var(--font-display);
+  font-size: var(--text-h2);
+  font-weight: var(--weight-display);
+  line-height: var(--lh-heading);
+  letter-spacing: var(--ls-heading);
+  color: var(--ink);
+}
+@media (max-width: 48rem) {
+  .band__media { block-size: clamp(17rem, 62vw, 22rem); }
+  .band::after { background: linear-gradient(to top, #0D0E10F7 0%, #0D0E10D6 42%, #0D0E1000 82%); }
+  .band__content { align-items: flex-end; padding-block-end: var(--space-6); }
+}
+
+/* ---- FEATURE — the ranked lead service. Dominant, not one of nine. ------- */
+.feature {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--space-7);
+  padding: var(--space-7);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-md);
+  background: var(--surface-raised);
+}
+.feature__no {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 5vw, 4.5rem);
+  font-weight: var(--weight-display);
+  font-style: italic;
+  line-height: 0.9;
+  color: var(--red-ink);
+  font-variant-numeric: tabular-nums;
+}
+[data-surface="paper"] .feature__no { color: var(--red); }
+@media (max-width: 60rem) {
+  .feature { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); padding: var(--space-6); }
+}
+
+/* ---- INDEX — the remaining services as rules, not boxes ------------------
+   Open air and a hairline do the work a container was doing badly. --------- */
+.index { border-block-start: 1px solid var(--rule-strong); }
+.index .disc {
+  border: 0;
+  border-block-end: 1px solid var(--rule);
+  border-radius: 0;
+  background: transparent;
+}
+.index .disc__summary { padding-inline: 0; padding-block: var(--space-5); gap: var(--space-6); align-items: center; }
+.index .disc__summary:hover { background: transparent; }
+.index .disc__summary:hover .disc__title { color: var(--red-ink); }
+[data-surface="paper"] .index .disc__summary:hover .disc__title { color: var(--red); }
+.index .disc__title { transition: color var(--dur-2) var(--ease); }
+.index .disc__titles { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: var(--space-6); align-items: baseline; }
+.index .disc__hint { margin-block-start: 0; }
+.index .disc__panel { padding-inline: 0; padding-block-end: var(--space-6); border-block-start: 0; padding-block-start: 0; }
+.index .disc__panel > * { max-inline-size: 62rem; }
+@media (max-width: 48rem) {
+  .index .disc__titles { grid-template-columns: minmax(0, 1fr); gap: var(--space-2); }
+}
+
+/* ---- TEXTURE SECTION — the building's own wall as a ground -------------- */
+.texture { position: relative; isolation: isolate; overflow: clip; }
+.texture > img {
+  position: absolute; inset: 0; z-index: -2;
+  inline-size: 100%; block-size: 100%;
+  object-fit: cover; object-position: 50% 40%;
+}
+.texture::before {
+  content: "";
+  position: absolute; inset: 0; z-index: -1;
+  background: #0D0E10DE;   /* 87% — the wall stays readable as material; ink still 11.8:1 */
+}
+
+/* ---- IDENTITY MARK — the sign frame, used once, as a sign-off ----------- */
+.markplate { border: 1px solid var(--rule); border-radius: var(--r-sm); overflow: clip; background: var(--black); }
+.markplate img { inline-size: 100%; block-size: auto; }
+
+/* ---- SPLIT SECTION HEAD -------------------------------------------------
+   Repeats the hero's own relationship — proposition left, qualifier right —
+   so a wide viewport gets a ranked pair instead of a headline and a void.
+   One relationship reused, not a new device per section. --------------------*/
+.sec-head--split {
+  max-inline-size: none;
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--space-6) var(--space-7);
+  align-items: end;
+}
+.sec-head--split > * + * { margin-block-start: 0; }
+.sec-head--split .t-h2 { max-inline-size: 16ch; }
+.sec-head--split .t-lead { max-inline-size: 46ch; }
+@media (max-width: 60rem) {
+  .sec-head--split { grid-template-columns: minmax(0, 1fr); align-items: start; }
+  .sec-head--split .t-h2, .sec-head--split .t-lead { max-inline-size: none; }
+}
+
+/* ---- MARQUE MARK + WORDMARK --------------------------------------------
+   The box is gone: a hairline and open air rank these better than four
+   containers did (anti-patterns D4). The mark is decorative identification
+   only — the marque name always sits beside it (typography I9). ----------- */
+.marque {
+  gap: var(--space-5);
+  border-block-start: 1px solid var(--rule-strong);
+  padding-block-start: var(--space-6);
+}
+.marque__head { align-items: center; }
+.marque__id { display: flex; align-items: center; gap: var(--space-4); min-inline-size: 0; }
+.marque__mark {
+  flex: none;
+  inline-size: 2.75rem; block-size: 2.75rem;
+  fill: none; stroke: currentColor; stroke-width: 1.5;
+  color: var(--silver);
+}
+[data-surface="paper"] .marque__mark { color: var(--silver-dim); }
+
+/* ---- INDEX ROW ICON ----------------------------------------------------- */
+.disc__icon { flex: none; color: var(--on-surface-dim); }
+.index .disc__summary:hover .disc__icon { color: var(--red-ink); }
+[data-surface="paper"] .index .disc__summary:hover .disc__icon { color: var(--red); }
+.disc__icon { transition: color var(--dur-2) var(--ease); }
+.index .disc__panel { padding-inline-start: calc(1.75rem + var(--space-6)); }
+@media (max-width: 48rem) {
+  .index .disc__panel { padding-inline-start: 0; }
+}
+
+/* long modifier labels wrap under the wordmark instead of colliding with it */
+.marque__head { flex-wrap: wrap; row-gap: var(--space-2); }
+.marque__head .label { margin-inline-start: auto; }
+@media (max-width: 30rem) { .marque__head .label { margin-inline-start: 0; } }
+
+/* ---- PLAIN BAND — a visual break with no type on it ----------------------
+   No scrim, because nothing is being read over it. It exists to give the eye
+   somewhere to rest between two dense chapters. ---------------------------- */
+.band--plain::after { content: none; }
+.band--plain .band__media { block-size: clamp(12rem, 24vw, 21rem); }
+.band--plain img { object-position: 50% 50%; }
+.band__note {
+  position: absolute; inset-block-end: 0; inset-inline-end: 0; z-index: 2;
+  padding: var(--space-2) var(--space-4);
+  background: #0D0E10CC;
+  color: var(--ink-dim);
+  font-size: var(--text-micro);
+  border-start-start-radius: var(--r-sm);
+}

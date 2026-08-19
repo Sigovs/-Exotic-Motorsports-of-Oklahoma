@@ -1,0 +1,243 @@
+/* ============================================================================
+   EXOTIC MOTORSPORTS OF OKLAHOMA — DESIGN TOKENS
+   Single source of truth. Never hard-code a colour, size, space or duration
+   in a page or component file — reference a var(--…) from here.
+
+   COLOUR DERIVATION (color-taste I5 — stated before use)
+   Every colour in this system is measured from the one brand asset we hold,
+   assets/img/hero/facility-master.jpg (the facility with its sign):
+
+     · the sign plate ......... #181617  -> the dark ground family
+     · the wordmark red ....... #9E4335  (lit letter faces, flat overcast light)
+       the same sign in the      #E61F43  (Alex's graded hero crop, desk_2.jpg)
+       graded desktop crop
+     · "OF OKLAHOMA" silver ... #CACACA  -> the hairline / decorative metal
+     · the concrete apron ..... #C4C5C1  -> the light reading ground family
+
+   The accent reconciles the two red readings: the overcast photograph flattens
+   the paint (hue 8deg, 66% sat), Alex's grade pushes it crimson (hue 349deg).
+   --red sits between them at hue 356deg and is then lifted until it clears AA
+   as a button ground under white text. Judged where it lands: 4.99:1 on white
+   text, 3.84:1 against the base — so it is a GROUND and a LARGE mark, never
+   small body text on dark. --red-ink exists for the rare text case.
+
+   MEASURED RATIOS (color-taste I1 — every pair introduced)
+     ink        on black   17.39:1     ink-dark    on paper    16.45:1
+     ink-muted  on black    7.99:1     ink-dark-muted on paper  6.22:1
+     ink-dim    on black    5.63:1     red         on paper     4.54:1
+     ink-dim    on raised   5.24:1     <- the pair that caught the first value
+     white      on red      4.99:1     red         on black     3.84:1  (UI/large only)
+     red-ink    on black    5.74:1     silver      on black     9.34:1
+
+   ink-dim was #7A7F86 until the render was swept: on --black it measured
+   4.79:1 and passed, and on --black-raised inside a feature card the same
+   token measured 4.45:1 and failed. The token table was clean and the page
+   was not — exactly the failure color-taste I6 names. Lifted until it
+   clears AA on the raised ground too, which is the worst case it can land on.
+   ========================================================================= */
+
+:root {
+
+  /* ---- COLOUR: dark ground ("the showroom") ------------------------------ */
+  --black:            #0D0E10;   /* sign plate, lifted off pure black */
+  --black-raised:     #15171A;   /* one step up — cards on dark */
+  --black-sunk:       #08090A;   /* footer, deepest base */
+
+  --ink:              #F3F3F2;   /* near-white, never #fff */
+  --ink-muted:        #A3A7AC;   /* secondary text on dark */
+  --ink-dim:          #868B92;   /* micro-labels on dark — see note below */
+
+  /* ---- COLOUR: light ground ("the record") ------------------------------- */
+  --paper:            #F4F4F2;   /* concrete apron, lifted to a reading surface */
+  --paper-raised:     #FAFAF9;   /* cards on paper */
+  --paper-sunk:       #E9E9E6;   /* wells, inset panels, table zebra */
+
+  --ink-dark:         #14161A;   /* primary text on light */
+  --ink-dark-muted:   #565B62;   /* secondary text on light */
+
+  /* ---- COLOUR: accent ---------------------------------------------------- */
+  --red:              #D8232F;   /* primary action ground + large marks */
+  --red-hover:        #B81C26;
+  --red-press:        #991720;
+  --red-ink:          #F2555E;   /* red used AS TEXT on dark — 5.74:1 */
+  --red-wash:         #D8232F14; /* 8% — active-row tint only, never behind text */
+
+  /* ---- COLOUR: metal (decorative only, never an action) ------------------ */
+  --silver:           #C6C8CB;
+  --silver-dim:       #8D9196;
+
+  /* ---- COLOUR: rules & borders ------------------------------------------ */
+  --rule-on-dark:     #F3F3F226;  /* 15% */
+  --rule-on-dark-str: #F3F3F240;  /* 25% — component borders, 3:1 zone */
+  --rule-on-light:    #14161A1F;  /* 12% */
+  --rule-on-light-str:#14161A33;  /* 20% */
+
+  /* ---- COLOUR: state ----------------------------------------------------- */
+  --focus:            #C6C8CB;    /* silver ring — visible on both grounds */
+  --ok:               #3E8E5A;
+  --warn:             #B9791E;
+
+  /* ---- SEMANTIC SURFACE SLOTS -------------------------------------------
+     Sections flip these two, and every component reads them instead of
+     picking a ground itself. This is what lets one card, one button and one
+     form work on the dark spine and on the light record without a variant. */
+  --surface:          var(--black);
+  --surface-raised:   var(--black-raised);
+  --on-surface:       var(--ink);
+  --on-surface-muted: var(--ink-muted);
+  --on-surface-dim:   var(--ink-dim);
+  --rule:             var(--rule-on-dark);
+  --rule-strong:      var(--rule-on-dark-str);
+
+
+  /* ---- TYPE: families ----------------------------------------------------
+     Two voices (typography I8 — each states the job the other cannot do).
+       display : the sign's register — squared, technical, wide. Carries brand
+                 character in headings and in tracked uppercase micro-labels.
+       body    : sustained reading, forms, lists, UI. Neutral by design.
+     No third voice: the display face already IS the technical register, so a
+     mono would duplicate it rather than add a job. Aligned figures are handled
+     by tabular-nums on the body face (typography I5). */
+  --font-display: "Saira", "Saira Variable", "Eurostile", "Arial Narrow", system-ui, sans-serif;
+  --font-body:    "Inter", "Inter Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+
+  /* ---- TYPE: fluid scale (typography I3 — correct at every width) -------- */
+  --text-micro:   0.875rem;                                   /* 14px FLOOR (I7) */
+  --text-xs:      0.875rem;                                   /* 14px */
+  --text-sm:      clamp(0.9375rem, 0.20vw + 0.90rem, 1rem);   /* 15 -> 16 */
+  --text-body:    clamp(1rem, 0.25vw + 0.95rem, 1.0625rem);   /* 16 -> 17 */
+  --text-lead:    clamp(1.125rem, 0.55vw + 1.02rem, 1.375rem);/* 18 -> 22 */
+  --text-h4:      clamp(1.125rem, 0.45vw + 1.03rem, 1.3125rem);
+  --text-h3:      clamp(1.375rem, 1.00vw + 1.15rem, 1.875rem);
+  --text-h2:      clamp(1.875rem, 2.60vw + 1.20rem, 3.125rem);
+  --text-h1:      clamp(2.375rem, 4.20vw + 1.30rem, 4.25rem);
+  --text-display: clamp(2.75rem, 6.00vw + 1.20rem, 5.5rem);
+
+  /* ---- TYPE: leading & tracking (optical correction, encoded) ------------ */
+  --lh-display:   0.98;
+  --lh-heading:   1.08;
+  --lh-lead:      1.42;
+  --lh-body:      1.62;
+  --lh-tight:     1.30;
+
+  --ls-display:  -0.022em;
+  --ls-heading:  -0.014em;
+  --ls-body:      0;
+  --ls-label:     0.14em;   /* tracked uppercase (typography I4, >= 0.08em) */
+  --ls-eyebrow:   0.18em;
+
+  --weight-body:    400;
+  --weight-medium:  500;
+  --weight-strong:  600;
+  --weight-display: 700;
+
+  /* ---- MEASURE ----------------------------------------------------------- */
+  --measure-body:    68ch;
+  --measure-lead:    46ch;
+  --measure-display: 22ch;
+
+
+  /* ---- SPACE: 4px base, documented scale (spacing I2) -------------------- */
+  --space-1:   0.25rem;  /*   4 */
+  --space-2:   0.5rem;   /*   8 */
+  --space-3:   0.75rem;  /*  12 */
+  --space-4:   1rem;     /*  16 */
+  --space-5:   1.5rem;   /*  24 */
+  --space-6:   2rem;     /*  32 */
+  --space-7:   3rem;     /*  48 */
+  --space-8:   4rem;     /*  64 */
+  --space-9:   6rem;     /*  96 */
+  --space-10:  8rem;     /* 128 */
+  --space-11: 12rem;     /* 192 */
+
+  /* section rhythm — fluid, bottom-heavy, never collapsing (spacing I4) */
+  --section-pt: clamp(3.5rem, 7vw, 6rem);
+  --section-pb: clamp(4.5rem, 10vw, 8rem);
+  --gutter:     clamp(1.5rem, 4vw, 3rem);   /* never below 24px (spacing D4) */
+
+  /* ---- LAYOUT ------------------------------------------------------------ */
+  --container:      78rem;   /* 1248px */
+  --container-wide: 90rem;   /* 1440px */
+  --container-text: 46rem;   /* long-form column */
+  --header-h:       4.5rem;  /* 72px — counted as a mass (anti-patterns U10) */
+  --stickybar-h:    4rem;    /* 64px mobile action bar — also counted */
+
+  /* ---- RADIUS -----------------------------------------------------------
+     Tight on purpose. The sign is a squared plate with squared letterforms;
+     soft corners would be the one place the brand stops being itself. */
+  --r-xs:   2px;
+  --r-sm:   4px;
+  --r-md:   8px;
+  --r-lg:  12px;
+  --r-pill: 999px;
+
+  /* ---- ELEVATION (real layering only — no decorative shadows) ------------ */
+  --elev-raised: 0 1px 2px #00000038, 0 8px 24px #0000002e;
+  --elev-overlay:0 2px 8px #00000047, 0 24px 64px #0000005c;
+
+  /* ---- MOTION (motion-taste — documented scale, coherent easing) --------- */
+  --dur-1: 120ms;   /* state tint */
+  --dur-2: 200ms;   /* hover, focus */
+  --dur-3: 320ms;   /* expand, tab swap */
+  --dur-4: 520ms;   /* reveal on scroll */
+  --ease:        cubic-bezier(0.2, 0, 0.1, 1);
+  --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* ---- LAYERS ------------------------------------------------------------ */
+  --z-base:    0;
+  --z-raised:  10;
+  --z-sticky:  100;
+  --z-header:  200;
+  --z-overlay: 300;
+}
+
+/* ---------------------------------------------------------------------------
+   SURFACE MODES
+   A section declares which ground it is on; every component inside follows.
+   This is the whole light/dark cadence in two rules — the page alternates
+   between the showroom (dark) and the record (light) without any component
+   ever needing a per-section variant. Keeping the alternation systemic rather
+   than per-section is what stops it becoming anti-patterns U15.
+--------------------------------------------------------------------------- */
+[data-surface="dark"] {
+  --surface:          var(--black);
+  --surface-raised:   var(--black-raised);
+  --on-surface:       var(--ink);
+  --on-surface-muted: var(--ink-muted);
+  --on-surface-dim:   var(--ink-dim);
+  --rule:             var(--rule-on-dark);
+  --rule-strong:      var(--rule-on-dark-str);
+}
+
+[data-surface="deep"] {
+  --surface:          var(--black-sunk);
+  --surface-raised:   var(--black-raised);
+  --on-surface:       var(--ink);
+  --on-surface-muted: var(--ink-muted);
+  --on-surface-dim:   var(--ink-dim);
+  --rule:             var(--rule-on-dark);
+  --rule-strong:      var(--rule-on-dark-str);
+}
+
+[data-surface="paper"] {
+  --surface:          var(--paper);
+  --surface-raised:   var(--paper-raised);
+  --on-surface:       var(--ink-dark);
+  --on-surface-muted: var(--ink-dark-muted);
+  --on-surface-dim:   var(--ink-dark-muted);
+  --rule:             var(--rule-on-light);
+  --rule-strong:      var(--rule-on-light-str);
+}
+
+/* ---------------------------------------------------------------------------
+   REDUCED MOTION — every duration collapses at the token layer, so no
+   component has to remember (motion-taste I1).
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 0ms;
+    --dur-2: 0ms;
+    --dur-3: 0ms;
+    --dur-4: 0ms;
+  }
+}

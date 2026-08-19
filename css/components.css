@@ -1,0 +1,593 @@
+/* ============================================================================
+   COMPONENTS — the shared kit for both landing pages.
+   Every component reads the semantic surface slots from tokens.css, so it
+   works unchanged on the dark spine and on the light record. There are no
+   "-on-dark" variants by design.
+   ========================================================================= */
+
+/* ============================================================================
+   1 · BUTTONS
+   Three only. No gradients, no decorative shadow (anti-patterns D2, D3).
+   One PRIMARY per section — repeated down the page, never several competing
+   primaries side by side (anti-patterns D6).
+   ========================================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-block-size: 3.25rem;                 /* 52px — tap target clears 44px */
+  padding-inline: var(--space-6);
+  border: 1px solid transparent;
+  border-radius: var(--r-sm);
+  background: transparent;
+  font-family: var(--font-display);
+  font-size: var(--text-micro);            /* 14px floor */
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-2) var(--ease),
+    border-color     var(--dur-2) var(--ease),
+    color            var(--dur-2) var(--ease),
+    transform        var(--dur-1) var(--ease);
+}
+.btn:active { transform: translateY(1px); }
+
+.btn--primary {
+  background: var(--red);
+  color: #FFFFFF;                          /* 4.99:1 on --red */
+  border-color: var(--red);
+}
+.btn--primary:hover  { background: var(--red-hover); border-color: var(--red-hover); }
+.btn--primary:active { background: var(--red-press); border-color: var(--red-press); }
+
+.btn--secondary {
+  color: var(--on-surface);
+  border-color: var(--rule-strong);
+}
+.btn--secondary:hover { border-color: var(--on-surface); background: color-mix(in srgb, var(--on-surface) 7%, transparent); }
+
+.btn--link {
+  min-block-size: 0;
+  padding: var(--space-2) 0;
+  color: var(--on-surface);
+  gap: var(--space-3);
+}
+.btn--link::after {
+  content: "";
+  inline-size: 1.25rem; block-size: 1px;
+  background: currentColor;
+  transition: inline-size var(--dur-2) var(--ease);
+}
+.btn--link:hover::after { inline-size: 2rem; }
+
+.btn--wide { inline-size: 100%; }
+
+.cta-row { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+@media (max-width: 30rem) {
+  .cta-row .btn { inline-size: 100%; }
+}
+
+
+/* ============================================================================
+   2 · SECTION HEADER
+   One component so every section opens the same way — this is most of what
+   keeps 20 sections reading as one page (anti-patterns U15).
+   ========================================================================= */
+.sec-head { max-inline-size: 52rem; }
+.sec-head .eyebrow { display: flex; align-items: center; gap: var(--space-3); }
+.sec-head .eyebrow::before {
+  content: "";
+  inline-size: var(--space-6); block-size: 2px;
+  background: var(--red);
+  flex: none;
+}
+.sec-head > * + * { margin-block-start: var(--space-4); }
+.sec-head .t-h2 + .t-lead { margin-block-start: var(--space-5); }
+.sec-head--center { margin-inline: auto; text-align: center; }
+.sec-head--center .eyebrow { justify-content: center; }
+.sec-head--center .t-h2, .sec-head--center .t-lead { margin-inline: auto; }
+
+/* space between a section header and the content it introduces */
+.sec-body { margin-block-start: var(--space-8); }
+
+
+/* ============================================================================
+   3 · CARDS
+   One surface system. Thin rules and ground change carry the card — not a
+   shadow, and not a box inside a box (anti-patterns D3, D4).
+   ========================================================================= */
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-6);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--surface-raised);
+  color: var(--on-surface);
+}
+.card__title { color: var(--on-surface); }
+.card__text  { color: var(--on-surface-muted); font-size: var(--text-sm); }
+.card > * + * { margin-block-start: 0; }
+.card__foot { margin-block-start: auto; padding-block-start: var(--space-4); }
+
+/* quiet variant: no ground, just a hairline — for dense rows */
+.card--bare {
+  background: transparent;
+  border: 0;
+  border-block-start: 1px solid var(--rule);
+  border-radius: 0;
+  padding: var(--space-5) 0 0;
+}
+
+.card--linked { transition: border-color var(--dur-2) var(--ease); }
+.card--linked:hover { border-color: var(--rule-strong); }
+
+
+/* ============================================================================
+   4 · DISCLOSURE CARD  (the device that folds ~200 bullets into a page)
+   Click-to-open only. The clicked summary never moves, and the panel opens
+   below it, so no row slides under a stationary pointer (anti-patterns U14).
+   The content is always in the DOM — collapsed, never removed (U7).
+   ========================================================================= */
+.disc {
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--surface-raised);
+  overflow: clip;
+}
+.disc__summary {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  inline-size: 100%;
+  padding: var(--space-5) var(--space-5);
+  border: 0;
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease);
+}
+.disc__summary:hover { background: color-mix(in srgb, var(--on-surface) 5%, transparent); }
+.disc__summary::-webkit-details-marker { display: none; }
+
+.disc__titles { flex: 1 1 auto; min-inline-size: 0; }
+.disc__title  { color: var(--on-surface); }
+.disc__hint   { display: block; margin-block-start: var(--space-2); color: var(--on-surface-muted); font-size: var(--text-sm); }
+
+/* the +/- sign is drawn, so it inherits stroke weight from the type beside it */
+.disc__mark {
+  position: relative;
+  flex: none;
+  inline-size: 1.5rem; block-size: 1.5rem;
+  margin-block-start: 0.1rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-xs);
+}
+.disc__mark::before,
+.disc__mark::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%; inset-inline-start: 50%;
+  background: var(--on-surface);
+  translate: -50% -50%;
+  transition: opacity var(--dur-2) var(--ease), rotate var(--dur-3) var(--ease);
+}
+.disc__mark::before { inline-size: 0.625rem; block-size: 1px; }
+.disc__mark::after  { inline-size: 1px; block-size: 0.625rem; }
+.disc[open] .disc__mark::after { opacity: 0; rotate: 90deg; }
+
+.disc__panel {
+  padding: 0 var(--space-5) var(--space-5);
+  border-block-start: 1px solid var(--rule);
+  margin-block-start: 0;
+  padding-block-start: var(--space-5);
+  color: var(--on-surface-muted);
+}
+.disc__panel > * + * { margin-block-start: var(--space-4); }
+
+
+/* ============================================================================
+   5 · SPEC LIST — the standard shape for every bullet list in the content
+   ========================================================================= */
+.spec {
+  display: grid;
+  gap: var(--space-2) var(--space-5);
+  font-size: var(--text-sm);
+  color: var(--on-surface-muted);
+}
+.spec--2col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.spec li {
+  position: relative;
+  padding-inline-start: var(--space-5);
+  line-height: 1.5;
+}
+.spec li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  inset-block-start: 0.6em;
+  inline-size: 6px; block-size: 1px;
+  background: var(--red);
+}
+@media (max-width: 40rem) { .spec--2col { grid-template-columns: minmax(0, 1fr); } }
+
+
+/* ============================================================================
+   6 · CHIPS — marque rows and coverage lists
+   ========================================================================= */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  min-block-size: 2.5rem;
+  padding-inline: var(--space-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.06em;
+  color: var(--on-surface);
+  white-space: nowrap;
+}
+.chip--quiet { border-color: var(--rule); color: var(--on-surface-muted); }
+.chip-row { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+
+/* ============================================================================
+   7 · TRUST STRIP — the four-claim band under each hero
+   ========================================================================= */
+.trust {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--rule);
+}
+.trust__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--on-surface);
+}
+.trust__item + .trust__item { border-inline-start: 1px solid var(--rule); }
+.trust__item svg { flex: none; color: var(--red-ink); }
+[data-surface="paper"] .trust__item svg { color: var(--red); }
+
+@media (max-width: 60rem) {
+  .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trust__item:nth-child(odd) { border-inline-start: 0; }
+  .trust__item:nth-child(n+3) { border-block-start: 1px solid var(--rule); }
+}
+@media (max-width: 30rem) {
+  .trust { grid-template-columns: minmax(0, 1fr); }
+  .trust__item { border-inline-start: 0; }
+  .trust__item + .trust__item { border-block-start: 1px solid var(--rule); }
+}
+
+
+/* ============================================================================
+   8 · PROCESS RAIL — 11–12 documented steps, grouped into phases
+   ========================================================================= */
+.phase { border-block-start: 1px solid var(--rule-strong); padding-block-start: var(--space-5); }
+.phase__label {
+  display: flex; align-items: baseline; gap: var(--space-3);
+  color: var(--on-surface);
+}
+.phase__num {
+  font-family: var(--font-display);
+  font-size: var(--text-h3);
+  font-weight: var(--weight-display);
+  color: var(--red);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+.phase__steps { margin-block-start: var(--space-5); display: grid; gap: var(--space-5); }
+.step__n {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  color: var(--on-surface-dim);
+  font-variant-numeric: tabular-nums;
+}
+.step__title { margin-block-start: var(--space-2); color: var(--on-surface); }
+.step__text  { margin-block-start: var(--space-2); color: var(--on-surface-muted); font-size: var(--text-sm); }
+
+
+/* ============================================================================
+   9 · TIER TABLE — ceramic coating / PPF levels
+   ========================================================================= */
+.tier {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-6);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--surface-raised);
+}
+.tier--featured { border-color: var(--red); }
+.tier__flag {
+  align-self: flex-start;
+  margin-block-end: var(--space-4);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--r-xs);
+  background: var(--red);
+  color: #FFFFFF;
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+}
+.tier__name { color: var(--on-surface); }
+.tier__meta { margin-block-start: var(--space-2); color: var(--on-surface-muted); font-size: var(--text-sm); }
+.tier__list { margin-block-start: var(--space-5); }
+.tier__foot { margin-block-start: auto; padding-block-start: var(--space-6); }
+
+
+/* ============================================================================
+   10 · MEDIA & IMAGE TREATMENTS
+   Legibility over imagery is fixed at the background layer, and the scrim's
+   axis is chosen per format — never one gradient bullied into covering both
+   (color-taste I4, I6).
+   ========================================================================= */
+.media {
+  position: relative;
+  isolation: isolate;
+  overflow: clip;
+  border-radius: var(--r-md);
+  background: var(--black-raised);
+}
+.media img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+.media--4x3  { aspect-ratio: 4 / 3; }
+.media--16x9 { aspect-ratio: 16 / 9; }
+.media--3x2  { aspect-ratio: 3 / 2; }
+.media--square { aspect-ratio: 1 / 1; }
+.media--tall { aspect-ratio: 3 / 4; }
+
+/* a hairline frame instead of a drop shadow */
+.media--framed { border: 1px solid var(--rule-strong); }
+
+.figure__caption {
+  margin-block-start: var(--space-3);
+  font-size: var(--text-micro);
+  color: var(--on-surface-muted);
+}
+
+/* HONEST PLACEHOLDER — visibly a placeholder, correctly proportioned, and
+   labelled with the shot it is holding open. Never dressed up as a photo. */
+.shot {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: var(--space-2);
+  padding: var(--space-5);
+  border: 1px dashed var(--rule-strong);
+  border-radius: var(--r-md);
+  background:
+    repeating-linear-gradient(
+      135deg,
+      transparent 0 10px,
+      color-mix(in srgb, var(--on-surface) 4%, transparent) 10px 11px
+    );
+  color: var(--on-surface-dim);
+}
+.shot__tag {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+}
+.shot__desc { font-size: var(--text-micro); line-height: 1.45; }
+
+
+/* ============================================================================
+   11 · FORMS
+   ========================================================================= */
+.form { display: grid; gap: var(--space-5); }
+.field { display: grid; gap: var(--space-3); }
+.field__label {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);            /* 14px floor */
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+}
+.field__req { color: var(--red-ink); }
+[data-surface="paper"] .field__req { color: var(--red); }
+
+.input, .select, .textarea {
+  inline-size: 100%;
+  min-block-size: 3.25rem;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-sm);
+  background: color-mix(in srgb, var(--on-surface) 4%, transparent);
+  color: var(--on-surface);
+  font-size: var(--text-body);
+  transition: border-color var(--dur-2) var(--ease), background-color var(--dur-2) var(--ease);
+}
+.input::placeholder, .textarea::placeholder { color: var(--on-surface-dim); }
+.input:hover, .select:hover, .textarea:hover { border-color: var(--on-surface-muted); }
+.textarea { min-block-size: 8rem; padding-block: var(--space-4); resize: vertical; line-height: var(--lh-body); }
+
+.select {
+  appearance: none;
+  padding-inline-end: var(--space-8);
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+                    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: calc(100% - 1.35rem) 55%, calc(100% - 1rem) 55%;
+  background-size: 6px 6px, 6px 6px;
+  background-repeat: no-repeat;
+}
+
+.field__help { font-size: var(--text-micro); color: var(--on-surface-dim); }
+
+.field-row { display: grid; gap: var(--space-5); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+@media (max-width: 40rem) { .field-row { grid-template-columns: minmax(0, 1fr); } }
+
+/* connected radio group — contact preference */
+.segmented { display: flex; flex-wrap: wrap; gap: 0; }
+.segmented input { position: absolute; opacity: 0; pointer-events: none; }
+.segmented label {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-block-size: 3rem; padding-inline: var(--space-5);
+  border: 1px solid var(--rule-strong);
+  margin-inline-start: -1px;
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--on-surface-muted);
+  cursor: pointer;
+  transition: background-color var(--dur-2) var(--ease), color var(--dur-2) var(--ease);
+}
+.segmented label:first-of-type { margin-inline-start: 0; border-start-start-radius: var(--r-sm); border-end-start-radius: var(--r-sm); }
+.segmented label:last-of-type  { border-start-end-radius: var(--r-sm); border-end-end-radius: var(--r-sm); }
+.segmented input:checked + label {
+  background: var(--red); border-color: var(--red); color: #FFFFFF;
+  position: relative; z-index: 1;
+}
+.segmented input:focus-visible + label { outline: 2px solid var(--focus); outline-offset: 2px; }
+
+
+/* ============================================================================
+   12 · SITE HEADER — counted as a mass in the first screen (U10)
+   ========================================================================= */
+.site-header {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: var(--z-header);
+  block-size: var(--header-h);
+  display: flex;
+  align-items: center;
+  background: var(--black);
+  border-block-end: 1px solid var(--rule-on-dark);
+  color: var(--ink);
+}
+.site-header__inner {
+  display: flex; align-items: center; gap: var(--space-6);
+  inline-size: 100%;
+  max-inline-size: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+.brand { display: flex; align-items: center; gap: var(--space-3); flex: none; }
+/* The red survives in the header as a mark rather than as a red logotype:
+   #D8232F on the base is 3.84:1 — a legal UI boundary, not legal small text. */
+.brand__bar { inline-size: 3px; block-size: 1.75rem; background: var(--red); flex: none; }
+.brand__text { display: flex; flex-direction: column; gap: 2px; }
+.brand__mark {
+  font-family: var(--font-display);
+  font-size: 1.0625rem;
+  font-weight: var(--weight-display);
+  letter-spacing: 0.03em;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--ink);
+  font-style: italic;
+}
+.brand__sub {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-dim);
+}
+.site-nav { display: flex; align-items: center; gap: var(--space-6); margin-inline-start: auto; }
+.site-nav a {
+  font-family: var(--font-display);
+  font-size: var(--text-micro);
+  font-weight: var(--weight-medium);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--ink-muted);
+  transition: color var(--dur-2) var(--ease);
+}
+.site-nav a:hover { color: var(--ink); }
+.site-nav a[aria-current="page"] { color: var(--ink); }
+.site-header__tel {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: var(--weight-strong);
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+@media (max-width: 64rem) {
+  .site-nav { display: none; }
+  .site-header__cta { display: none; }
+  .site-header__inner { gap: var(--space-4); }
+  .site-header__tel { margin-inline-start: auto; }
+}
+
+
+/* ============================================================================
+   13 · STICKY ACTION BAR (mobile) — the second and last persistent mass.
+   Only one persistent overlay over content at a time (U10).
+   ========================================================================= */
+.actionbar {
+  position: fixed;
+  inset-inline: 0;
+  inset-block-end: 0;
+  z-index: var(--z-sticky);
+  display: none;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  block-size: var(--stickybar-h);
+  background: var(--black-sunk);
+  border-block-start: 1px solid var(--rule-on-dark-str);
+}
+.actionbar .btn { min-block-size: 100%; border-radius: 0; border: 0; }
+.actionbar .btn--secondary { color: var(--ink); }
+@media (max-width: 64rem) {
+  .actionbar { display: grid; }
+  body { padding-block-end: var(--stickybar-h); }
+}
+
+
+/* ============================================================================
+   14 · FOOTER
+   ========================================================================= */
+.site-footer { background: var(--black-sunk); color: var(--ink); padding-block: var(--space-9) var(--space-7); }
+.site-footer a { color: var(--ink-muted); transition: color var(--dur-2) var(--ease); }
+.site-footer a:hover { color: var(--ink); }
+.site-footer__grid { display: grid; gap: var(--space-7); grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)); }
+.site-footer__col > * + * { margin-block-start: var(--space-3); }
+.site-footer__bottom {
+  margin-block-start: var(--space-8);
+  padding-block-start: var(--space-5);
+  border-block-start: 1px solid var(--rule-on-dark);
+  display: flex; flex-wrap: wrap; gap: var(--space-4); justify-content: space-between;
+  font-size: var(--text-micro); color: var(--ink-dim);
+}
+@media (max-width: 48rem) { .site-footer__grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- SMALL-PHONE HEADER + ACTION BAR ------------------------------------
+   Below 30rem the header phone number collides with the wordmark. It is not
+   dropped content: the same call action sits in the persistent action bar and
+   again in the footer, so parity holds (anti-patterns U7). ----------------- */
+@media (max-width: 30rem) {
+  .site-header__tel { display: none; }
+  .brand__sub { font-size: var(--text-micro); }
+}
+.actionbar { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
+.actionbar .btn {
+  padding-inline: var(--space-4);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}

@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Client source content — the folder name is the instruction
+not to git./
+
+# Design DNA is a live clone of its own repository (188 MB, own .git).
+# It is a local reference, not part of this deliverable. To restore it:
+#   rsync -a "/Users/alex/Desktop/WORK/design_dna/" "_reference/design_dna/"
+#   or: git clone https://github.com/Sigovs/design_dna _reference/design_dna
+_reference/
+
+# tooling scratch
+.playwright-mcp/
+node_modules/

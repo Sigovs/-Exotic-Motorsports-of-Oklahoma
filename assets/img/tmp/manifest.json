@@ -1,0 +1,58 @@
+[
+  {
+    "file": "tmp-bay-lift.jpg",
+    "size": "1440x1800",
+    "ratio": 0.8,
+    "shows": "Service bay, car on a lift, technician underneath",
+    "borrowed_from": "Prestige Imports project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  },
+  {
+    "file": "tmp-bay-wide.jpg",
+    "size": "1440x1800",
+    "ratio": 0.8,
+    "shows": "Clean, bright service bay with lifts",
+    "borrowed_from": "Prestige Imports project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  },
+  {
+    "file": "tmp-underside.jpg",
+    "size": "1920x850",
+    "ratio": 2.26,
+    "shows": "Underside of a car on a lift, tool wall behind",
+    "borrowed_from": "Prestige Imports project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  },
+  {
+    "file": "tmp-porsche-garage.jpg",
+    "size": "2200x1443",
+    "ratio": 1.52,
+    "shows": "Porsche in a dark garage bay",
+    "borrowed_from": "Prestige Imports project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  },
+  {
+    "file": "tmp-transport.jpg",
+    "size": "1440x960",
+    "ratio": 1.5,
+    "shows": "Vehicle loaded on an enclosed transport",
+    "borrowed_from": "Prestige Imports project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  },
+  {
+    "file": "tmp-studio.jpg",
+    "size": "2200x1096",
+    "ratio": 2.01,
+    "shows": "Sports car in a dark studio, dramatic light",
+    "borrowed_from": "Prestige Imports project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  },
+  {
+    "file": "tmp-showroom.jpg",
+    "size": "2200x1031",
+    "ratio": 2.13,
+    "shows": "Car in a dark showroom with floor reflection",
+    "borrowed_from": "Los Gatos Lamborghini project",
+    "status": "PLACEHOLDER \u2014 replace with Exotic Motorsports photography"
+  }
+]
