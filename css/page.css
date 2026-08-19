@@ -42,10 +42,11 @@
    genuinely needs more than the screen, and growing past the fold is the
    correct failure — crushing the type is not.
 
-   The content is bottom-aligned. The subject of this photograph sits in its
-   lower half, so anchoring the type to the bottom puts the claim beside the
-   cars rather than floating in the sky above them, and leaves the roofline
-   and the dusk clear at the top where the header floats.
+   The content is centred in the screen. It was bottom-aligned, which sat the
+   claim on the apron and left the whole upper half of the frame carrying
+   nothing — the block read as having sunk rather than as having been placed.
+   Centred, the claim lands across the cars and the building, and the sky above
+   and the reflections below become the air the composition sits in.
 --------------------------------------------------------------------------- */
 .hero {
   position: relative;
@@ -53,7 +54,7 @@
   margin-block-start: calc(-1 * var(--header-h));
   min-block-size: 100svh;
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   overflow: clip;
   background: var(--black);
 }

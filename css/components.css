@@ -84,6 +84,20 @@
 
 .btn--wide { inline-size: 100%; }
 
+/* A TERTIARY ACTION THAT TRAILS A PASSAGE TAKES THE ACTION INTERVAL.
+   Six of these sit at the end of a paragraph or a list across the page, and
+   every one of them was inheriting the 16px that separates one paragraph from
+   the next — so the button read as the next line of the text rather than as
+   the decision at the end of it. One rule rather than six wrappers: the gap
+   belongs to the relationship (passage -> action), not to a container someone
+   remembered to add. Beats `.stack > * + *` and `.disc__panel > * + *` on
+   specificity, so it applies wherever the pattern occurs. */
+:is(p, ul, ol) + .btn--link { margin-block-start: var(--space-7); }
+/* Same relationship inside a contact row, where the passage above the action is
+   a span rather than a paragraph. One step smaller: the rows there are compact
+   by design and a 48px interval would break the list apart. */
+.contact__row > .btn--link { margin-block-start: var(--space-5); }
+
 .cta-row { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 @media (max-width: 30rem) {
   .cta-row .btn { inline-size: 100%; }

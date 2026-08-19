@@ -84,7 +84,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=49`**.
+  browser serves stale styles. Currently at **`?v=52`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -108,8 +108,8 @@ a frame that is bright along its top edge.
 **The hero is one full screen and the photograph is its ground.** The claim,
 the action, the short form and the register sit ON the picture, so hero
 legibility is a scrim problem at every width. Measured on the composited
-render, glyph pixels only: desktop H1 9.17:1, locator 9.47:1, register label
-17.02:1; mobile H1 6.04:1, locator 11.32:1.
+render, glyph pixels only: desktop H1 7.74:1, locator 6.81:1, register label
+16.47:1; mobile H1 6.04:1, locator 11.32:1.
 
 The desktop figures are what they are because the claim is TOP-aligned with the
 form. Bottom-aligned it sat over the wet apron and measured 4.37:1; moving it up
