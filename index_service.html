@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=6">
-<link rel="stylesheet" href="css/base.css?v=6">
-<link rel="stylesheet" href="css/components.css?v=6">
-<link rel="stylesheet" href="css/page.css?v=6">
+<link rel="stylesheet" href="css/tokens.css?v=30">
+<link rel="stylesheet" href="css/base.css?v=30">
+<link rel="stylesheet" href="css/components.css?v=30">
+<link rel="stylesheet" href="css/page.css?v=30">
 </head>
 
 <body>
@@ -83,23 +83,11 @@
       <path d="M12 6.4v13.2M12 12H6.4V7.2M12 12h5.6V7.2"/>
     </symbol>
 
-    <!-- marque marks: monochrome, single stroke, drawn on one 48 grid.
-         Decorative identification only; the marque name sits beside each. -->
-    <symbol id="m-bmw" viewBox="0 0 48 48">
-      <circle cx="24" cy="24" r="18"/><circle cx="24" cy="24" r="12.5"/>
-      <path d="M24 11.5v25M11.5 24h25"/>
+    <symbol id="i-chevron" viewBox="0 0 24 24">
+      <path d="m9 5 7 7-7 7"/>
     </symbol>
-    <symbol id="m-mercedes" viewBox="0 0 48 48">
-      <circle cx="24" cy="24" r="18"/>
-      <path d="M24 24V6.5M24 24 8.8 32.8M24 24l15.2 8.8"/>
-    </symbol>
-    <symbol id="m-audi" viewBox="0 0 48 48">
-      <circle cx="11" cy="24" r="8"/><circle cx="19.7" cy="24" r="8"/>
-      <circle cx="28.3" cy="24" r="8"/><circle cx="37" cy="24" r="8"/>
-    </symbol>
-    <symbol id="m-porsche" viewBox="0 0 48 48">
-      <path d="M24 5.5 39 10v15.5c0 8.4-6.2 14.2-15 17.2-8.8-3-15-8.8-15-17.2V10Z"/>
-      <path d="M9.6 19.5h28.8M24 5.5v37"/>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="m12 3.6 2.6 5.3 5.8.85-4.2 4.1 1 5.75L12 16.9l-5.2 2.7 1-5.75-4.2-4.1 5.8-.85z"/>
     </symbol>
   </defs>
 </svg>
@@ -109,12 +97,13 @@
      Persistent mass #1. Counted in the first-screen budget (U10). -->
 <header class="site-header">
   <div class="site-header__inner">
+    <!-- The supplied mark. The bar was raised from 4.5rem to 5rem to carry it
+         at 14rem wide, which is where "OF OKLAHOMA" is actually drawn rather
+         than smeared. The red rule that stood beside the set lockup went with
+         it: a mark next to a mark is two devices doing one job. -->
     <a class="brand" href="index_service.html" aria-label="Exotic Motorsports of Oklahoma — service and repair">
-      <span class="brand__bar" aria-hidden="true"></span>
-      <span class="brand__text">
-        <span class="brand__mark">Exotic Motorsports</span>
-        <span class="brand__sub">of Oklahoma</span>
-      </span>
+      <img class="brand__logo" src="assets/img/hero/logo.png" alt=""
+           width="360" height="80" fetchpriority="high">
     </a>
 
     <nav class="site-nav" aria-label="Primary">
@@ -134,61 +123,84 @@
 <main id="main">
 
 <!-- ============================================================ 1 · HERO
-     Mass scheme for the first screen:
+     Mass scheme for the first screen — FOUR masses, one event:
        event      a marque-level facility in Edmond that services what it sells
        subject    the building and its sign — identity and place, proved
        headline   the service proposition, which the photograph cannot state
-       CTA        request service / call, inside the composition
-       field      the concrete apron, scrimmed on the bottom-left axis
+       CTA        request service / call, on the headline's own last baseline
+       evidence   the four commitments, one rank below, closing the plate
+       field      the black plate — the same material as the sign in the frame
        excluded   the sticky header (72px) and the mobile action bar (64px)
+
+     Revised 2026-08-19. The first screen previously carried EIGHT masses and
+     stated its identity five times: the sign in the photograph, the header
+     wordmark, an eyebrow reading "Edmond, Oklahoma · Service & Repair", the
+     H1 repeating both, and a grey subtitle repeating Edmond a second time.
+     Three things were cut and nothing was replaced:
+       - the eyebrow      · said nothing the H1 does not say
+       - the lead         · "When your vehicle needs service, you want more
+                            than a repair estimate" is the setup half of a
+                            sentence pair whose payoff is section 02's own H2
+                            and lead. Section 02 already carries it whole; the
+                            hero was holding a hook it could not land, and the
+                            phrase read twice in one page.
+       - the place-rank   · folded back into the H1 as one mass
+     Vault: `semlerpremium-dk-showroom` (3, Alex's benchmark) — "no competing
+     CTAs … remove dealership noise, elevate the imagery"; `semlerpremium-dk`
+     (2) — "large headlines, concise messaging and full-width imagery create
+     presence without crowding the screen"; `polestar-com-us` (2) — "large
+     imagery establishes the product, concise headlines explain the
+     proposition, and direct calls to action make the next step obvious."
+     Three components, and that is now what this screen has.
 -->
 <section class="hero" aria-labelledby="hero-title">
+  <!-- One source, two authored crops (object-position per breakpoint) rather
+       than two files: the frame is a 3:4 portrait and every crop of it is a
+       window onto the same subject, so a second file would only duplicate it. -->
   <div class="hero__media">
     <picture>
-      <source media="(max-width: 60rem)" srcset="assets/img/hero/facility-mobile.jpg">
-      <img src="assets/img/hero/facility-desktop.jpg"
-           alt="The Exotic Motorsports of Oklahoma facility in Edmond, with three Ferraris parked beneath the building sign."
-           width="1920" height="900" fetchpriority="high">
+      <img src="assets/img/hero/hero-gt4rs.jpg"
+           alt="A Porsche 718 Cayman GT4 RS standing on the apron outside the Exotic Motorsports of Oklahoma facility."
+           width="1440" height="1920" fetchpriority="high">
     </picture>
   </div>
 
+  <!-- The plate carries the whole claim: proposition, action, evidence. One
+       composed system, not a caption bolted under a banner. -->
   <div class="hero__claim">
     <div class="container container--wide">
+
       <div class="hero__grid">
+        <!-- One mass, three lines, one silhouette. The locator is the same size
+             and weight as the rest of the sentence and steps down only in tone,
+             so it recedes without becoming a second rank (typography I1). -->
+        <h1 class="t-h1 hero__title" id="hero-title">
+          European &amp; Luxury Auto Service and Repair
+          <span class="hero__place">in Edmond, Oklahoma</span>
+        </h1>
 
-        <div class="stack">
-          <p class="eyebrow">Edmond, Oklahoma &middot; Service &amp; Repair</p>
-          <h1 class="t-h1 hero__title" id="hero-title">
-            European &amp; Luxury Auto Service and Repair
-            <span class="hero__place">in Edmond, Oklahoma</span>
-          </h1>
+        <!-- The action sits on the headline's own last baseline — a decided
+             relationship, not whatever the column heights left over. -->
+        <div class="cta-row hero__cta">
+          <a class="btn btn--primary" href="#schedule">Request service</a>
+          <a class="btn btn--secondary" href="tel:+14056331142">
+            <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
+            Call
+          </a>
         </div>
-
-        <div class="stack">
-          <p class="t-lead hero__lead">
-            When your vehicle needs service, you want more than a repair estimate.
-          </p>
-          <div class="cta-row">
-            <a class="btn btn--primary" href="#schedule">Request service</a>
-            <a class="btn btn--secondary" href="tel:+14056331142">
-              <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
-              Call
-            </a>
-          </div>
-        </div>
-
       </div>
-    </div>
-  </div>
 
-  <!-- 1b · TRUST STRIP — the service claim the inventory photograph cannot make -->
-  <div class="container container--wide">
-    <ul class="trust">
-      <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-inspection"/></svg>Digital inspections</li>
-      <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-oem"/></svg>OEM procedures</li>
-      <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-photo"/></svg>Photo documentation</li>
-      <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-quality"/></svg>Quality control</li>
-    </ul>
+      <!-- 1b · EVIDENCE REGISTER — the service claim the inventory photograph
+           cannot make. Inside the plate, one rank below the action, so the
+           first screen resolves on proof instead of stopping on a band. -->
+      <ul class="trust">
+        <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-inspection"/></svg>Digital inspections</li>
+        <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-oem"/></svg>OEM procedures</li>
+        <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-photo"/></svg>Photo documentation</li>
+        <li class="trust__item"><svg class="icon" aria-hidden="true"><use href="#i-quality"/></svg>Quality control</li>
+      </ul>
+
+    </div>
   </div>
 </section>
 
@@ -220,10 +232,19 @@
       </div>
     </div>
 
+    <!-- The frame here was car-green.jpg — a crop of the same green SF90 the
+         hero photograph shows, from the same shoot, at the same angle, two
+         masses apart. Repeating the identical subject back to back is not
+         variation (C7), and a parked car is not evidence for a chapter about
+         diagnosis and workmanship: the panel was arguing nothing.
+         REAL CLIENT PHOTOGRAPHY as of 2026-08-19. A technician holding the
+         hub and brake assembly he has just removed, at a car on the lift —
+         which is what "accurate diagnosis, careful workmanship" looks like.
+         Portrait 3:4, so the panel takes it with almost no crop. -->
     <div class="bleed-split__media">
-      <img src="assets/img/frames/car-green.jpg"
-           alt="A Ferrari SF90 parked at the Exotic Motorsports of Oklahoma facility."
-           width="1215" height="676" loading="lazy">
+      <img class="crop-top" src="assets/img/service/svc-technician-brakes.jpg"
+           alt="An Exotic Motorsports technician holding a brake and hub assembly beside a vehicle raised on a lift."
+           width="1440" height="1920" loading="lazy">
     </div>
 
   </div>
@@ -251,28 +272,56 @@
     <!-- The dominant of this chapter. Diagnostics leads because it is the
          claim the rest of the page is built on, not because it came first
          in the document. -->
+    <!-- Restructured 2026-08-19. The right column had been carrying four
+         different kinds of thing stacked on each other — a label, a fifteen-item
+         list, a closing paragraph and the section's strongest line — while the
+         left column ran out of content halfway down and left a hole. Prose now
+         sits with prose on the left, the list is the whole of the right, and
+         the three-part promise is lifted out of the column into a band of its
+         own across the foot of the card, which is the one place on this page it
+         can be read as the conclusion it is. -->
     <div class="sec-body feature" data-reveal>
-      <div class="stack">
-        <p class="feature__no">01</p>
+      <div class="feature__lede stack">
+        <!-- There was an italic red "01" here, in the same face, weight, slant
+             and colour as the section plate's "02" two hundred pixels above it.
+             Two numbering systems that look identical and count different
+             things: the plate counts CHAPTERS (01-08 down the page), this
+             counted SERVICES — and it counted exactly one, because everything
+             after it is an unnumbered disclosure row. A series of one is not a
+             series, and it promised an "02" that never arrives. Removed: the
+             card is the chapter's dominant feature and says so by being the
+             only card in it. -->
         <h3 class="t-h3">Check Engine Light &amp; Vehicle Diagnostics</h3>
         <p class="t-sm t-muted">A warning light identifies that the vehicle has detected a problem. It does not necessarily identify the failed component or the repair that will correct it. Our diagnostic process is designed to find the underlying cause before parts are replaced.</p>
+        <p class="t-sm t-muted">We combine scan data, physical inspections, testing, photographs, and vehicle-specific information to develop a clear repair recommendation.</p>
         <a class="btn btn--link" href="#schedule">Schedule diagnostic service</a>
       </div>
-      <div class="stack">
+
+      <div class="feature__list stack">
         <p class="label t-dim">Diagnostic services include</p>
-        <ul class="spec spec--2col">
-          <li>Check engine light diagnosis</li><li>Engine performance diagnosis</li>
-          <li>Warning light diagnosis</li><li>Driveability diagnosis</li>
-          <li>Noise diagnosis</li><li>Fluid leak diagnosis</li>
-          <li>Intermittent fault tracing</li><li>Factory-level computer scanning</li>
-          <li>Advanced electrical diagnostics</li><li>CAN Bus diagnostics</li>
-          <li>Battery management system diagnosis</li><li>Charging system diagnosis</li>
-          <li>Module diagnosis and replacement</li><li>Programming and coding</li>
+        <!-- Column flow, not row flow: fifteen items down two columns fill
+             8 + 7 evenly, instead of a row-wise grid leaving a hole beside the
+             last odd item. -->
+        <ul class="spec spec--flow">
+          <li>Check engine light diagnosis</li>
+          <li>Warning light diagnosis</li>
+          <li>Noise diagnosis</li>
+          <li>Intermittent fault tracing</li>
+          <li>Advanced electrical diagnostics</li>
+          <li>Battery management system diagnosis</li>
+          <li>Module diagnosis and replacement</li>
           <li>ADAS calibration where applicable</li>
+          <li>Engine performance diagnosis</li>
+          <li>Driveability diagnosis</li>
+          <li>Fluid leak diagnosis</li>
+          <li>Factory-level computer scanning</li>
+          <li>CAN Bus diagnostics</li>
+          <li>Charging system diagnosis</li>
+          <li>Programming and coding</li>
         </ul>
-        <p class="t-sm t-muted">We combine scan data, physical inspections, testing, photographs, and vehicle-specific information to develop a clear repair recommendation.</p>
-        <p class="pull"><span>No guessing.</span><span>No unexplained parts.</span><span>No work without your approval.</span></p>
       </div>
+
+      <p class="pull feature__promise"><span>No guessing.</span><span>No unexplained parts.</span><span>No work without your approval.</span></p>
     </div>
 
     <!-- Everything else: an index of rules, not a wall of equal boxes. -->
@@ -473,7 +522,7 @@
       <div class="marque" data-reveal>
         <div class="marque__head">
           <span class="marque__id">
-            <svg class="marque__mark" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-bmw"/></svg>
+            <img class="marque__mark" src="assets/img/marques/bmw.svg" alt="" width="48" height="48" loading="lazy">
             <h3 class="t-h3 marque__name">BMW</h3>
           </span>
           <span class="label t-dim">Incl. BMW M</span>
@@ -492,7 +541,7 @@
       <div class="marque" data-reveal>
         <div class="marque__head">
           <span class="marque__id">
-            <svg class="marque__mark" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-mercedes"/></svg>
+            <img class="marque__mark" src="assets/img/marques/mercedes.svg" alt="" width="48" height="48" loading="lazy">
             <h3 class="t-h3 marque__name">Mercedes-Benz</h3>
           </span>
           <span class="label t-dim">Incl. Mercedes-AMG</span>
@@ -511,7 +560,7 @@
       <div class="marque" data-reveal>
         <div class="marque__head">
           <span class="marque__id">
-            <svg class="marque__mark" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-audi"/></svg>
+            <img class="marque__mark" src="assets/img/marques/audi.svg" alt="" width="48" height="48" loading="lazy">
             <h3 class="t-h3 marque__name">Audi</h3>
           </span>
           <span class="label t-dim">Incl. Audi RS</span>
@@ -529,7 +578,7 @@
       <div class="marque" data-reveal>
         <div class="marque__head">
           <span class="marque__id">
-            <svg class="marque__mark" viewBox="0 0 48 48" aria-hidden="true"><use href="#m-porsche"/></svg>
+            <img class="marque__mark" src="assets/img/marques/porsche.svg" alt="" width="48" height="48" loading="lazy">
             <h3 class="t-h3 marque__name">Porsche</h3>
           </span>
           <span class="label t-dim">Incl. 911 &amp; Boxster</span>
@@ -590,9 +639,9 @@
      bottom-up pass deep enough to carry type would cover the cars. -->
 <section class="band" aria-label="The facility in Edmond">
   <div class="band__media">
-    <img src="assets/img/frames/trio.jpg"
-         alt="Three Ferraris parked outside the Exotic Motorsports of Oklahoma facility in Edmond."
-         width="2000" height="612" loading="lazy">
+    <img src="assets/img/service/svc-dino-front.jpg"
+         alt="The front of a Ferrari Dino in the workshop."
+         width="1440" height="1798" loading="lazy">
   </div>
   <div class="band__content">
     <div class="container container--wide">
@@ -651,17 +700,91 @@
 
     </div>
 
-    <div class="sec-body split" data-reveal>
+    <!-- Two frames, not one. Removing the reserved review slot left a single
+         figure in a two-column split and half the row standing empty — a hole
+         where a mass used to be is still a hole. The pair is the chapter's own
+         argument in pictures: the diagnosis, and the finish. -->
+    <div class="sec-body split split--even" data-reveal>
       <figure>
         <div class="media media--3x2 media--framed">
-          <img src="assets/img/tmp/tmp-porsche-garage.jpg" alt="A Porsche in a service bay." width="2200" height="1443" loading="lazy">
+          <img class="crop-top" src="assets/img/service/svc-technician-ac-machine.jpg"
+               alt="An Exotic Motorsports technician running a refrigerant service station beside a vehicle with the hood raised."
+               width="1440" height="1920" loading="lazy">
         </div>
-        <figcaption class="figure__caption" data-placeholder>Comp image &mdash; to be replaced.</figcaption>
       </figure>
-      <div class="shot media--3x2" role="img" aria-label="Placeholder for the customer review slider">
-        <span class="shot__tag">Slot &mdash; review slider</span>
-        <span class="shot__desc">Google reviews for the service department, pulled from the dedicated service GMB once it has collected them.</span>
+      <figure>
+        <div class="media media--3x2 media--framed">
+          <img src="assets/img/service/svc-paint-correction.jpg"
+               alt="A technician working a machine polisher across a body panel."
+               width="1440" height="1920" loading="lazy">
+        </div>
+      </figure>
+    </div>
+
+    <!-- CUSTOMER REVIEWS — the design, running on SAMPLE COPY.
+         The dedicated service GMB has not collected reviews yet, so not one
+         word below is a real customer's. It is here because a reserved empty
+         slot told Alex nothing about how the block reads, and a mockup exists
+         to be judged. The two things that used to declare this on the page
+         itself — the sample-layout strip and the dashed red placeholder rule —
+         have both been removed at Alex's request, so NOTHING VISIBLE now tells
+         a viewer that these are not real customers.
+         BEFORE THIS SHIPS: replace with the real Google feed, or delete the
+         section. It must never go out as it stands (content-provenance). -->
+    <div class="sec-body" data-reveal data-carousel>
+      <div class="reviews__head">
+        <p class="label t-dim">
+          <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          What customers say
+        </p>
+        <!-- Controls live beside the heading, not floating over the cards: an
+             arrow sitting on top of a quote covers the thing it is moving. -->
+        <div class="carousel__nav">
+          <button class="carousel__btn" type="button" data-rev-prev aria-controls="reviews-track" aria-label="Previous review">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+          <button class="carousel__btn" type="button" data-rev-next aria-controls="reviews-track" aria-label="Next review">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+        </div>
       </div>
+
+      <ul class="reviews" id="reviews-track" tabindex="0" aria-label="Customer reviews">
+        <li class="review" data-placeholder>
+          <p class="review__stars" aria-label="Five out of five">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          </p>
+          <blockquote class="review__text">They found the actual fault instead of replacing parts until it went away, and they sent photographs of every step before touching anything.</blockquote>
+          <p class="review__by">Sample name <span>&middot; via Google</span></p>
+        </li>
+        <li class="review" data-placeholder>
+          <p class="review__stars" aria-label="Five out of five">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          </p>
+          <blockquote class="review__text">First shop I have used that explained what could wait and what could not, and then let me decide. No pressure at any point.</blockquote>
+          <p class="review__by">Sample name <span>&middot; via Google</span></p>
+        </li>
+        <li class="review" data-placeholder>
+          <p class="review__stars" aria-label="Five out of five">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          </p>
+          <blockquote class="review__text">I take a car most places will not touch. They handled it carefully and kept me informed the whole way through.</blockquote>
+          <p class="review__by">Sample name <span>&middot; via Google</span></p>
+        </li>
+      </ul>
+      <div class="carousel__dots" data-rev-dots role="tablist" aria-label="Choose a review"></div>
     </div>
 
     <div class="sec-body cta-row" data-reveal>
@@ -688,41 +811,49 @@
       <p class="t-lead t-muted">Every vehicle follows a structured workflow designed to keep you informed from arrival through delivery.</p>
     </div>
 
+    <!-- ONE numeric series, not two. Each phase used to carry a big red 01-04
+         beside its name while its steps carried Step 1-12 underneath, so a card
+         headed "01" opened on "Step 1" and the card headed "02" opened on
+         "Step 4" — two counters, different granularities, no way to tell from
+         the render which number meant what. The phase counter is gone: a phase
+         already has a name, and the name is what tells you where you are. The
+         steps run 1 to 12 straight through and are set in the page's own label
+         register, so STEP 7 reads as a label and not as a heading. -->
     <div class="sec-body grid grid--4">
 
       <div class="phase" data-reveal>
-        <p class="phase__label"><span class="phase__num tnum">01</span> <span class="label">Arrival</span></p>
+        <p class="phase__label"><span class="label">Arrival</span></p>
         <div class="phase__steps">
-          <div><p class="step__n">Step 1</p><h3 class="t-h4 step__title">Vehicle Check-In</h3><p class="step__text">We document the vehicle&rsquo;s condition and discuss the reason for your visit, the symptoms you have experienced, and any specific concerns you want us to investigate.</p></div>
-          <div><p class="step__n">Step 2</p><h3 class="t-h4 step__title">Customer Consultation</h3><p class="step__text">Our team reviews the vehicle&rsquo;s available service history and gathers the information needed to determine the appropriate inspection or diagnostic path.</p></div>
-          <div><p class="step__n">Step 3</p><h3 class="t-h4 step__title">Digital Vehicle Inspection</h3><p class="step__text">The vehicle receives a structured inspection, with findings categorized by condition and urgency.</p></div>
+          <div><p class="step__n">Step&nbsp;1</p><h3 class="t-h4 step__title">Vehicle Check-In</h3><p class="step__text">We document the vehicle&rsquo;s condition and discuss the reason for your visit, the symptoms you have experienced, and any specific concerns you want us to investigate.</p></div>
+          <div><p class="step__n">Step&nbsp;2</p><h3 class="t-h4 step__title">Customer Consultation</h3><p class="step__text">Our team reviews the vehicle&rsquo;s available service history and gathers the information needed to determine the appropriate inspection or diagnostic path.</p></div>
+          <div><p class="step__n">Step&nbsp;3</p><h3 class="t-h4 step__title">Digital Vehicle Inspection</h3><p class="step__text">The vehicle receives a structured inspection, with findings categorized by condition and urgency.</p></div>
         </div>
       </div>
 
       <div class="phase" data-reveal>
-        <p class="phase__label"><span class="phase__num tnum">02</span> <span class="label">Diagnosis</span></p>
+        <p class="phase__label"><span class="label">Diagnosis</span></p>
         <div class="phase__steps">
-          <div><p class="step__n">Step 4</p><h3 class="t-h4 step__title">Photographs and Documentation</h3><p class="step__text">Relevant concerns are documented with photographs, inspection notes, diagnostic findings, or test results whenever possible.</p></div>
-          <div><p class="step__n">Step 5</p><h3 class="t-h4 step__title">Factory-Level Diagnostics</h3><p class="step__text">Our technicians perform the testing necessary to identify the source of the concern rather than relying on assumptions.</p></div>
-          <div><p class="step__n">Step 6</p><h3 class="t-h4 step__title">Estimate Review</h3><p class="step__text">We explain what we found, what we recommend, and which items require attention now or can be planned for later.</p></div>
+          <div><p class="step__n">Step&nbsp;4</p><h3 class="t-h4 step__title">Photographs and Documentation</h3><p class="step__text">Relevant concerns are documented with photographs, inspection notes, diagnostic findings, or test results whenever possible.</p></div>
+          <div><p class="step__n">Step&nbsp;5</p><h3 class="t-h4 step__title">Factory-Level Diagnostics</h3><p class="step__text">Our technicians perform the testing necessary to identify the source of the concern rather than relying on assumptions.</p></div>
+          <div><p class="step__n">Step&nbsp;6</p><h3 class="t-h4 step__title">Estimate Review</h3><p class="step__text">We explain what we found, what we recommend, and which items require attention now or can be planned for later.</p></div>
         </div>
       </div>
 
       <div class="phase" data-reveal>
-        <p class="phase__label"><span class="phase__num tnum">03</span> <span class="label">Approval &amp; work</span></p>
+        <p class="phase__label"><span class="label">Approval &amp; work</span></p>
         <div class="phase__steps">
-          <div><p class="step__n">Step 7</p><h3 class="t-h4 step__title">Customer Approval</h3><p class="step__text">No additional repair work is performed without authorization.</p></div>
-          <div><p class="step__n">Step 8</p><h3 class="t-h4 step__title">Service and Repair</h3><p class="step__text">Approved work is completed using proper procedures, quality components, and careful workmanship.</p></div>
-          <div><p class="step__n">Step 9</p><h3 class="t-h4 step__title">Quality Control Inspection</h3><p class="step__text">Completed work is reviewed before the vehicle is released.</p></div>
+          <div><p class="step__n">Step&nbsp;7</p><h3 class="t-h4 step__title">Customer Approval</h3><p class="step__text">No additional repair work is performed without authorization.</p></div>
+          <div><p class="step__n">Step&nbsp;8</p><h3 class="t-h4 step__title">Service and Repair</h3><p class="step__text">Approved work is completed using proper procedures, quality components, and careful workmanship.</p></div>
+          <div><p class="step__n">Step&nbsp;9</p><h3 class="t-h4 step__title">Quality Control Inspection</h3><p class="step__text">Completed work is reviewed before the vehicle is released.</p></div>
         </div>
       </div>
 
       <div class="phase" data-reveal>
-        <p class="phase__label"><span class="phase__num tnum">04</span> <span class="label">Delivery</span></p>
+        <p class="phase__label"><span class="label">Delivery</span></p>
         <div class="phase__steps">
-          <div><p class="step__n">Step 10</p><h3 class="t-h4 step__title">Road Test</h3><p class="step__text">When appropriate, the vehicle is road-tested to confirm proper operation.</p></div>
-          <div><p class="step__n">Step 11</p><h3 class="t-h4 step__title">Final Cleaning</h3><p class="step__text">Your vehicle receives a final cleaning before delivery.</p></div>
-          <div><p class="step__n">Step 12</p><h3 class="t-h4 step__title">Customer Delivery and Education</h3><p class="step__text">We review the completed work, explain relevant findings, and discuss future maintenance needs.</p></div>
+          <div><p class="step__n">Step&nbsp;10</p><h3 class="t-h4 step__title">Road Test</h3><p class="step__text">When appropriate, the vehicle is road-tested to confirm proper operation.</p></div>
+          <div><p class="step__n">Step&nbsp;11</p><h3 class="t-h4 step__title">Final Cleaning</h3><p class="step__text">Your vehicle receives a final cleaning before delivery.</p></div>
+          <div><p class="step__n">Step&nbsp;12</p><h3 class="t-h4 step__title">Customer Delivery and Education</h3><p class="step__text">We review the completed work, explain relevant findings, and discuss future maintenance needs.</p></div>
         </div>
       </div>
 
@@ -761,9 +892,8 @@
 <!-- VISUAL BREAK — image only, no type over it -->
 <section class="band band--plain" aria-hidden="true">
   <div class="band__media">
-    <img src="assets/img/tmp/tmp-studio.jpg" alt="A sports car lit in a dark studio." width="2200" height="1096" loading="lazy">
+    <img src="assets/img/service/svc-engine-ferrari-v8.jpg" alt="" width="2048" height="1536" loading="lazy">
   </div>
-  <p class="band__note" data-placeholder>Comp image — to be replaced with Exotic Motorsports photography</p>
 </section>
 
 <!-- ============================================== 6 · PRINCIPLES
@@ -835,9 +965,15 @@
 
       <figure class="stack" data-reveal>
         <div class="media media--3x2 media--framed">
-          <img src="assets/img/tmp/tmp-underside.jpg" alt="A vehicle raised on a lift with the tool wall behind it." width="1920" height="850" loading="lazy">
+          <img src="assets/img/service/svc-equipment-ac-station.jpg"
+               alt="A refrigerant recovery and recharging station running a cycle, with low and high pressure gauges and a lift behind it."
+               width="1365" height="1820" loading="lazy">
         </div>
-        <figcaption class="figure__caption" data-placeholder>Comp image &mdash; to be replaced with the Edmond service bay.</figcaption>
+        <!-- This section's list claims "factory-level scan tools", "specialized
+             diagnostic equipment" and "proper tooling". This is that equipment,
+             mid-cycle, in the client's own shop — the claim and the evidence
+             are finally the same object. -->
+        <figcaption class="figure__caption">Refrigerant recovery and recharging station, mid-cycle.</figcaption>
       </figure>
     </div>
 
@@ -938,9 +1074,8 @@
 <!-- VISUAL BREAK — image only, no type over it -->
 <section class="band band--plain" aria-hidden="true">
   <div class="band__media">
-    <img src="assets/img/tmp/tmp-showroom.jpg" alt="A car in a dark showroom with a reflective floor." width="2200" height="1031" loading="lazy">
+    <img src="assets/img/service/svc-carbon-engine-cover.jpg" alt="" width="2048" height="1536" loading="lazy">
   </div>
-  <p class="band__note" data-placeholder>Comp image — to be replaced with Exotic Motorsports photography</p>
 </section>
 
 <!-- ======================================================== 8 · SCHEDULE
@@ -1083,12 +1218,9 @@
     <div class="site-footer__grid">
 
       <div class="site-footer__col">
-        <a class="brand" href="index_service.html">
-          <span class="brand__bar" aria-hidden="true"></span>
-          <span class="brand__text">
-            <span class="brand__mark">Exotic Motorsports</span>
-            <span class="brand__sub">of Oklahoma</span>
-          </span>
+        <a class="brand brand--footer" href="index_service.html" aria-label="Exotic Motorsports of Oklahoma">
+          <img class="brand__logo" src="assets/img/hero/logo.png" alt=""
+               width="360" height="80" loading="lazy">
         </a>
         <p class="t-sm t-muted" style="max-inline-size: 34ch">Service, repair, diagnostics and detailing for European, luxury, performance, exotic and collector vehicles.</p>
       </div>
@@ -1113,7 +1245,7 @@
 
     <div class="site-footer__bottom">
       <span>&copy; <span data-year>2026</span> Exotic Motorsports of Oklahoma. All rights reserved.</span>
-      <span data-placeholder>Mockup for approval &mdash; forms are not wired.</span>
+      <span>Powered by <a href="https://allautonetwork.com" rel="noopener">All Auto Network</a></span>
     </div>
   </div>
 </footer>
@@ -1129,6 +1261,6 @@
   <a class="btn btn--primary" href="#schedule">Request service</a>
 </div>
 
-<script src="js/main.js?v=6" type="module"></script>
+<script src="js/main.js?v=30" type="module"></script>
 </body>
 </html>

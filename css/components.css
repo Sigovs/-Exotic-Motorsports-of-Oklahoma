@@ -50,19 +50,37 @@
 }
 .btn--secondary:hover { border-color: var(--on-surface); background: color-mix(in srgb, var(--on-surface) 7%, transparent); }
 
+/* THE TERTIARY IS A PILL.
+   It used to be a tracked uppercase label with a hairline growing off its
+   right edge — no ground, no border, no box. Next to a filled primary and an
+   outlined secondary that is not a third rank of button, it is a link wearing
+   a button's typography: nothing says it is pressable until the cursor is
+   already on it, and on the light ground it read as a caption.
+   A pill is the third rank the system was missing: same label voice, same tap
+   target, and an edge you can see. The hairline arrow stays as the hover, so
+   the direction the control moves you in is still drawn. */
 .btn--link {
-  min-block-size: 0;
-  padding: var(--space-2) 0;
+  min-block-size: 2.75rem;
+  padding-inline: var(--space-5);
+  border-radius: var(--r-pill);
+  border-color: var(--rule-strong);
+  background: color-mix(in srgb, var(--on-surface) 4%, transparent);
   color: var(--on-surface);
   gap: var(--space-3);
 }
 .btn--link::after {
   content: "";
-  inline-size: 1.25rem; block-size: 1px;
+  inline-size: 0.85em; block-size: 0.85em;
   background: currentColor;
-  transition: inline-size var(--dur-2) var(--ease);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+  transition: translate var(--dur-2) var(--ease);
 }
-.btn--link:hover::after { inline-size: 2rem; }
+.btn--link:hover {
+  border-color: var(--on-surface);
+  background: color-mix(in srgb, var(--on-surface) 9%, transparent);
+}
+.btn--link:hover::after { translate: 0.2em 0; }
 
 .btn--wide { inline-size: 100%; }
 
@@ -81,9 +99,11 @@
 .sec-head .eyebrow { display: flex; align-items: center; gap: var(--space-3); }
 .sec-head .eyebrow::before {
   content: "";
-  inline-size: var(--space-6); block-size: 2px;
+  inline-size: 0.85em; block-size: 0.85em;
   background: var(--red);
   flex: none;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 .sec-head > * + * { margin-block-start: var(--space-4); }
 .sec-head .t-h2 + .t-lead { margin-block-start: var(--space-5); }
@@ -190,6 +210,34 @@
 }
 .disc__panel > * + * { margin-block-start: var(--space-4); }
 
+/* OPEN AND CLOSE — the panel travels instead of appearing.
+   A bare <details> snaps: the panel has no height to animate between, so the
+   card jumps to its open size in one frame and the visitor has to re-find the
+   row they clicked. `interpolate-size` makes `auto` an animatable keyword, so
+   the real content height becomes the end state and the panel actually moves.
+   Closing runs the same curve in reverse — U14's "no row slides under a
+   stationary pointer" is why the summary itself never moves during either.
+   Feature-queried, so a browser without it keeps today's instant open rather
+   than a broken half-animation. Under reduced motion --dur-3 is 0ms at the
+   token layer and this collapses back to that instant open by itself. */
+@supports (interpolate-size: allow-keywords) {
+  :root { interpolate-size: allow-keywords; }
+
+  .disc::details-content {
+    block-size: 0;
+    overflow: clip;
+    opacity: 0;
+    transition:
+      block-size var(--dur-3) var(--ease-soft),
+      opacity    var(--dur-2) var(--ease-soft),
+      content-visibility var(--dur-3) allow-discrete;
+  }
+  .disc[open]::details-content {
+    block-size: auto;
+    opacity: 1;
+  }
+}
+
 
 /* ============================================================================
    5 · SPEC LIST — the standard shape for every bullet list in the content
@@ -201,18 +249,36 @@
   color: var(--on-surface-muted);
 }
 .spec--2col { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+/* Multi-column, not a two-column grid. A grid locks rows across both columns,
+   so one two-line entry on the left opens a matching gap on the right — which
+   is exactly the ragged hole this list had. Multicol packs each column top to
+   bottom independently and the two ends land level. */
+.spec--flow {
+  display: block;
+  columns: 2;
+  column-gap: var(--space-5);
+}
+.spec--flow li { break-inside: avoid; margin-block-end: var(--space-2); }
+@media (max-width: 48rem) { .spec--flow { columns: 1; } }
 .spec li {
   position: relative;
   padding-inline-start: var(--space-5);
   line-height: 1.5;
 }
+/* A 6x1px dash is not a marker, it is a hyphen that lost its word: at reading
+   size it reads as damage rather than as a bullet, and twelve of them down a
+   column read as a fringe. A chevron says "item, and there is a next one",
+   which is what a service list is. Drawn as a mask so it takes --red the same
+   way the dash did and stays crisp at any zoom. */
 .spec li::before {
   content: "";
   position: absolute;
   inset-inline-start: 0;
-  inset-block-start: 0.6em;
-  inline-size: 6px; block-size: 1px;
+  inset-block-start: 0.34em;
+  inline-size: 0.7em; block-size: 0.7em;
   background: var(--red);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m9 5 7 7-7 7'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 @media (max-width: 40rem) { .spec--2col { grid-template-columns: minmax(0, 1fr); } }
 
@@ -241,65 +307,76 @@
 /* ============================================================================
    7 · TRUST STRIP — the four-claim band under each hero
    ========================================================================= */
+/* THE EVIDENCE REGISTER — four cards, not four cells of a table.
+   It was a single ruled strip: one border top and bottom, hairlines between,
+   items butted edge to edge. That reads as a spec row on a datasheet, which is
+   the wrong register for the four commitments the page is actually making. Each
+   is now a discrete unit on its own ground with air around it, so the eye can
+   count four things instead of scanning one band. Kept horizontal (mark beside
+   label, not above it) because this sits above the fold and a stacked card
+   would cost the hero the height it needs. */
 .trust {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-block: 1px solid var(--rule);
+  gap: var(--space-3);
 }
 .trust__item {
   display: flex;
   align-items: center;
   gap: var(--space-3);
-  padding: var(--space-5) var(--space-4);
+  padding: var(--space-4) var(--space-4);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--surface-raised);
   font-family: var(--font-display);
   font-size: var(--text-micro);
   font-weight: var(--weight-strong);
   letter-spacing: var(--ls-label);
   text-transform: uppercase;
   color: var(--on-surface);
+  transition: border-color var(--dur-2) var(--ease), background-color var(--dur-2) var(--ease);
 }
-.trust__item + .trust__item { border-inline-start: 1px solid var(--rule); }
+.trust__item:hover { border-color: var(--rule-strong); }
 .trust__item svg { flex: none; color: var(--red-ink); }
 [data-surface="paper"] .trust__item svg { color: var(--red); }
 
 @media (max-width: 60rem) {
   .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .trust__item:nth-child(odd) { border-inline-start: 0; }
-  .trust__item:nth-child(n+3) { border-block-start: 1px solid var(--rule); }
 }
 @media (max-width: 30rem) {
   .trust { grid-template-columns: minmax(0, 1fr); }
-  .trust__item { border-inline-start: 0; }
-  .trust__item + .trust__item { border-block-start: 1px solid var(--rule); }
 }
 
 
 /* ============================================================================
    8 · PROCESS RAIL — 11–12 documented steps, grouped into phases
    ========================================================================= */
-.phase { border-block-start: 1px solid var(--rule-strong); padding-block-start: var(--space-5); }
+/* The hairline above each phase was doing the work of a chapter divider at the
+   weight of a table rule. Three pixels of the accent, so a phase reads as a
+   division of the process rather than as a row of something. */
+.phase { border-block-start: 3px solid var(--red); padding-block-start: var(--space-5); }
 .phase__label {
   display: flex; align-items: baseline; gap: var(--space-3);
   color: var(--on-surface);
 }
-.phase__num {
-  font-family: var(--font-display);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-display);
-  color: var(--red);
-  font-variant-numeric: tabular-nums;
-  line-height: 1;
-}
-.phase__steps { margin-block-start: var(--space-5); display: grid; gap: var(--space-5); }
+/* Twelve steps in four columns is the densest reading on the page, and it was
+   set with 24px between one step and the next against 8px inside a step. That
+   ratio is fine for short items and nowhere near enough once every step carries
+   a five-line paragraph — the column read as one unbroken block of grey. The
+   external gap is now double, and the internal rhythm opened to match, so a
+   step is a block rather than more of the paragraph above it (spacing I1). */
+.phase__steps { margin-block-start: var(--space-6); display: grid; gap: var(--space-7); }
 .step__n {
   font-family: var(--font-display);
-  font-size: var(--text-micro);
+  font-size: var(--text-micro);            /* 14px floor */
   font-weight: var(--weight-strong);
   letter-spacing: var(--ls-label);
-  color: var(--on-surface-dim);
+  text-transform: uppercase;               /* the page's label register */
+  color: var(--red);
   font-variant-numeric: tabular-nums;
 }
-.step__title { margin-block-start: var(--space-2); color: var(--on-surface); }
+.step__title { margin-block-start: var(--space-3); color: var(--on-surface); }
+.step__text  { margin-block-start: var(--space-3); }
 .step__text  { margin-block-start: var(--space-2); color: var(--on-surface-muted); font-size: var(--text-sm); }
 
 
@@ -357,45 +434,50 @@
 /* a hairline frame instead of a drop shadow */
 .media--framed { border: 1px solid var(--rule-strong); }
 
+/* CROP ANCHOR — which half of the frame survives.
+   `cover` centres, and centring is a default rather than a decision. Every one
+   of the client's shop photographs is a 3:4 portrait; dropped into a 3:2 box it
+   loses half its height from the middle out, which is exactly the half holding
+   a standing technician's head. Both uses below are people, and a subject whose
+   defining detail is cut is damaged rather than cropped (C22). Set on the image,
+   because the right anchor is a property of the photograph, not of the box. */
+.media img.crop-top,
+.bleed-split__media img.crop-top { object-position: 50% 8%; }
+.bleed-split__media img.crop-top { object-position: 50% 0%; }
+
 .figure__caption {
   margin-block-start: var(--space-3);
   font-size: var(--text-micro);
   color: var(--on-surface-muted);
 }
 
-/* HONEST PLACEHOLDER — visibly a placeholder, correctly proportioned, and
-   labelled with the shot it is holding open. Never dressed up as a photo. */
-.shot {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: var(--space-2);
-  padding: var(--space-5);
-  border: 1px dashed var(--rule-strong);
-  border-radius: var(--r-md);
-  background:
-    repeating-linear-gradient(
-      135deg,
-      transparent 0 10px,
-      color-mix(in srgb, var(--on-surface) 4%, transparent) 10px 11px
-    );
-  color: var(--on-surface-dim);
-}
-.shot__tag {
-  font-family: var(--font-display);
-  font-size: var(--text-micro);
-  font-weight: var(--weight-strong);
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--on-surface-muted);
-}
-.shot__desc { font-size: var(--text-micro); line-height: 1.45; }
+/* The honest-placeholder component (.shot) was removed with its only use — the
+   reserved review slider. A slot that holds space for content nobody has yet is
+   a hole in the page wearing a label; when the service GMB has reviews, they get
+   a real component then. */
 
 
 /* ============================================================================
    11 · FORMS
    ========================================================================= */
-.form { display: grid; gap: var(--space-5); }
+/* THREE PLANES, NOT ONE FIELD.
+   The section was a single flat sheet: base paper behind, a form whose inputs
+   were a 4% ink tint of that same paper, and a contact rail floating on it with
+   nothing but hairlines. Everything sat at one elevation, so nothing said which
+   part you act on and which part you read.
+     base    the section ground .......... the page
+     raised  the form ................... the thing you fill in
+     sunk    the fields inside it ........ where your answer goes
+   Three steps, one direction, and the contact rail deliberately stays on the
+   base plane because it is reference, not an instrument. */
+.form {
+  display: grid;
+  gap: var(--space-5);
+  background: var(--surface-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  padding: clamp(var(--space-5), 3vw, var(--space-7));
+}
 .field { display: grid; gap: var(--space-3); }
 .field__label {
   font-family: var(--font-display);
@@ -414,7 +496,9 @@
   padding: var(--space-3) var(--space-4);
   border: 1px solid var(--rule-strong);
   border-radius: var(--r-sm);
-  background: color-mix(in srgb, var(--on-surface) 4%, transparent);
+  /* Sunk, not a tint of the ground it stands on — a 4% ink wash left the field
+     and the card at the same value, so the input had no edge of its own. */
+  background: var(--surface-sunk);
   color: var(--on-surface);
   font-size: var(--text-body);
   transition: border-color var(--dur-2) var(--ease), background-color var(--dur-2) var(--ease);
@@ -467,6 +551,15 @@
 /* ============================================================================
    12 · SITE HEADER — counted as a mass in the first screen (U10)
    ========================================================================= */
+/* THE BAR IS NOT A BAR UNTIL THE PAGE MOVES.
+   At rest it is transparent and the navigation reads off a gradient falling
+   from the top edge — so the first screen is the photograph, not a photograph
+   with a black strip stapled over it. The solid ground and the rule arrive on
+   scroll, at which point the header IS crossing live content and has to say
+   so (anti-patterns U13: "the page moved" and "the header left the section"
+   must stay separable).
+   The gradient is not decoration: it is the scrim that makes white nav legible
+   over an unknown photograph, and it is measured on the render below. */
 .site-header {
   position: sticky;
   inset-block-start: 0;
@@ -474,9 +567,29 @@
   block-size: var(--header-h);
   display: flex;
   align-items: center;
-  background: var(--black);
-  border-block-end: 1px solid var(--rule-on-dark);
+  background: transparent;
+  border-block-end: 1px solid transparent;
   color: var(--ink);
+}
+.site-header::before {
+  content: "";
+  position: absolute;
+  z-index: -2;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: 200%;
+  background: linear-gradient(to bottom, #0D0E10E6 0%, #0D0E10A6 42%, #0D0E1000 100%);
+  pointer-events: none;
+}
+/* The solid ground, faded in by the scroll timeline below. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: var(--black);
+  opacity: 0;
+  pointer-events: none;
 }
 .site-header__inner {
   display: flex; align-items: center; gap: var(--space-6);
@@ -486,28 +599,22 @@
   padding-inline: var(--gutter);
 }
 .brand { display: flex; align-items: center; gap: var(--space-3); flex: none; }
-/* The red survives in the header as a mark rather than as a red logotype:
-   #D8232F on the base is 3.84:1 — a legal UI boundary, not legal small text. */
-.brand__bar { inline-size: 3px; block-size: 1.75rem; background: var(--red); flex: none; }
-.brand__text { display: flex; flex-direction: column; gap: 2px; }
-.brand__mark {
-  font-family: var(--font-display);
-  font-size: 1.0625rem;
-  font-weight: var(--weight-display);
-  letter-spacing: 0.03em;
-  line-height: 1;
-  text-transform: uppercase;
-  color: var(--ink);
-  font-style: italic;
+/* THE SUPPLIED MARK.
+   Two properties of the asset decide every use of it, and both were measured:
+   1. White on transparent, so it may only sit on a DARK ground. On `paper` it
+      disappears completely. Header and footer are the only two grounds here.
+   2. Its floor is WIDTH. "OF OKLAHOMA" is drawn at 360px, is marginal by 180px
+      and is gone by 110px — which is why the header bar was raised to 5rem, so
+      the mark can run at 14rem instead of being squeezed under the floor.
+   Sized in rem, never vw: legibility does not scale with the viewport. */
+.brand__logo {
+  inline-size: 14rem;
+  max-inline-size: 100%;
+  block-size: auto;
+  display: block;
 }
-.brand__sub {
-  font-family: var(--font-display);
-  font-size: var(--text-micro);
-  font-weight: var(--weight-medium);
-  letter-spacing: var(--ls-label);
-  text-transform: uppercase;
-  color: var(--ink-dim);
-}
+.brand--footer .brand__logo { inline-size: 18rem; }
+@media (max-width: 30rem) { .brand__logo { inline-size: 11.5rem; } }
 .site-nav { display: flex; align-items: center; gap: var(--space-6); margin-inline-start: auto; }
 .site-nav a {
   font-family: var(--font-display);
@@ -563,7 +670,24 @@
 /* ============================================================================
    14 · FOOTER
    ========================================================================= */
-.site-footer { background: var(--black-sunk); color: var(--ink); padding-block: var(--space-9) var(--space-7); }
+.site-footer {
+  position: relative;
+  isolation: isolate;
+  background: var(--black-sunk);
+  color: var(--ink);
+  padding-block: var(--space-9) var(--space-7);
+}
+/* The page's last light, and the only one that rises from the bottom — the
+   footer is where the page settles, so the source is under it rather than
+   over it. */
+.site-footer::before {
+  content: "";
+  position: absolute; z-index: -1;
+  inset-inline: 0; inset-block-end: 0;
+  block-size: min(80%, 30rem);
+  background: radial-gradient(100% 100% at 22% 100%, var(--glow) 0%, transparent 66%);
+  pointer-events: none;
+}
 .site-footer a { color: var(--ink-muted); transition: color var(--dur-2) var(--ease); }
 .site-footer a:hover { color: var(--ink); }
 .site-footer__grid { display: grid; gap: var(--space-7); grid-template-columns: minmax(0, 1.4fr) repeat(2, minmax(0, 1fr)); }
@@ -583,7 +707,6 @@
    again in the footer, so parity holds (anti-patterns U7). ----------------- */
 @media (max-width: 30rem) {
   .site-header__tel { display: none; }
-  .brand__sub { font-size: var(--text-micro); }
 }
 .actionbar { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
 .actionbar .btn {
@@ -591,3 +714,176 @@
   letter-spacing: 0.08em;
   white-space: nowrap;
 }
+
+
+/* ============================================================================
+   15 · CUSTOMER REVIEWS
+   Three cards, one per review. Deliberately quiet: the stars and the quote
+   carry it, and there is no avatar, no card shadow and no rounded chat bubble
+   — a review block that shouts reads as marketing rather than as testimony.
+   Sample copy while the service listing is empty; every card is marked
+   data-placeholder so the whole set renders flagged.
+   ========================================================================= */
+.reviews__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3) var(--space-5);
+  padding-block-end: var(--space-5);
+  border-block-end: 1px solid var(--rule);
+}
+.reviews__head .label { display: inline-flex; align-items: center; gap: var(--space-3); }
+.reviews__head .label svg { color: var(--red-ink); }
+[data-surface="paper"] .reviews__head .label svg { color: var(--red); }
+
+/* The track is a real horizontal scroller at every width, not a grid that
+   turns into one below a breakpoint. Two cards to a view rather than three:
+   a quote is reading text, and a third column buys a card at the cost of the
+   line length inside all of them — and it also leaves the arrows and the dots
+   with nothing to drive, which is a control that lies about being a control. */
+.reviews {
+  display: flex;                          /* a flex basis resolves against the
+                                             track; a grid auto-column percentage
+                                             inside a scroll container does not */
+  gap: var(--space-5);
+  margin-block-start: var(--space-6);
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding-block-end: var(--space-2);
+}
+.reviews::-webkit-scrollbar { display: none; }
+.review {
+  flex: 0 0 calc((100% - var(--space-5)) / 2);
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  background: var(--surface-raised);
+}
+.review__stars { display: flex; gap: 2px; color: var(--red-ink); }
+[data-surface="paper"] .review__stars { color: var(--red); }
+.review__stars svg { inline-size: 1.05rem; block-size: 1.05rem; fill: currentColor; stroke: none; }
+
+/* The quote is the only body-length text in the component, so it gets the
+   reading treatment and everything around it stays a label. */
+.review__text {
+  margin: 0;
+  color: var(--on-surface);
+  font-size: var(--text-body);
+  line-height: var(--lh-body);
+}
+.review__by {
+  margin-block-start: auto;
+  font-family: var(--font-display);
+  font-size: var(--text-micro);          /* 14px floor */
+  font-weight: var(--weight-strong);
+  letter-spacing: var(--ls-label);
+  text-transform: uppercase;
+  color: var(--on-surface);
+}
+.review__by span { color: var(--on-surface-dim); }
+
+@media (max-width: 60rem) {
+  /* one card, with the next one peeking — the peek IS the affordance */
+  .review { flex-basis: 86%; }
+}
+
+
+/* ---- HEADER: it declares itself once the page has moved --------------------
+   A bar that sits over travelling content and never changes cannot be told
+   from a band of the page. On scroll it gains its rule and a touch of ground,
+   so "the page moved" and "the header left the section" stay separable
+   (anti-patterns U13). Scroll-driven, so it is exact rather than a threshold
+   guessed at in JavaScript. */
+@supports (animation-timeline: scroll()) {
+  .site-header       { animation: header-rule    linear both; animation-timeline: scroll(root block); animation-range: 0 6rem; }
+  .site-header::after{ animation: header-ground  linear both; animation-timeline: scroll(root block); animation-range: 0 6rem; }
+  .site-header::before{animation: header-scrim   linear both; animation-timeline: scroll(root block); animation-range: 0 6rem; }
+  /* The mark stands larger over the photograph and settles to its bar size as
+     the ground arrives — the header is at its most spacious exactly when it has
+     the whole first screen behind it. */
+  .brand__logo       { animation: header-mark    linear both; animation-timeline: scroll(root block); animation-range: 0 6rem; }
+
+  @keyframes header-rule   { from { border-block-end-color: transparent; } to { border-block-end-color: var(--rule-strong); } }
+  @keyframes header-ground { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes header-scrim  { from { opacity: 1; } to { opacity: 0; } }
+  @keyframes header-mark   { from { inline-size: 17rem; } to { inline-size: 14rem; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .site-header, .site-header::after, .site-header::before, .brand__logo { animation: none; }
+    .site-header::after { opacity: 1; }
+    .site-header { border-block-end-color: var(--rule-strong); }
+  }
+}
+/* Without a scroll timeline the bar is simply solid from the start — the
+   static fallback is the old behaviour, never a transparent bar that never
+   resolves. */
+@supports not (animation-timeline: scroll()) {
+  .site-header { background: var(--black); border-block-end-color: var(--rule-strong); }
+  .site-header::before { display: none; }
+}
+
+
+/* ============================================================================
+   16 · CAROUSEL — the reviews track
+   Scroll-snap first, controls second. The track is a real horizontal scroller,
+   so it works with a trackpad, a touch swipe, a keyboard and no JavaScript at
+   all; the arrows and dots are a second way to drive something that already
+   moves, never the only way (U7 — the means survive without the script).
+   ========================================================================= */
+.carousel__nav { display: flex; gap: var(--space-2); }
+.carousel__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 2.75rem; block-size: 2.75rem;   /* clears the 44px target */
+  padding: 0;
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-pill);
+  background: transparent;
+  color: var(--on-surface);
+  cursor: pointer;
+  transition: border-color var(--dur-2) var(--ease),
+              background-color var(--dur-2) var(--ease),
+              opacity var(--dur-2) var(--ease);
+}
+.carousel__btn:hover { border-color: var(--on-surface); background: color-mix(in srgb, var(--on-surface) 8%, transparent); }
+.carousel__btn[disabled] { opacity: 0.35; cursor: default; }
+.carousel__btn[disabled]:hover { border-color: var(--rule-strong); background: transparent; }
+.carousel__btn[data-rev-prev] .icon { rotate: 180deg; }
+
+.carousel__dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-block-start: var(--space-6);
+}
+.carousel__dots:empty { display: none; }
+/* The hit area is 44px; the drawn dot inside it is 8px. A control you can see
+   and a control you can hit are two different sizes and only one of them is
+   the design (color-taste I3 / tap targets). */
+.carousel__dot {
+  inline-size: 2.75rem; block-size: 2.75rem;
+  padding: 0; border: 0; background: transparent; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.carousel__dot::before {
+  content: "";
+  inline-size: 8px; block-size: 8px;
+  border-radius: var(--r-pill);
+  background: var(--on-surface-dim);
+  transition: background-color var(--dur-2) var(--ease), scale var(--dur-2) var(--ease);
+}
+.carousel__dot:hover::before { background: var(--on-surface-muted); }
+.carousel__dot[aria-selected="true"]::before { background: var(--red); scale: 1.35; }
+
+/* If the whole set fits, there is nothing to page: the script marks the block
+   idle and the controls leave, rather than sitting there permanently disabled. */
+[data-carousel-idle] .carousel__nav,
+[data-carousel-idle] .carousel__dots { display: none; }

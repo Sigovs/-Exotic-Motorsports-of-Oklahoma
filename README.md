@@ -14,7 +14,8 @@ Brief and page copy: Ivaylo Guenkov / All Auto Network. Design and build: Alex S
 Partial-free, but images and fonts want a server:
 
 ```bash
-python3 -m http.server 8145
+python3 -m http.server 8145        # or, where there is no python:
+npx --yes serve -l 8145 .
 # -> http://localhost:8145/index_service.html
 ```
 
@@ -47,9 +48,24 @@ css/
 js/main.js         reveal-on-scroll (opt-in), footer year, disclosure scroll guard
 assets/img/
   hero/            the client's supplied hero crops (desktop / mobile / master)
+                   + logo.png — the supplied mark. TWO CONSTRAINTS, measured:
+                   white-on-transparent (dark grounds only; it vanishes on
+                   `paper`), and it needs >= 18rem of width before "OF
+                   OKLAHOMA" is drawn at all. That is why it is used in the
+                   footer and NOT in the 72px header, where the set Saira
+                   lockup stays.
   frames/          frames cut from the client's own master photograph
+  service/         REAL client photography, semantically named. Copied out of
+                   `all images/` (the raw dump, gitignored) so the build never
+                   depends on a folder of CDN hashes with a space in its name.
+  marques/         BMW / Mercedes / Audi / Porsche marks. The first three come
+                   from the VEGAS project's brand set; the BMW roundel is drawn
+                   here because no vector existed. Rendered flat white by CSS
+                   filter, so four brand palettes cannot fight each other.
   tmp/             TEMPORARY comp imagery borrowed from other projects — see below
 _review/           sliced screenshots for approval (regenerable)
+                   the numbered slices predate the 2026-08-19 pass and are ALL
+                   STALE — hero, marques, schedule and every image changed
 _reference/        live clone of the Design DNA repo (gitignored, see .gitignore)
 ```
 
@@ -61,10 +77,24 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=6`**.
+  browser serves stale styles. Currently at **`?v=30`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
+
+## Two things the render depends on
+
+**The header is transparent over the hero.** Navigation legibility is carried by
+a gradient scrim, not by a solid bar, so it depends on the hero photograph.
+Measured on the composited render against `hero-gt4rs.jpg`, worst pixel under
+each run: active nav 10.65:1 · phone 10.46:1 · logo 10.31:1 · **inactive nav
+5.13:1**. That last one is the pair with the least headroom — **re-measure it
+if the hero image ever changes**, especially to a frame that is bright along its
+top edge.
+
+**`?static` disables every piece of motion**, which is what it is for — it
+exists so a full-page screenshot captures one settled frame. Reviewing motion at
+`?static` will always show a page that does not move. Use the plain URL.
 
 ## Design DNA
 
@@ -81,9 +111,11 @@ it is are documented at the top of `css/tokens.css`.
 
 ## ⚠️ Before this goes to a customer
 
-**Temporary comp imagery.** Everything in `assets/img/tmp/` is borrowed from other
-projects to stand in as visual breaks while the client photo dump is outstanding.
-None of it shows the Edmond facility, its bays, its technicians or its work.
+**Temporary comp imagery — now down to ONE use.** `assets/img/tmp/` is borrowed
+from other projects. Five of its six uses were replaced with the client's own
+photography on 2026-08-19; `tmp-transport.jpg` is the last one standing and it
+is still marked as a comp in the render. The other six files in the folder are
+now unreferenced and can be deleted once the detailing page is scoped.
 Find every use with:
 
 ```bash
@@ -97,10 +129,25 @@ See `assets/img/tmp/README.md` for what each file is and where it came from.
 - a **dedicated service phone number** — the page currently shows the main line
   `(405) 633-1142`, marked as a placeholder in the render
 - **service hours** — an explicit placeholder, not invented
-- **photography** — the two remaining dashed blocks in section 07 name the shots:
-  a technician at work, and factory-level diagnostic equipment
-- **reviews** — the slot is reserved; it fills once the dedicated service GMB has
-  collected them
+- ~~photography~~ — **RESOLVED 2026-08-19.** The client's own shots landed and
+  five of the six comp images were replaced: a technician at the lift, a
+  technician on the refrigerant station, the station itself, a Ferrari V8 bay
+  and a carbon engine cover. Only the enclosed-transport frame is still a comp,
+  because no photograph of one exists in the set.
+- **reviews — READ THIS ONE.** The block is built and running on **invented
+  copy**. Not a word of it came from a customer. Both of the things that used
+  to declare that on the page — the "sample layout" sentence above the cards and
+  the dashed red `data-placeholder` rule — have now been removed on request.
+  **Nothing visible marks these as fake any more.** The only remaining record
+  is this README and the comment in the markup, neither of which a visitor
+  reads. **This block must not go live in this state.** Replace it with the
+  real Google feed or delete it. Find it with:
 
-Every unresolved value carries `data-placeholder` and renders with a dashed red
-underline, so nothing ships unnoticed. Forms are front-end only and not wired.
+  ```bash
+  grep -n 'class="review' index_service.html
+  ```
+
+Every unresolved value still carries the `data-placeholder` attribute, but as
+of `?v=30` it no longer draws the dashed red underline — the marking is tonal
+only, so an unresolved value is no longer obvious on the page. Audit them with
+`grep -n data-placeholder index_service.html` before any launch. Forms are front-end only and not wired.

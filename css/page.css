@@ -22,79 +22,126 @@
                          deep enough to rescue it flattened the whole
                          photograph. The subject was being damaged to rescue
                          one text block (color-taste I4 escalation order).
-     desktop crop        facility-desktop.jpg 1920x900, used as supplied
-     mobile crop         facility-mobile.jpg 430x520, used as supplied
+     desktop crop        facility-desktop.jpg 1920x900, held by height
+     mobile crop         facility-mobile.jpg 430x520, held by height
      asset suitability   an inventory frame, not a service frame: it proves
                          identity and place. The service proposition is
-                         carried by the headline and the strip beneath it.
+                         carried by the headline and the register beneath it.
+                         Declared dependency (C17): the whole first screen
+                         rests on this one supplied frame.
 --------------------------------------------------------------------------- */
-.hero { position: relative; background: var(--black); }
+/* The photograph starts at the top of the viewport and the header floats on
+   it. The negative margin is exactly the bar's own height, so nothing else in
+   the page has to know this happened. */
+.hero {
+  position: relative;
+  isolation: isolate;
+  margin-block-start: calc(-1 * var(--header-h));
+  background: var(--black);
+}
+/* The plate is the one surface on the page that is lit rather than merely
+   dark: a wide radial rising from behind the headline, so the type sits in a
+   pool of light under the photograph instead of on a flat slab. Anchored to
+   the LEFT of centre, where the headline actually is — a centred glow under a
+   left-set headline lights the empty half of the plate. */
+/* The register used to end flush against the next section: the plate had a
+   padding-block-START and nothing at the bottom, so four cards sat welded to
+   the boundary. Nothing on this page touches anything. */
+.hero__claim {
+  position: relative;
+  isolation: isolate;
+  padding-block-end: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+.hero__claim::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  background: radial-gradient(90% 130% at 26% 0%, var(--glow-strong) 0%, transparent 62%);
+  pointer-events: none;
+}
 
-/* The band's ratio is taken from the photograph's own content, not chosen:
-   in the 1920x900 crop the sign starts at 2% of the height and the cars end
-   at 73%, so the frame keeps the top 78% and drops the empty apron below it.
-   1920 / (900 x 0.78) = 2.735. Anchored to the top so that ratio holds while
-   the width changes; the height cap only bites on very tall viewports. */
+/* The frame is capped by VIEWPORT HEIGHT, not by a ratio, so the composed
+   event — photograph, claim, action, evidence — clears the fold together.
+   The previous rule set `aspect-ratio` and `max-block-size` at once; under
+   the cap the browser back-computed the width from the clamped height and
+   the mobile frame rendered 423px wide inside a 486px hero, leaving a 63px
+   black gutter down its right edge. Height first, `cover` second, and the
+   two never negotiate. The second term stops the frame growing taller than
+   it is wide on narrow-but-short windows. */
 .hero__media {
   position: relative;
   isolation: isolate;
-  aspect-ratio: 1920 / 702;
-  max-block-size: 70svh;
+  inline-size: 100%;
+  /* Three terms, and the last one is the commitment: the plate below is a
+     near-constant 27.5rem (header 5 + interval + three lines of display +
+     interval + the evidence register), so subtracting it from the viewport
+     is what actually keeps the whole event above the fold on a 800px-tall
+     laptop. The first two only stop the frame over-growing on tall or narrow
+     windows. Measured: 1600x1000 -> 540px, 1280x800 -> 368px, both clear. */
+  block-size: min(60svh, 46vw, calc(100svh - 22.5rem));
   overflow: clip;
 }
 /* <picture> is inline by default; without this it sizes itself from the file
-   and pushes the frame past the ratio above. */
-.hero__media picture { display: block; block-size: 100%; }
+   and pushes the frame past the box above. */
+.hero__media picture { display: block; inline-size: 100%; block-size: 100%; }
+/* The subject sits at 44-68% of the source height, with sky above it and a
+   bleached apron below. On desktop the frame is a wide band, so the window is
+   anchored at 58% — the only position that holds the whole car with air over
+   the roof and ground under the tyres. What the crop discards is empty sky and
+   empty concrete, in that order; the silhouette is never cut (C22). */
 .hero__media img {
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  object-position: 50% 0%;
+  object-position: 50% 58%;
 }
-/* Not a scrim — nothing sits on the subject. A short foot so the frame meets
-   the plate below it instead of cutting against it. */
-.hero__media::after {
-  content: "";
-  position: absolute;
-  inset-inline: 0;
-  inset-block-end: 0;
-  block-size: 9%;
-  background: linear-gradient(to top, var(--black) 0%, #0D0E1000 100%);
-}
+/* No gradient foot. The photograph is mounted on the plate with a hard edge —
+   the ambiguous middle between a join and a cut is the one thing C9 rules
+   out, and a fade that neither joins nor separates was reading as a seam. */
 
-.hero__claim { padding-block: clamp(2rem, 3.5vw, 3rem); }
+/* The plate: claim and action in the upper register, evidence closing it. */
+.hero__claim { padding-block-start: clamp(2rem, 3vw, 3rem); }
 .hero__grid {
   display: grid;
-  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
-  gap: var(--space-7);
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: var(--space-6) var(--space-8);
   align-items: end;
+  /* The one decided interval on this plate: the pause between the claim and
+     the proof of it. Everything else here is set by the type's own metrics. */
+  padding-block-end: clamp(2rem, 3vw, 3rem);
 }
 
-.hero__title { color: var(--ink); max-inline-size: 17ch; }
-.hero__place {
-  display: block;
-  margin-block-start: var(--space-3);
-  font-size: var(--text-h3);
-  font-weight: var(--weight-strong);
-  letter-spacing: var(--ls-heading);
-  color: var(--ink-muted);
-}
-.hero__lead { color: var(--ink); max-inline-size: 34ch; }
+.hero__title { color: var(--ink); max-inline-size: 20ch; }
+/* NOT a second rank. Same face, same size, same weight, same leading — one
+   tonal step down, so the sentence keeps a single silhouette and the locator
+   recedes inside it instead of hanging off the bottom as a third heading. */
+.hero__place { display: block; color: var(--ink-muted); }
+/* Held out of the headline's balance so the buttons never stretch. */
+.hero__cta { flex: none; }
 
-/* MOBILE — a separate composition, not a squeezed desktop one. */
+/* MOBILE — a separate composition, not a squeezed desktop one.
+   The portrait crop is 430x520 and its content is fixed: the sign occupies
+   8-25% of the height, the cars end at 68%. Sixty percent of the frame is
+   therefore load-bearing, and a box short enough to fit a duplicate button
+   row above the fold cut the cars off at the beltline (C22 — a subject whose
+   outline is cut is damaged, not cropped). So the box is sized to hold the
+   whole subject and the button row goes instead: the fixed action bar already
+   carries Call and Request service on every mobile screen, permanently, which
+   is the same two means at better reach (C14). Two devices, one job — the
+   cheaper fix is to delete one, not to shrink the photograph around it. */
 @media (max-width: 60rem) {
-  /* Same reasoning as desktop, measured on the portrait crop: the sign sits
-     at 8-25% of the height and the cars end at 68%, so the frame keeps the
-     top 76% and drops the empty apron. 430 / (520 x 0.76) = 430/395. */
-  .hero__media {
-    aspect-ratio: 430 / 395;
-    max-block-size: 46svh;
+  .hero__media { block-size: min(50svh, 100vw); }
+  /* The portrait frame gives the phone a near-square window, so the car sits
+     with room on all four sides and the anchor moves back toward the middle. */
+  .hero__media img { object-position: 50% 46%; }
+  .hero__grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-6);
+    padding-block-end: var(--space-7);
   }
-  .hero__media img { object-position: 50% 0%; }
-  .hero__media::after { block-size: 16%; }
-  .hero__grid { grid-template-columns: minmax(0, 1fr); gap: var(--space-6); }
   .hero__title { max-inline-size: none; }
-  .hero__lead { max-inline-size: none; }
+  .hero__cta { display: none; }
 }
 
 /* ---------------------------------------------------------------------------
@@ -113,12 +160,17 @@
   color: var(--on-surface);
 }
 .pull span { display: inline-flex; align-items: baseline; gap: var(--space-3); }
+/* These three clauses are commitments, so the mark in front of them is a
+   check, not a dash. Same red, same mask technique as the list chevron — one
+   marker system, two glyphs, each meaning what it draws. */
 .pull span::before {
   content: "";
-  inline-size: var(--space-4);
-  block-size: 2px;
+  inline-size: 0.72em;
+  block-size: 0.72em;
   background: var(--red);
-  translate: 0 -0.28em;
+  translate: 0 0.06em;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 12.5 5.5 5.5L20 6'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m4 12.5 5.5 5.5L20 6'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 /* ---------------------------------------------------------------------------
@@ -164,9 +216,11 @@
 .contact__v { color: var(--on-surface); font-size: var(--text-lead); line-height: 1.35; }
 .contact__v--sm { font-size: var(--text-body); }
 
-/* a value still waiting on the client, marked so it cannot ship unnoticed */
+/* A value still waiting on the client. The dashed red rule is gone at Alex's
+   request — the marking is now tonal only, which means UNRESOLVED CONTENT NO
+   LONGER ANNOUNCES ITSELF ON THE PAGE. What is still a placeholder is tracked
+   in the README and in the comment above each one in the markup. */
 [data-placeholder] {
-  border-block-end: 1px dashed var(--red);
   color: var(--on-surface-muted);
 }
 
@@ -269,10 +323,23 @@
 .band { position: relative; isolation: isolate; background: var(--black); }
 .band__media { block-size: clamp(15rem, 30vw, 27rem); overflow: clip; }
 .band__media img { inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 50% 58%; }
+/* The scrim was a single left-to-right ramp, which assumes the photograph is
+   dark on the left — and the moment the frame changes, that assumption is what
+   fails. Three layers now, and none of them depends on what is in the picture:
+     1. a RADIAL centred on the type itself, so the darkest point of the scrim
+        is under the words rather than at the frame edge;
+     2. a floor from the bottom, because a wide band's lower edge is where the
+        eye leaves and where a bright road surface usually sits;
+     3. a flat 22% base, which is the part that makes the result independent of
+        the photograph instead of a bet on it.
+   Measured on the composited render, not on the token — see below. */
 .band::after {
   content: "";
   position: absolute; inset: 0; z-index: 1;
-  background: linear-gradient(to right, #0D0E10F5 0%, #0D0E10E0 26%, #0D0E1000 62%);
+  background:
+    radial-gradient(78% 150% at 22% 52%, #0D0E10F7 0%, #0D0E10D9 34%, #0D0E1000 72%),
+    linear-gradient(to top, #0D0E10CC 0%, #0D0E1000 46%),
+    linear-gradient(#0D0E1038, #0D0E1038);
 }
 .band__content {
   position: absolute; inset-block: 0; inset-inline: 0; z-index: 2;
@@ -294,6 +361,7 @@
 }
 
 /* ---- FEATURE — the ranked lead service. Dominant, not one of nine. ------- */
+
 .feature {
   display: grid;
   grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
@@ -302,6 +370,15 @@
   border: 1px solid var(--rule-strong);
   border-radius: var(--r-md);
   background: var(--surface-raised);
+}
+/* The promise runs the full width under both columns, on its own rule. It is
+   the conclusion of the chapter, and it was previously the last item at the
+   bottom of the right-hand column — read as a footnote to a list. */
+.feature__promise {
+  grid-column: 1 / -1;
+  margin-block-start: var(--space-2);
+  padding-block-start: var(--space-6);
+  border-block-start: 1px solid var(--rule);
 }
 .feature__no {
   font-family: var(--font-display);
@@ -315,6 +392,7 @@
 [data-surface="paper"] .feature__no { color: var(--red); }
 @media (max-width: 60rem) {
   .feature { grid-template-columns: minmax(0, 1fr); gap: var(--space-5); padding: var(--space-6); }
+  .feature__promise { padding-block-start: var(--space-5); }
 }
 
 /* ---- INDEX — the remaining services as rules, not boxes ------------------
@@ -352,6 +430,22 @@
   background: #0D0E10DE;   /* 87% — the wall stays readable as material; ink still 11.8:1 */
 }
 
+/* ---------------------------------------------------------------------------
+   CARD LIGHT — the same device as the section glow, one step quieter.
+   A card ground is a flat fill: on the dark surfaces --black-raised, on paper
+   --paper-raised, and across a page carrying a dozen of them that flatness is
+   what makes a long page read as a spreadsheet. A single soft radial from the
+   upper-left corner gives every card the same implied light source as the
+   sections around it. No new hue, no shadow, and it is one rule rather than a
+   per-component decision (anti-patterns D3 — the shadow ban stands).
+--------------------------------------------------------------------------- */
+.card, .feature, .marque, .review, .disc, .form, .trust__item {
+  background-image: radial-gradient(120% 140% at 0% 0%, #FFFFFF08 0%, #FFFFFF00 58%);
+}
+[data-surface="paper"] :is(.card, .feature, .marque, .review, .disc, .form, .trust__item) {
+  background-image: radial-gradient(120% 140% at 0% 0%, #14161A08 0%, #14161A00 58%);
+}
+
 /* ---- IDENTITY MARK — the sign frame, used once, as a sign-off ----------- */
 .markplate { border: 1px solid var(--rule); border-radius: var(--r-sm); overflow: clip; background: var(--black); }
 .markplate img { inline-size: 100%; block-size: auto; }
@@ -379,18 +473,46 @@
    The box is gone: a hairline and open air rank these better than four
    containers did (anti-patterns D4). The mark is decorative identification
    only — the marque name always sits beside it (typography I9). ----------- */
+/* Four marques on one black field, separated only by a hairline above each,
+   put four headings, four paragraphs and roughly forty list items into a
+   single undifferentiated mass: nothing said where one marque ended and the
+   next began, so the eye had no unit to hold. Each is now a card — its own
+   raised ground, its own edge, its own padding — which is the cheapest way to
+   say "this is one thing" and the reason the card exists in the kit at all. */
 .marque {
   gap: var(--space-5);
-  border-block-start: 1px solid var(--rule-strong);
-  padding-block-start: var(--space-6);
+  background: var(--surface-raised);
+  border: 1px solid var(--rule);
+  border-radius: var(--r-md);
+  padding: clamp(var(--space-5), 2.5vw, var(--space-7));
+  transition: border-color var(--dur-2) var(--ease);
 }
-.marque__head { align-items: center; }
+.marque:hover { border-color: var(--rule-strong); }
+/* The head sits on its own rule INSIDE the card, so the mark and the name read
+   as the card's title bar rather than as the first line of the body. */
+.marque__head {
+  align-items: center;
+  padding-block-end: var(--space-4);
+  border-block-end: 1px solid var(--rule);
+}
 .marque__id { display: flex; align-items: center; gap: var(--space-4); min-inline-size: 0; }
+/* The marques' own marks, not a house redraw of them. The four hand-drawn
+   1.5-stroke outlines that stood here were generic at 44px — two concentric
+   circles read as no marque at all, and the Porsche one read as nothing. A
+   marque section exists so an owner can find their car at a glance, and a mark
+   they do not recognise does not do that job.
+   Rendered as flat white: an external SVG cannot inherit `currentColor`, and
+   forcing one ink also stops four different brand palettes fighting each other
+   and the page's own red. Sized by HEIGHT with width auto, because the four
+   marks have four different aspect ratios and only the cap height is shared. */
 .marque__mark {
   flex: none;
-  inline-size: 2.75rem; block-size: 2.75rem;
-  fill: none; stroke: currentColor; stroke-width: 1.5;
-  color: var(--silver);
+  inline-size: auto;
+  block-size: 2.5rem;
+  max-inline-size: 3.5rem;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
 }
 [data-surface="paper"] .marque__mark { color: var(--silver-dim); }
 

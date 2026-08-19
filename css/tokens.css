@@ -159,7 +159,8 @@
   --container:      78rem;   /* 1248px */
   --container-wide: 90rem;   /* 1440px */
   --container-text: 46rem;   /* long-form column */
-  --header-h:       4.5rem;  /* 72px — counted as a mass (anti-patterns U10) */
+  --header-h:       5rem;    /* 80px — sized to carry the supplied mark legibly;
+                               counted as a mass (anti-patterns U10) */
   --stickybar-h:    4rem;    /* 64px mobile action bar — also counted */
 
   /* ---- RADIUS -----------------------------------------------------------
@@ -175,13 +176,40 @@
   --elev-raised: 0 1px 2px #00000038, 0 8px 24px #0000002e;
   --elev-overlay:0 2px 8px #00000047, 0 24px 64px #0000005c;
 
-  /* ---- MOTION (motion-taste — documented scale, coherent easing) --------- */
-  --dur-1: 120ms;   /* state tint */
-  --dur-2: 200ms;   /* hover, focus */
-  --dur-3: 320ms;   /* expand, tab swap */
-  --dur-4: 520ms;   /* reveal on scroll */
-  --ease:        cubic-bezier(0.2, 0, 0.1, 1);
+  /* ---- MOTION (motion-taste — documented scale, coherent easing) ---------
+     Softened 2026-08-19. The scale was tuned for snap: 320ms on a curve that
+     leaves its start almost instantly, which made a disclosure opening read as
+     a jump rather than a movement. Every duration here is longer and every
+     curve leaves slower and arrives slower. Nothing new was added to the scale
+     — the same four steps, re-timed — so no component had to be touched.  */
+  --dur-1: 140ms;   /* state tint */
+  --dur-2: 240ms;   /* hover, focus */
+  --dur-3: 460ms;   /* expand and collapse, tab swap */
+  --dur-4: 620ms;   /* reveal on scroll */
+  /* Gentle in, long settle. Replaces cubic-bezier(0.2, 0, 0.1, 1), whose 0.2
+     lead-in is what made short transitions feel abrupt. */
+  --ease:        cubic-bezier(0.32, 0.08, 0.12, 1);
   --ease-out:    cubic-bezier(0.16, 1, 0.3, 1);
+  /* The open/close curve: no overshoot, a long tail, and it never snaps. */
+  --ease-soft:   cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* ---- LIGHT ------------------------------------------------------------
+     ONE lighting device, not a decoration. The dark ground is a flat #0D0E10
+     across five sections, which reads as ink rather than as a room; a single
+     soft radial lifts the ground where the mass of a section sits, so the
+     black has somewhere it is coming from. No new hue is introduced — the
+     glow is --black-raised, the ground's own next step up, at low alpha, so
+     it can never shift the tone or break a measured contrast pair.
+     Two strengths only: --glow for a section, --glow-strong for the hero
+     plate, which is the one place a page is allowed to be lit hardest. */
+     MEASURED COST OF THE GLOW. At its peak the radial composites --black to
+     #1B1E23, so every pair on a dark ground loses roughly 0.7 of a ratio
+     point. Re-checked on the composited render, not on the token:
+       ink        17.39 -> 15.05     ink-muted   7.99 -> 6.91
+       ink-dim     5.63 ->  4.87     <- the tightest, and still over AA
+     If the glow is ever strengthened, ink-dim is the pair that fails first.
+  --glow:        #21252BB3;   /* raised-black, 70% */
+  --glow-strong: #262B32E6;   /* one step warmer, 90% — hero plate only */
 
   /* ---- LAYERS ------------------------------------------------------------ */
   --z-base:    0;
@@ -202,6 +230,7 @@
 [data-surface="dark"] {
   --surface:          var(--black);
   --surface-raised:   var(--black-raised);
+  --surface-sunk:     var(--black-sunk);
   --on-surface:       var(--ink);
   --on-surface-muted: var(--ink-muted);
   --on-surface-dim:   var(--ink-dim);
@@ -212,6 +241,7 @@
 [data-surface="deep"] {
   --surface:          var(--black-sunk);
   --surface-raised:   var(--black-raised);
+  --surface-sunk:     var(--black-sunk);   /* deep is already the floor: no step below it */
   --on-surface:       var(--ink);
   --on-surface-muted: var(--ink-muted);
   --on-surface-dim:   var(--ink-dim);
@@ -222,6 +252,7 @@
 [data-surface="paper"] {
   --surface:          var(--paper);
   --surface-raised:   var(--paper-raised);
+  --surface-sunk:     var(--paper-sunk);
   --on-surface:       var(--ink-dark);
   --on-surface-muted: var(--ink-dark-muted);
   --on-surface-dim:   var(--ink-dark-muted);

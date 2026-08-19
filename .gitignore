@@ -14,3 +14,12 @@ _reference/
 # tooling scratch
 .playwright-mcp/
 node_modules/
+
+# Raw photo dump from the client's social accounts. Working material, not build
+# assets: originals keep their CDN hashes and the folder name has a space in it.
+# What the pages actually use is copied into assets/img/service/ under semantic
+# names and IS committed.
+assets/img/all images/
+
+# editor-local
+.vscode/

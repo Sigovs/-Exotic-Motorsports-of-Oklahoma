@@ -199,10 +199,38 @@ a { color: inherit; text-decoration: none; }
    downward, so equal padding reads as bottom-tight (spacing D2). */
 .section {
   position: relative;
+  isolation: isolate;
   padding-block: var(--section-pt) var(--section-pb);
   background: var(--surface);
   color: var(--on-surface);
 }
+/* THE LIGHT. Wide, low, centred on the upper third where the section's own
+   mass sits, and it falls off well short of the edges so no seam appears where
+   two dark sections meet. Only on the dark grounds: a paper surface is already
+   a lit ground, and a glow on it would read as a printing fault.
+
+   ON ::after, NOT ::before, AND THAT IS THE WHOLE POINT.
+   The first version of this rule used ::before — which .texture had already
+   spent on its 87% darkening scrim. Same element, same pseudo-element, and the
+   later rule simply replaced the scrim's background with a radial: the wall
+   photograph came back to full brightness and the body copy over it dropped to
+   something like 1.4:1. Two owners of one pseudo-element is not a collision the
+   cascade warns you about, it just silently picks one. */
+.section[data-surface="dark"]::after,
+.section[data-surface="deep"]::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset-inline: 0;
+  inset-block-start: 0;
+  block-size: min(70%, 46rem);
+  background: radial-gradient(120% 100% at 50% 0%, var(--glow) 0%, transparent 68%);
+  pointer-events: none;
+}
+/* The texture section carries a photographic wall and its own scrim over it;
+   a light source on top of that is two depth ideas in one view. Its ::before
+   is the scrim and is left alone. */
+.section.texture::after { display: none; }
 .section--tight { padding-block: var(--space-7) var(--space-8); }
 .section--flush-top { padding-block-start: 0; }
 
@@ -218,7 +246,7 @@ a { color: inherit; text-decoration: none; }
 .grid { display: grid; gap: var(--space-5); }
 .grid--2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .grid--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid--4 { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: clamp(var(--space-6), 4vw, var(--space-8)); }
 
 .cluster { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: center; }
 
@@ -272,6 +300,169 @@ a { color: inherit; text-decoration: none; }
 }
 .js-reveal [data-reveal].is-visible { opacity: 1; transform: none; }
 
+/* ---------------------------------------------------------------------------
+   HEADINGS ARRIVE A LINE AT A TIME, FROM THE SIDE.
+
+   The line boxes are measured and wrapped by js/main.js AFTER layout, so the
+   breaks are the ones the browser already chose — `text-wrap: balance` and
+   every `max-inline-size` still decide where the text turns, and the split
+   only describes what happened. Nothing here changes where a line breaks.
+
+   Each line is a clip window; the run inside it starts displaced to the left
+   and travels back to zero, so the text emerges from behind the column edge
+   rather than fading in place. The stagger is the "лесенка": every line waits
+   one step longer than the one above it, which is what makes a heading read
+   as being written rather than as being switched on.
+--------------------------------------------------------------------------- */
+.ln { display: block; overflow: clip; }
+/* Descenders would be cut by the clip, so the box is grown downward and the
+   growth is taken straight back out of the flow. */
+.ln--desc { padding-block-end: 0.16em; margin-block-end: -0.16em; }
+.ln__i { display: block; will-change: transform, opacity; }
+
+.js-reveal .ln__i {
+  opacity: 0;
+  transform: translateX(-0.6em);
+  transition:
+    opacity   var(--dur-3) var(--ease-soft) var(--ln-delay, 0ms),
+    transform var(--dur-4) var(--ease-soft) var(--ln-delay, 0ms);
+}
+.js-reveal .is-visible .ln__i { opacity: 1; transform: none; }
+
+/* A heading that has been split carries its own choreography, so the block
+   fade underneath it is switched off — one temporal idea per element, not two
+   running at once on the same glyphs. */
+.js-reveal [data-reveal].has-lines,
+.js-reveal [data-reveal] .has-lines { opacity: 1; transform: none; transition: none; }
+
+/* ---------------------------------------------------------------------------
+   PARAGRAPHS RISE.
+   Body copy travels up into place rather than appearing: a short lift, a long
+   settle, and a small stagger between consecutive paragraphs in one block so a
+   passage reads as one movement instead of several simultaneous ones.
+--------------------------------------------------------------------------- */
+.js-reveal .rise {
+  opacity: 0;
+  transform: translateY(var(--space-5));
+  transition:
+    opacity   var(--dur-3) var(--ease-soft) var(--rise-delay, 0ms),
+    transform var(--dur-4) var(--ease-soft) var(--rise-delay, 0ms);
+}
+.js-reveal .rise.is-visible { opacity: 1; transform: none; }
+
+/* ---------------------------------------------------------------------------
+   IMAGES OPEN.
+
+   Three moves on the page and each one belongs to a different kind of thing,
+   so nothing competes: headings travel SIDEWAYS a line at a time, paragraphs
+   RISE, and photographs OPEN. The frame is a shutter — it wipes up from its
+   own bottom edge — while the photograph inside starts a little oversized and
+   settles back to true as the frame finishes. The two run on the same curve at
+   different lengths, so the image appears to be arriving through the opening
+   rather than the opening merely uncovering something already there.
+
+   The scale is 1.06 and never more: past that the crop moves far enough that
+   the framing verified in the render is not the framing that lands.
+--------------------------------------------------------------------------- */
+/* A SHUTTER, NOT A CLIP.
+   The first build clipped the frame itself with `clip-path: inset(0 0 100% 0)`
+   and then asked an IntersectionObserver to watch that same element. A fully
+   clipped element has an empty intersection rectangle, so it never reported
+   itself as intersecting, never got `.is-visible`, and never un-clipped: the
+   photograph held its 429px of layout and painted nothing. Every image below
+   the first screen was invisible on the live page and correct under ?static,
+   which is exactly the pair of symptoms that hides a bug in review.
+   So the element is never clipped. An opaque panel in its own colour covers it
+   and rolls away upward instead — the frame stays measurable throughout. */
+.js-reveal .open-frame { position: relative; }
+.js-reveal .open-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: var(--surface);
+  transform-origin: 50% 100%;
+  transition: transform var(--dur-4) var(--ease-soft) var(--open-delay, 0ms);
+  pointer-events: none;
+}
+.js-reveal .open-frame.is-visible::after { transform: scaleY(0); }
+
+.js-reveal .open-frame > img,
+.js-reveal .open-frame picture > img {
+  transform: scale(1.06);
+  transform-origin: 50% 55%;
+  transition: transform calc(var(--dur-4) * 1.6) var(--ease-soft) var(--open-delay, 0ms);
+}
+.js-reveal .open-frame.is-visible > img,
+.js-reveal .open-frame.is-visible picture > img { transform: none; }
+
 @media (prefers-reduced-motion: reduce) {
   .js-reveal [data-reveal] { opacity: 1; transform: none; transition: none; }
+  .js-reveal .ln__i,
+  .js-reveal .rise { opacity: 1; transform: none; transition: none; }
+  .js-reveal .open-frame::after { display: none; }
+  .js-reveal .open-frame > img,
+  .js-reveal .open-frame picture > img { transform: none; transition: none; }
 }
+
+
+/* ============================================================================
+   SCROLL-LINKED MOTION
+   Everything above this point is ARRIVAL motion: it happens once, when a thing
+   comes into view, and then it is over. This block is the other kind — motion
+   tied to the scroll position itself, which runs only while the visitor is
+   moving and stops dead when they stop. That distinction is why it does not
+   count as ambient motion in a reading zone: the user holds the transport.
+
+   Built on `animation-timeline: view()`, so there is no JavaScript, no scroll
+   listener, and no work on the main thread. A browser without it simply gets
+   the static frame — which is the same thing the reduced-motion path gets.
+   ========================================================================= */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+
+    /* THE LARGE FRAMES DRIFT.
+       Only the full-bleed masses — the bleed-split panel and the bands. They
+       are the page's biggest images and the ones a visitor scrolls past rather
+       than reads, so a slow counter-drift is what gives the page depth.
+       The 1.12 scale is the drift budget: the frame travels 3% of its own
+       height in each direction, so 6% of overscale is the minimum that keeps
+       an edge from entering the frame, and 12% is that with a margin. */
+    .bleed-split__media img,
+    .band__media img {
+      animation: frame-drift linear both;
+      animation-timeline: view();
+      animation-range: entry 0% exit 100%;
+      will-change: transform;
+    }
+
+    /* THE HERO SETTLES AS IT LEAVES.
+       Not a parallax — the first screen must arrive whole and still. This only
+       runs on the way OUT, so nothing moves until the visitor has already
+       decided to leave, and the photograph sinks slightly as the claim below it
+       takes over. */
+    .hero__media img {
+      animation: hero-sink linear both;
+      animation-timeline: view();
+      animation-range: exit 0% exit 100%;
+      will-change: transform;
+    }
+  }
+}
+
+@keyframes frame-drift {
+  from { transform: scale(1.12) translateY(-3%); }
+  to   { transform: scale(1.12) translateY(3%); }
+}
+@keyframes hero-sink {
+  from { transform: scale(1) translateY(0); }
+  to   { transform: scale(1.06) translateY(2.5%); }
+}
+
+/* The one-shot scale settle stays on the SMALL figures only. On the large
+   frames it would fight the drift for the same property, and an animation
+   always beats a transition — so the settle would simply never be seen. */
+.js-reveal .bleed-split__media > img,
+.js-reveal .band__media > img,
+.js-reveal .bleed-split__media picture > img,
+.js-reveal .band__media picture > img { transform: none; transition: none; }
