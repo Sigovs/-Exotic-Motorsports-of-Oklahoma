@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=52">
-<link rel="stylesheet" href="css/base.css?v=52">
-<link rel="stylesheet" href="css/components.css?v=52">
-<link rel="stylesheet" href="css/page.css?v=52">
+<link rel="stylesheet" href="css/tokens.css?v=57">
+<link rel="stylesheet" href="css/base.css?v=57">
+<link rel="stylesheet" href="css/components.css?v=57">
+<link rel="stylesheet" href="css/page.css?v=57">
 </head>
 
 <body>
@@ -934,10 +934,16 @@
 </section>
 
 
+<!-- STICKY STACK — 06 pins while 07 rides up over it. The pair is wrapped
+     because the timeline that staggers 06's text is measured on the WRAPPER:
+     while 06 is pinned it does not move relative to the viewport, so it
+     cannot drive its own view timeline. -->
+<div class="sticky-stack">
+
 <!-- ============================================== 6 · PRINCIPLES
      The DOCX's "icon row" slot. Stated once, at scale, on the wall of the
      building itself — not repeated as a sidebar next to the prose. -->
-<section class="section texture" data-surface="dark" aria-labelledby="pip-title">
+<section class="section texture section--sticky" data-surface="dark" aria-labelledby="pip-title">
   <img src="assets/img/service/svc-built-on.jpg" alt="" aria-hidden="true" width="2252" height="1301" loading="lazy">
   <div class="container">
 
@@ -965,7 +971,7 @@
       </div>
     </div>
 
-    <p class="t-sm t-muted" style="margin-block-start: var(--space-6)">These principles guide every inspection, recommendation, and repair.</p>
+    <p class="t-sm t-muted principles__coda">These principles guide every inspection, recommendation, and repair.</p>
 
   </div>
 </section>
@@ -976,7 +982,14 @@
      measure at ~26 characters and gave four secondary capabilities the same
      weight as each other and as nothing else. They are now the page's own
      index device, reused — one row each, opened on demand. -->
-<section class="section" data-surface="dark" id="capability" aria-labelledby="cap-title">
+<!-- THE HOLD. 06 pins the moment its top reaches the viewport, but 07 begins
+     one pixel below it, so without this the chapter is covered the instant it
+     arrives and never gets a clean screen. The spacer is transparent: 06 shows
+     through it while it scrolls past, which is the pause the passage needs to
+     be read before anything starts moving over it. -->
+<div class="sticky-stack__hold" aria-hidden="true"></div>
+
+<section class="section section--overlap" data-surface="dark" id="capability" aria-labelledby="cap-title">
   <div class="container">
 
     <div class="plate" data-reveal>
@@ -1115,6 +1128,8 @@
     <img src="assets/img/service/svc-carbon-engine-cover.jpg" alt="" width="2048" height="1536" loading="lazy">
   </div>
 </section>
+
+</div>
 
 <!-- ======================================================== 8 · SCHEDULE
      The form fields are the DOCX's own "Tell us:" list, turned into inputs
@@ -1299,6 +1314,6 @@
   <a class="btn btn--primary" href="#schedule">Request service</a>
 </div>
 
-<script src="js/main.js?v=52" type="module"></script>
+<script src="js/main.js?v=57" type="module"></script>
 </body>
 </html>

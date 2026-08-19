@@ -497,7 +497,7 @@
   position: relative;
   isolation: isolate;
   overflow: clip;
-  min-block-size: min(88svh, 62rem);
+  min-block-size: 100svh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -700,3 +700,105 @@
 .split--even { align-items: stretch; }
 .split--even > .stack { display: flex; flex-direction: column; }
 .split--even > .stack > .cta-row { margin-block-start: auto; padding-block-start: var(--space-7); }
+
+
+/* ============================================================================
+   STICKY STACK — 06 HOLDS, 07 RIDES OVER IT
+   The principles are the one passage on this page that is an argument rather
+   than a list, so they get the reader's whole screen for the length of one
+   scroll: 06 pins, its four lines arrive one at a time, and 07 then draws
+   itself up over the photograph instead of replacing it at a hard edge.
+
+   Two structural notes, both load-bearing:
+   - The timeline is measured on the WRAPPER, not on 06. While 06 is pinned it
+     does not move relative to the viewport, so it cannot drive its own view
+     timeline; the wrapper does move, for exactly as long as the pin lasts.
+   - 07 carries the fade in its OWN background rather than in a pseudo-element
+     over 06. A layer over the photograph would also sit over 06's text; a
+     gradient at the top of 07's ground covers nothing that is not already
+     behind it.
+   ========================================================================= */
+.sticky-stack { position: relative; }
+
+/* Transparent, so the pinned chapter reads through it. This is the length of
+   the pause before 07 starts to climb. */
+.sticky-stack__hold { block-size: 85svh; }
+
+.sticky-stack > .section--sticky {
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 0;
+}
+
+.sticky-stack > .section--overlap {
+  position: relative;
+  z-index: 1;
+  /* 100 -> 0 across the first 42svh. It was 70 and the fade read as a void:
+     the transparent half is only legible while the photograph is still behind
+     it, and after that the reader gets a screen of empty ground before the
+     chapter starts. Shorter, and the padding carries the gradient's height
+     exactly — so 07's first line lands the moment the ground is solid. */
+  /* NO background-color. A solid colour fills the whole element, including the
+     area under the gradient — so the fade was blending black into black and
+     the photograph behind it never showed. The ground below the fade is a
+     second image layer instead, sized to the remainder, which leaves the top
+     58svh genuinely transparent. */
+  background:
+    linear-gradient(to bottom,
+      #0D0E1000 0%, #0D0E1014 30%, #0D0E1052 55%, #0D0E10B3 78%, #0D0E10F2 92%, var(--surface) 100%)
+      top center / 100% 58svh no-repeat,
+    linear-gradient(var(--surface), var(--surface))
+      bottom center / 100% calc(100% - 58svh + 1px) no-repeat;
+  /* the chapter's first line starts exactly where the ground goes solid: no
+     void between the end of the fade and the start of the text */
+  padding-block-start: calc(58svh + var(--space-7));
+}
+
+/* ---- THE FOUR LINES ARRIVE ONE AT A TIME --------------------------------
+   Scroll-driven, so the reader sets the pace and can stop on any frame — a
+   stopped frame here is a designed one. Ranges overlap by a third: the next
+   line starts while the last is still settling, which reads as a sentence
+   being written rather than as four things being switched on.
+   The static path is intact: without support for scroll timelines the JS
+   reveal already in place shows each block on entry, and under reduced motion
+   the whole block is simply present.
+------------------------------------------------------------------------- */
+@keyframes principle-in {
+  from { opacity: 0; transform: translateY(1.75rem); }
+  to   { opacity: 1; transform: none; }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .sticky-stack { view-timeline-name: --stack; view-timeline-axis: block; }
+
+    .texture .plate,
+    .texture .sec-head,
+    .texture .pillar,
+    .texture .principles__coda {
+      animation: principle-in linear both;
+      animation-timeline: --stack;
+    }
+
+    .texture .plate                 { animation-range: cover 8%  cover 16%; }
+    .texture .sec-head              { animation-range: cover 13% cover 22%; }
+    .texture .pillar:nth-child(1)   { animation-range: cover 19% cover 28%; }
+    .texture .pillar:nth-child(2)   { animation-range: cover 23% cover 32%; }
+    .texture .pillar:nth-child(3)   { animation-range: cover 27% cover 36%; }
+    .texture .principles__coda      { animation-range: cover 32% cover 41%; }
+  }
+}
+
+.principles__coda { margin-block-start: var(--space-6); }
+
+@media (max-width: 60rem) {
+  /* A pin costs a phone its whole screen for one passage, and the overlap
+     gradient eats 70svh of a viewport that has far less to spare. Both go:
+     the two sections simply follow each other. */
+  .sticky-stack > .section--sticky { position: static; }
+  .sticky-stack__hold { display: none; }
+  .sticky-stack > .section--overlap {
+    background: var(--surface);
+    padding-block-start: var(--section-pt);
+  }
+}

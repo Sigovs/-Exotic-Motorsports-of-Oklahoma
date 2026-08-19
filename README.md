@@ -84,7 +84,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=52`**.
+  browser serves stale styles. Currently at **`?v=57`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -125,6 +125,30 @@ bottom-up on mobile, where the column is tall and the type sits mid-screen.
 **`?static` disables every piece of motion**, which is what it is for — it
 exists so a full-page screenshot captures one settled frame. Reviewing motion at
 `?static` will always show a page that does not move. Use the plain URL.
+
+## The sticky stack (sections 06 + 07)
+
+06 pins while 07 rides up over it. Three pieces have to stay in step, and each
+one has a reason:
+
+- **The timeline is measured on the wrapper, not on 06.** While 06 is pinned it
+  does not move relative to the viewport, so it cannot drive its own view
+  timeline. `.sticky-stack` carries `view-timeline-name: --stack`; the four
+  lines of 06 animate against that.
+- **`.sticky-stack__hold` is the pause.** 07 begins one pixel below 06, so
+  without a transparent spacer the chapter is covered the instant it arrives.
+  85svh of nothing, which 06 shows through, is the length of the read.
+- **07's fade carries NO background-color.** A solid colour fills the whole
+  element including the area under the gradient, so the fade blended black into
+  black and the photograph never showed. The ground below the fade is a second
+  image layer sized to the remainder.
+
+Retune all three together: lengthening the hold moves the stagger percentages,
+and changing the fade height changes 07's `padding-block-start`, which is set to
+match it exactly so no void opens between the fade and the first line.
+
+Below 60rem the whole mechanism is off — a pin costs a phone its screen for one
+passage, and a 58svh fade eats a viewport that has far less to spare.
 
 ## Design DNA
 
