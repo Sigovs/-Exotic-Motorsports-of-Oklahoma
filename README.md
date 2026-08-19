@@ -48,6 +48,10 @@ css/
 js/main.js         reveal-on-scroll (opt-in), footer year, disclosure scroll guard
 assets/img/
   hero/            the client's supplied hero crops (desktop / mobile / master)
+                   + service_hero.jpg — the supplied dusk master, 2302x1544,
+                   2.2 MB. The page loads service-hero.jpg, the same frame
+                   re-encoded at the same dimensions (369 KB). The master is
+                   kept untouched; only the web copy is referenced.
                    + logo.png — the supplied mark. TWO CONSTRAINTS, measured:
                    white-on-transparent (dark grounds only; it vanishes on
                    `paper`), and it needs >= 18rem of width before "OF
@@ -77,7 +81,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=30`**.
+  browser serves stale styles. Currently at **`?v=32`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -86,11 +90,17 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
 
 **The header is transparent over the hero.** Navigation legibility is carried by
 a gradient scrim, not by a solid bar, so it depends on the hero photograph.
-Measured on the composited render against `hero-gt4rs.jpg`, worst pixel under
-each run: active nav 10.65:1 · phone 10.46:1 · logo 10.31:1 · **inactive nav
-5.13:1**. That last one is the pair with the least headroom — **re-measure it
-if the hero image ever changes**, especially to a frame that is bright along its
-top edge.
+
+Re-measured 2026-08-19 against the dusk frame `service-hero.jpg`, glyph pixels
+only (the text layer diffed against a render with it hidden, so the figure is
+the ground the strokes actually cover rather than the worst pixel in a bounding
+box): **active nav 15.72:1 · inactive nav 7.44:1 · logo 17.27:1.**
+
+The frame is deep blue sky across the whole header strip — luminance 0.001 to
+0.028, no pixel above 0.05 — so every pair gained headroom over the portrait it
+replaced (active 10.65, inactive 5.13, logo 10.31). Inactive nav is still the
+tightest pair. **Re-measure it if the hero image changes again**, especially to
+a frame that is bright along its top edge.
 
 **`?static` disables every piece of motion**, which is what it is for — it
 exists so a full-page screenshot captures one settled frame. Reviewing motion at

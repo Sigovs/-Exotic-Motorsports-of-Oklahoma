@@ -85,16 +85,18 @@
 /* <picture> is inline by default; without this it sizes itself from the file
    and pushes the frame past the box above. */
 .hero__media picture { display: block; inline-size: 100%; block-size: 100%; }
-/* The subject sits at 44-68% of the source height, with sky above it and a
-   bleached apron below. On desktop the frame is a wide band, so the window is
-   anchored at 58% — the only position that holds the whole car with air over
-   the roof and ground under the tyres. What the crop discards is empty sky and
-   empty concrete, in that order; the silhouette is never cut (C22). */
+/* Re-anchored for the dusk frame (2302x1544, replacing the 1440x1920
+   portrait). The subject band — three cars against the lit showroom — sits at
+   42-60% of the source height, under a deep blue sky and above a wet apron.
+   At 1440 the frame renders 966px into a 540px band, so 426px is discarded;
+   at 14% the window shows source y 0.06-0.62, which keeps the whole building,
+   all three silhouettes and air over the rooflines. What it discards is empty
+   sky above and reflected apron below, in that order (C22). */
 .hero__media img {
   inline-size: 100%;
   block-size: 100%;
   object-fit: cover;
-  object-position: 50% 58%;
+  object-position: 50% 14%;
 }
 /* No gradient foot. The photograph is mounted on the plate with a hard edge —
    the ambiguous middle between a join and a cut is the one thing C9 rules
@@ -132,9 +134,12 @@
    cheaper fix is to delete one, not to shrink the photograph around it. */
 @media (max-width: 60rem) {
   .hero__media { block-size: min(50svh, 100vw); }
-  /* The portrait frame gives the phone a near-square window, so the car sits
-     with room on all four sides and the anchor moves back toward the middle. */
-  .hero__media img { object-position: 50% 46%; }
+  /* The frame is landscape now, so the phone takes a near-square window out of
+     a 3:2 source and the crop is horizontal rather than vertical. Anchored
+     right of centre: that half carries the lit showroom and the GT4 RS, which
+     is the half that says "premium facility" without the wide establishing
+     shot the phone has no room for. */
+  .hero__media img { object-position: 68% 52%; }
   .hero__grid {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-6);
@@ -297,8 +302,46 @@
   padding-inline-end: clamp(var(--space-6), 4vw, var(--space-9));
   padding-block: clamp(var(--space-8), 7vw, var(--space-10));
 }
-.bleed-split__media { position: relative; block-size: 100%; min-block-size: clamp(20rem, 40vw, 34rem); overflow: clip; }
+/* The frame is capped at 1080. Past that the panel stops being a portrait
+   beside an argument and becomes a column of photograph the text cannot
+   answer — the text column tops out well under it, so the cap costs the
+   composition nothing and stops the subject growing with the copy. */
+.bleed-split__media {
+  position: relative;
+  block-size: 100%;
+  min-block-size: clamp(20rem, 40vw, 34rem);
+  max-block-size: 1080px;
+  overflow: clip;
+}
 .bleed-split__media img { inline-size: 100%; block-size: 100%; object-fit: cover; }
+
+/* THE SUBJECT ARRIVES FROM THE SIDE.
+   The text rises, the photograph enters — one movement each, and they are
+   different movements so the pair reads as a composition being assembled
+   rather than as two things switched on together. Travel is short on purpose:
+   this is a heavy mass and a long slide would read as a carousel.
+
+   The container clips on the inline axis so the displaced frame can never put
+   a scrollbar on the document (anti-patterns U6). The static path is intact —
+   `.js-reveal` is only added when the visitor has not asked for reduced
+   motion, so without it the frame is simply in place. */
+.bleed-split { overflow-x: clip; }
+
+.js-reveal .bleed-split__media[data-reveal] {
+  opacity: 0;
+  transform: translateX(var(--space-8));
+  transition:
+    opacity   var(--dur-3) var(--ease-soft),
+    transform var(--dur-4) var(--ease-out);
+}
+.js-reveal .bleed-split__media[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+.bleed-split--flip .js-reveal .bleed-split__media[data-reveal],
+.js-reveal .bleed-split--flip .bleed-split__media[data-reveal] {
+  transform: translateX(calc(-1 * var(--space-8)));
+}
 
 .bleed-split--flip .bleed-split__media { order: -1; }
 .bleed-split--flip .bleed-split__text {

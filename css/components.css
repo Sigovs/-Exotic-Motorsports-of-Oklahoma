@@ -636,6 +636,34 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+/* THE 1024-1300 GAP.
+   The inline nav only hides below 64rem, and between there and roughly 1300
+   the bar had 1194px of content in 1185px of room: "Service & Repair" broke
+   across three lines and the CTA across two, in the first screen. Nothing
+   here is dropped — the labels are held on one line and the intervals close
+   by one step, which is enough to fit the same content at the tight widths
+   and changes nothing above them. */
+.site-nav a,
+.site-header__tel,
+.site-header__cta { white-space: nowrap; }
+
+@media (max-width: 87.5rem) {
+  .site-header__inner { gap: var(--space-5); }
+  .site-nav { gap: var(--space-5); }
+}
+
+/* Tightening alone was not enough: at 1185 the bar still measured 1307, so
+   holding the labels on one line traded a wrap for a horizontal scrollbar,
+   which is the worse defect (U6). Between 64rem and 82rem the phone number
+   leaves the bar and nothing else does. It is the one element here with two
+   other homes on the same screen — the red CTA beside it goes to the same
+   contact block, and the number itself is set in full in the schedule section
+   and again in the footer. Below 64rem the fixed action bar carries Call
+   permanently, so the tap-to-call route never disappears at any width. */
+@media (max-width: 82rem) {
+  .site-header__tel { display: none; }
+}
+
 @media (max-width: 64rem) {
   .site-nav { display: none; }
   .site-header__cta { display: none; }
