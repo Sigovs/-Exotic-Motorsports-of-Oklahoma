@@ -268,6 +268,23 @@
 /* ---------------------------------------------------------------------------
    CONTACT PANEL
 --------------------------------------------------------------------------- */
+/* THE ASIDE TRAVELS WITH THE FORM (composition C19).
+   Measured: the form runs 1084px on the detailing page and the contact rows
+   end at 735, leaving 348px of empty column beside it — 229 on the service
+   page. A short column standing next to a tall one is the second-to-last mass
+   ending in nothing, which is the exact shape C19 names: not restraint, but
+   the place the remaining content went.
+   Nothing is invented to fill it. The panel is pinned instead, so it
+   accompanies the form rather than sitting beside its first third — and the
+   phone number stays on screen for the whole length of a long form, which is
+   the reason to want it there anyway. */
+#schedule .split > *:last-child {
+  position: sticky;
+  inset-block-start: calc(var(--header-h) + var(--space-6));
+  align-self: start;
+}
+@media (max-width: 60rem) { #schedule .split > *:last-child { position: static; } }
+
 .contact__row { display: grid; gap: var(--space-2); padding-block: var(--space-5); border-block-start: 1px solid var(--rule); }
 .contact__row:first-child { border-block-start: 0; padding-block-start: 0; }
 .contact__k { font-family: var(--font-display); font-size: var(--text-micro); font-weight: var(--weight-strong); letter-spacing: var(--ls-label); text-transform: uppercase; color: var(--on-surface-muted); }
