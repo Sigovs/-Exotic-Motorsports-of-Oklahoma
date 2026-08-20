@@ -31,7 +31,7 @@ http://localhost:8145/index_service.html?static
 | File | Status |
 |---|---|
 | `index_service.html` | **built** — service and repair, `/service-and-repair/` |
-| `index_detailing.html` | not started — detailing, ceramic, PPF, tint |
+| `index_detailing.html` | **built** — detailing and protection, `/detailing-and-ceramic-coating-and-window-tinting/` |
 
 Content source for both: the approved `.docx` in `content/` (gitignored). The
 detailing deck is `content/exoticmotook-detailing-page.docx` — 22 H2 sections,
@@ -88,7 +88,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=70`**.
+  browser serves stale styles. Currently at **`?v=71`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -211,6 +211,26 @@ grep -rn 'img/tmp/' *.html
 ```
 
 See `assets/img/tmp/README.md` for what each file is and where it came from.
+
+## What the detailing page does NOT have
+
+Two of the client’s own slots are deliberately empty, and both are visible
+holes rather than oversights:
+
+- **`<<< REVIEW SLIDER >>>`** — the component exists and runs on the service
+  page, on invented copy that is already flagged as must-not-ship. Filling this
+  page meant writing three more fabricated testimonials, or reprinting the
+  service page’s three so the same imaginary customer praises two departments.
+  Both are worse than an absence. Drops in as one block the day a real Google
+  feed exists.
+- **`<<< BEFORE AND AFTER GALLERY >>>`** — asked for twice in the deck, and the
+  single most persuasive device a detailing page can carry. **We hold no
+  before/after pairs.** This is the highest-value thing to ask Alex for.
+
+Photography generally: the deck places **10 image slots**; six are filled from
+the client’s own set. Nothing exists for ceramic coating, PPF, window tint or
+dry-ice cleaning, and those four sections run on type alone rather than on a
+comp borrowed from another project.
 
 **Outstanding from the client:**
 

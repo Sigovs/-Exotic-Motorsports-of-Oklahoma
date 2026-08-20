@@ -402,3 +402,31 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
     }
   }
 }
+
+
+/* ---- SERVICE PRE-SELECT ---------------------------------------------------
+   The detailing deck places a call to action after every section — twenty of
+   them, each asking about one service. Twenty buttons is not twenty ways to
+   act, it is one path with nineteen decoys. Each of those links carries
+   data-service and lands in the one form with its service already chosen, so
+   the client's intent survives without the page growing a second CTA system.
+
+   Progressive enhancement, strictly: the links are ordinary in-page anchors
+   and reach the form with or without this running. The select simply starts
+   on its first option instead.
+--------------------------------------------------------------------------- */
+{
+  const target = document.querySelector('[data-service-target]');
+  if (target) {
+    document.querySelectorAll('a[data-service][href^="#"]').forEach(link => {
+      link.addEventListener('click', () => {
+        const want = link.getAttribute('data-service');
+        const hit = [...target.options].find(o => o.text.trim() === want);
+        if (hit) {
+          target.value = hit.value || hit.text;
+          target.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+      });
+    });
+  }
+}
