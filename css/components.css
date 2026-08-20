@@ -531,13 +531,22 @@
 @media (max-width: 40rem) { .field-row { grid-template-columns: minmax(0, 1fr); } }
 
 /* connected radio group — contact preference */
-.segmented { display: flex; flex-wrap: wrap; gap: 0; }
+/* A JOINED BAR CANNOT WRAP, and this one was built as a joined bar: negative
+   margins collapsing the shared borders, and the radius set on the first and
+   last label of the WHOLE SET rather than of a row. It survived three short
+   options. The moment a fourth pushed a row, the wrapped label lost its left
+   radius, the row above lost its right one, and the two rows sat directly on
+   each other with no gap — an orphaned box under a bar, not one control.
+   It is a group of units now, with a real gap and a radius on every one. Same
+   component on both pages, and it wraps at any width and any label length
+   without any of that. */
+.segmented { display: flex; flex-wrap: wrap; gap: var(--space-2); }
 .segmented input { position: absolute; opacity: 0; pointer-events: none; }
 .segmented label {
   display: inline-flex; align-items: center; justify-content: center;
   min-block-size: 3rem; padding-inline: var(--space-5);
   border: 1px solid var(--rule-strong);
-  margin-inline-start: -1px;
+  border-radius: var(--r-sm);      /* every unit, not just the ends */
   font-family: var(--font-display);
   font-size: var(--text-micro);
   font-weight: var(--weight-strong);
@@ -547,8 +556,6 @@
   cursor: pointer;
   transition: background-color var(--dur-2) var(--ease), color var(--dur-2) var(--ease);
 }
-.segmented label:first-of-type { margin-inline-start: 0; border-start-start-radius: var(--r-sm); border-end-start-radius: var(--r-sm); }
-.segmented label:last-of-type  { border-start-end-radius: var(--r-sm); border-end-end-radius: var(--r-sm); }
 .segmented input:checked + label {
   background: var(--red); border-color: var(--red); color: #FFFFFF;
   position: relative; z-index: 1;

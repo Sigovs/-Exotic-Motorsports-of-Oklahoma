@@ -538,13 +538,24 @@
   flex-direction: column;
   justify-content: center;
 }
+/* THE FRAME IS TALLER THAN ITS FRAME, so it has somewhere to go. 122% with
+   11% hanging off each end: the drift below travels 6% of the image's own
+   height, which is 7.3% of the section, and 7.3 is inside 11 — so no edge
+   is ever exposed, at any viewport, without a single magic number to tune. */
 .texture > img {
-  position: absolute; inset: 0; z-index: -2;
-  inline-size: 100%; block-size: 100%;
+  position: absolute; z-index: -2;
+  inset-inline: 0; inset-block-start: -15%;
+  inline-size: 100%; block-size: 130%;
   /* Anchored low: the subject is the row of service bays and the cars in front
      of them, which sit in the lower two thirds. The sunset above them is the
      part the crop can afford to lose. */
   object-fit: cover; object-position: 50% 62%;
+}
+/* The bay is a wide interior and the car sits centre-right; anchored a touch
+   left and low keeps both technicians in frame and the lit ceiling square
+   above the headline rather than behind it. */
+.texture--bay > img {
+  object-position: 44% 58%;
 }
 /* The ground used to be a flat concrete wall and took a flat 87% wash. This
    frame is a sunset — a flat wash that dark turns it to mud and throws away the
@@ -578,6 +589,31 @@
 }
 [data-surface="paper"] :is(.card, .feature, .marque, .review, .disc, .form) {
   background-image: radial-gradient(120% 140% at 0% 0%, #14161A08 0%, #14161A00 58%);
+}
+
+/* THE DRIFT.
+   The chapter is PINNED, which is exactly why the timeline cannot be measured
+   on it: while it is pinned it does not move relative to the viewport, so it
+   has no view progress of its own to drive anything with. The wrapper does
+   move, and it is what the text stagger already uses — so the frame hangs off
+   the same clock, and the picture and the words are driven by one thing
+   rather than two that can disagree.
+   Ten percent, not thirty. This runs behind reading text on a chapter that
+   holds for longer than a screen; the point is that the field is alive under
+   the type, not that the reader watches a photograph slide. */
+@supports (animation-timeline: view()) {
+  .sticky-stack { view-timeline-name: --stack; view-timeline-axis: block; }
+  .texture > img {
+    animation: texture-drift linear both;
+    animation-timeline: --stack;
+  }
+  @keyframes texture-drift {
+    from { translate: 0 -10%; }
+    to   { translate: 0 10%; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .texture > img { animation: none; translate: none; }
+  }
 }
 
 /* ---- IDENTITY MARK — the sign frame, used once, as a sign-off ----------- */
@@ -758,7 +794,7 @@
 
 /* Transparent, so the pinned chapter reads through it. This is the length of
    the pause before 07 starts to climb. */
-.sticky-stack__hold { block-size: 85svh; }
+.sticky-stack__hold { block-size: 118svh; }   /* the chapter holds for longer than a screen: the frame is a field now, not a backdrop, and 85 gave the drift almost nothing to travel through */
 
 .sticky-stack > .section--sticky {
   position: sticky;
