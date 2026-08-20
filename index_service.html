@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=73">
-<link rel="stylesheet" href="css/base.css?v=73">
-<link rel="stylesheet" href="css/components.css?v=73">
-<link rel="stylesheet" href="css/page.css?v=73">
+<link rel="stylesheet" href="css/tokens.css?v=74">
+<link rel="stylesheet" href="css/base.css?v=74">
+<link rel="stylesheet" href="css/components.css?v=74">
+<link rel="stylesheet" href="css/page.css?v=74">
 </head>
 
 <body>
@@ -805,9 +805,13 @@
      visible says so. Replace with the real Google feed or delete the band. -->
 <section class="section reviews-band" data-surface="deep" aria-labelledby="reviews-title">
   <div class="container">
+    <!-- data-carousel wraps the WHOLE block. It used to close immediately
+         after the heading, which put the track outside it: the script's
+         closest('[data-carousel]') came back null, the idle toggle silently
+         did nothing, and if the three cards had ever fitted the controls
+         would have sat there inert instead of leaving. -->
     <div data-carousel>
       <h2 class="t-h2 reviews__title" id="reviews-title" data-reveal>What customers say</h2>
-      </div>
 
       <ul class="reviews" id="reviews-track" tabindex="0" aria-label="Customer reviews">
         <li class="review" data-placeholder>
@@ -1334,6 +1338,6 @@
   <a class="btn btn--primary" href="#schedule">Request service</a>
 </div>
 
-<script src="js/main.js?v=73" type="module"></script>
+<script src="js/main.js?v=74" type="module"></script>
 </body>
 </html>

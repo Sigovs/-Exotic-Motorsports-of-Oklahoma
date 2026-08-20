@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=73">
-<link rel="stylesheet" href="css/base.css?v=73">
-<link rel="stylesheet" href="css/components.css?v=73">
-<link rel="stylesheet" href="css/page.css?v=73">
+<link rel="stylesheet" href="css/tokens.css?v=74">
+<link rel="stylesheet" href="css/base.css?v=74">
+<link rel="stylesheet" href="css/components.css?v=74">
+<link rel="stylesheet" href="css/page.css?v=74">
 </head>
 
 <body>
@@ -68,6 +68,9 @@
     </symbol>
     <symbol id="i-chevron" viewBox="0 0 24 24">
       <path d="m9 5 7 7-7 7"/>
+    </symbol>
+    <symbol id="i-star" viewBox="0 0 24 24">
+      <path d="m12 3.6 2.6 5.3 5.8.85-4.2 4.1 1 5.75L12 16.9l-5.2 2.7 1-5.75-4.2-4.1 5.8-.85z"/>
     </symbol>
 
     <!-- ---- this page's own categories ---------------------------------- -->
@@ -683,28 +686,95 @@
       </figure>
     </div>
 
-    <!-- THE CLIENT ASKED FOR A REVIEW SLIDER HERE, and for a before-and-after
-         gallery beneath it. Neither is built, and both omissions are
-         deliberate rather than forgotten:
-
-         REVIEWS. The component exists and runs on the service page. It is
-         running on INVENTED copy there, which is already flagged as
-         must-not-ship. Filling this page would mean either writing three more
-         fabricated testimonials, or reprinting the service page's three so
-         that the same imaginary customer praises two different departments.
-         Both are worse than an absence. The band goes in the moment a real
-         Google feed exists — it is one block, and the markup is a copy of the
-         service page's.
-
-         BEFORE AND AFTER. The strongest device available to a detailing page
-         and the one thing a photograph can prove that a paragraph cannot. We
-         hold no before/after pairs. Left out rather than faked with two
-         unrelated frames. -->
+    <!-- BEFORE AND AFTER. The deck asks for a gallery here as well. It is the
+         strongest device a detailing page can carry and the one thing a
+         photograph proves that a paragraph cannot — and we hold no pairs.
+         Left out rather than faked with two unrelated frames; Alex is
+         shooting them. -->
 
     <div class="sec-body cta-row" data-reveal>
       <a class="btn btn--primary" href="#schedule">Request a detailing consultation</a>
     </div>
 
+  </div>
+</section>
+
+
+<!-- ============================================ REVIEWS
+     The deck's <<< REVIEW SLIDER >>> slot, built. On its own deep band rather
+     than inside the paper chapter above: proof is a different kind of
+     statement from the argument it supports, and a dark interval between two
+     paper chapters is the cadence both pages already run on.
+
+     ============================ READ THIS ============================
+     THE THREE QUOTES BELOW ARE SAMPLE COPY. Not one word came from a
+     customer. The deck marked the slot and supplied nothing to put in it, so
+     the block is here as a LAYOUT MOCKUP at Alex's instruction — the design
+     cannot be judged from an empty slot, and that is the whole reason a
+     mockup exists.
+
+     What the sample copy is and is not: each line is written against a claim
+     the client already makes in his own deck — evaluate before recommending,
+     do not oversell the biggest job, no unrealistic lifetime-coating
+     promises. None of them invents an event, a date, a price or a person.
+     The byline reads "Sample name", which is the one signal on the page that
+     survives.
+
+     BEFORE THIS SHIPS: replace with the real Google feed, or delete the
+     section. It must never go out as it stands (content-provenance). The
+     same warning stands on the service page's band.
+     =================================================================== -->
+<section class="section reviews-band" data-surface="deep" aria-labelledby="reviews-title">
+  <div class="container">
+    <div data-carousel>
+      <h2 class="t-h2 reviews__title" id="reviews-title" data-reveal>What customers say</h2>
+
+      <ul class="reviews" id="reviews-track" tabindex="0" aria-label="Customer reviews">
+        <li class="review" data-placeholder>
+          <p class="review__stars" aria-label="Five out of five">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          </p>
+          <blockquote class="review__text">They looked at the paint first and told me a single stage was enough. No one had talked me out of the bigger job before.</blockquote>
+          <p class="review__by">Sample name <span>&middot; via Google</span></p>
+        </li>
+        <li class="review" data-placeholder>
+          <p class="review__stars" aria-label="Five out of five">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          </p>
+          <blockquote class="review__text">The interior came back better than I have seen it, and every surface was treated the way that surface needed rather than all of them the same way.</blockquote>
+          <p class="review__by">Sample name <span>&middot; via Google</span></p>
+        </li>
+        <li class="review" data-placeholder>
+          <p class="review__stars" aria-label="Five out of five">
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+            <svg class="icon" aria-hidden="true"><use href="#i-star"/></svg>
+          </p>
+          <blockquote class="review__text">They explained what the coating would do and what it would not, then showed me how to keep it. No lifetime promises, which is why I believed the rest of it.</blockquote>
+          <p class="review__by">Sample name <span>&middot; via Google</span></p>
+        </li>
+      </ul>
+      <div class="carousel__controls">
+        <div class="carousel__nav">
+          <button class="carousel__btn" type="button" data-rev-prev aria-controls="reviews-track" aria-label="Previous review">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+          <button class="carousel__btn" type="button" data-rev-next aria-controls="reviews-track" aria-label="Next review">
+            <svg class="icon" aria-hidden="true"><use href="#i-chevron"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1237,6 +1307,6 @@
   <a class="btn btn--primary" href="#schedule">Request detailing</a>
 </div>
 
-<script src="js/main.js?v=73" type="module"></script>
+<script src="js/main.js?v=74" type="module"></script>
 </body>
 </html>

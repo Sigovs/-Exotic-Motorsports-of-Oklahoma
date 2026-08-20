@@ -88,7 +88,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=73`**.
+  browser serves stale styles. Currently at **`?v=74`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -214,15 +214,8 @@ See `assets/img/tmp/README.md` for what each file is and where it came from.
 
 ## What the detailing page does NOT have
 
-Two of the client’s own slots are deliberately empty, and both are visible
-holes rather than oversights:
+One of the client’s own slots is deliberately empty:
 
-- **`<<< REVIEW SLIDER >>>`** — the component exists and runs on the service
-  page, on invented copy that is already flagged as must-not-ship. Filling this
-  page meant writing three more fabricated testimonials, or reprinting the
-  service page’s three so the same imaginary customer praises two departments.
-  Both are worse than an absence. Drops in as one block the day a real Google
-  feed exists.
 - **`<<< BEFORE AND AFTER GALLERY >>>`** — asked for twice in the deck, and the
   single most persuasive device a detailing page can carry. **We hold no
   before/after pairs.** This is the highest-value thing to ask Alex for.
@@ -242,14 +235,18 @@ comp borrowed from another project.
   technician on the refrigerant station, the station itself, a Ferrari V8 bay
   and a carbon engine cover. Only the enclosed-transport frame is still a comp,
   because no photograph of one exists in the set.
-- **reviews — READ THIS ONE.** The block is built and running on **invented
+- **reviews — READ THIS ONE. NOW ON BOTH PAGES.** The block is built and running on **invented
   copy**. Not a word of it came from a customer. Both of the things that used
   to declare that on the page — the "sample layout" sentence above the cards and
   the dashed red `data-placeholder` rule — have now been removed on request.
   **Nothing visible marks these as fake any more.** The only remaining record
   is this README and the comment in the markup, neither of which a visitor
-  reads. **This block must not go live in this state.** Replace it with the
-  real Google feed or delete it. Find it with:
+  reads. **Neither block must go live in this state.** The detailing deck marked a
+  `<<< REVIEW SLIDER >>>` slot and supplied nothing to fill it, so that band
+  is a layout mockup built on sample copy too — each line written against a
+  claim the client already makes, none of them inventing an event, a date, a
+  price or a person, and the byline reading “Sample name”. Replace both with
+  the real Google feed or delete them. Find every card with:
 
   ```bash
   grep -n 'class="review' index_service.html
