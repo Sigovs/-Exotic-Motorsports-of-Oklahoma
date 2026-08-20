@@ -730,6 +730,17 @@
   z-index: 0;
 }
 
+/* THE SEAM.
+   07 also inherited the generic dark-section glow, and that layer has a HARD
+   top edge at the section's own top. Everywhere else that edge is invisible
+   because the section's ground is opaque underneath it. Here the ground is
+   deliberately transparent for its first 58svh — so the glow was the one thing
+   in that region that was NOT graded, and it drew a hard horizontal line
+   straight across 06's pillars, dimming and cooling everything below it.
+   The chapter already carries a light of its own in the fade; a second one,
+   with an edge, is one device too many (device budget). */
+.sticky-stack > .section--overlap::after { display: none; }
+
 .sticky-stack > .section--overlap {
   position: relative;
   z-index: 1;

@@ -84,7 +84,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=64`**.
+  browser serves stale styles. Currently at **`?v=65`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -156,6 +156,12 @@ one has a reason:
 - **`.sticky-stack__hold` is the pause.** 07 begins one pixel below 06, so
   without a transparent spacer the chapter is covered the instant it arrives.
   85svh of nothing, which 06 shows through, is the length of the read.
+- **07 must not also carry the generic section glow.** That glow has a hard
+  top edge at the section's own top. Everywhere else the edge is invisible
+  because the ground under it is opaque; here the ground is deliberately
+  transparent for its first 58svh, so the glow became the one ungraded thing in
+  that region and drew a hard horizontal line across 06's pillars. Killed on
+  `.section--overlap` — the fade is already this chapter's light.
 - **07's fade carries NO background-color.** A solid colour fills the whole
   element including the area under the gradient, so the fade blended black into
   black and the photograph never showed. The ground below the fade is a second
