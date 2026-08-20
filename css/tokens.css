@@ -201,13 +201,14 @@
      glow is --black-raised, the ground's own next step up, at low alpha, so
      it can never shift the tone or break a measured contrast pair.
      Two strengths only: --glow for a section, --glow-strong for the hero
-     plate, which is the one place a page is allowed to be lit hardest. */
+     plate, which is the one place a page is allowed to be lit hardest.
+
      MEASURED COST OF THE GLOW. At its peak the radial composites --black to
      #1B1E23, so every pair on a dark ground loses roughly 0.7 of a ratio
      point. Re-checked on the composited render, not on the token:
        ink        17.39 -> 15.05     ink-muted   7.99 -> 6.91
        ink-dim     5.63 ->  4.87     <- the tightest, and still over AA
-     If the glow is ever strengthened, ink-dim is the pair that fails first.
+     If the glow is ever strengthened, ink-dim is the pair that fails first. */
   --glow:        #21252BB3;   /* raised-black, 70% */
   --glow-strong: #262B32E6;   /* one step warmer, 90% — hero plate only */
 

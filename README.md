@@ -84,7 +84,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=59`**.
+  browser serves stale styles. Currently at **`?v=64`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -125,6 +125,24 @@ bottom-up on mobile, where the column is tall and the type sits mid-screen.
 **`?static` disables every piece of motion**, which is what it is for — it
 exists so a full-page screenshot captures one settled frame. Reviewing motion at
 `?static` will always show a page that does not move. Use the plain URL.
+
+## Two things that were silently dead
+
+**`--glow` was never defined at runtime.** `tokens.css` had an unterminated
+comment: the `MEASURED COST OF THE GLOW` paragraph sat outside `/* … */`, the
+parser tried to read it as declarations, failed, and — hunting for the next
+semicolon to recover on — ate `--glow` with it. Every `var(--glow)` was then
+invalid at computed-value time, so `background-image` computed to `none` and
+**every section glow on the page painted nothing**. It was invisible as a bug
+because a missing soft light looks exactly like a design that has no soft light.
+Caught by measuring the ground rather than looking at it: darkest pixel and
+brightest pixel across a whole section were the same value.
+
+**A negative-z pseudo-element needs its parent to isolate.** `.section` is
+`position: relative` with `z-index: auto`, so it establishes no stacking
+context and a `z-index: -1` layer joins the nearest ancestor context — behind
+the section's own opaque background. `#services` sets `isolation: isolate` for
+exactly this reason.
 
 ## The sticky stack (sections 06 + 07)
 

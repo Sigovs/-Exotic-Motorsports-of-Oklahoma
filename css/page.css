@@ -754,54 +754,55 @@
   padding-block-start: calc(58svh + var(--space-7));
 }
 
-/* ---- THE FOUR LINES ARRIVE ONE AT A TIME --------------------------------
-   Scroll-driven, so the reader sets the pace and can stop on any frame — a
-   stopped frame here is a designed one. Ranges overlap by a third: the next
-   line starts while the last is still settling, which reads as a sentence
-   being written rather than as four things being switched on.
-   The static path is intact: without support for scroll timelines the JS
-   reveal already in place shows each block on entry, and under reduced motion
-   the whole block is simply present.
+/* ---- THE FOUR LINES ARRIVE, THEN LEAVE — ON THEIR OWN CLOCK -------------
+   Triggered, not scrubbed. Scroll-linked, each line was tied frame-for-frame
+   to the wheel: it moved only while the reader moved, at whatever speed they
+   happened to move, and stopped dead mid-fade the moment they stopped. Now
+   the scroll only DECIDES; the motion runs itself at its own pace once the
+   decision is made.
+
+   js/main.js sets two classes on the section — `is-in` when it has arrived,
+   `is-out` once 07 has covered about half the screen — and the stagger is a
+   delay per item rather than a range per item.
+
+   The static path is intact: the hidden state lives under `.js-reveal`, which
+   only exists when the script runs, and the script never adds `is-out` when
+   the visitor has asked for reduced motion, so nothing there is ever hidden
+   by scrolling.
 ------------------------------------------------------------------------- */
-@keyframes principle-in {
-  from { opacity: 0; transform: translateY(1.75rem); }
-  to   { opacity: 1; transform: none; }
-}
-/* The exit. Same order as the entry, so the passage leaves the way it was
-   written rather than collapsing all at once — and upward, because 07 is
-   arriving from below and two masses crossing in opposite directions read as
-   one being replaced by the other rather than as both sliding. */
-@keyframes principle-out {
-  from { opacity: 1; transform: none; }
-  to   { opacity: 0; transform: translateY(-2.5rem); }
+.js-reveal .texture :is(.plate, .sec-head, .pillar, .principles__coda) {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition:
+    opacity   var(--dur-3) var(--ease-soft) var(--seq, 0ms),
+    transform var(--dur-3) var(--ease-out)  var(--seq, 0ms);
 }
 
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .sticky-stack { view-timeline-name: --stack; view-timeline-axis: block; }
+.js-reveal .texture.is-in :is(.plate, .sec-head, .pillar, .principles__coda) {
+  opacity: 1;
+  transform: none;
+}
 
-    /* Two phases on one timeline. The entry fills BOTH ways — it must hold the
-       hidden state before its range. The exit fills FORWARDS only: with `both`
-       its from-state (opacity 1) would win over the entry for the whole first
-       half, because the later animation in the list takes the property. */
-    .texture .plate,
-    .texture .sec-head,
-    .texture .pillar,
-    .texture .principles__coda {
-      animation: principle-in linear both, principle-out linear forwards;
-      animation-timeline: --stack, --stack;
-    }
+/* Leaving is the same order and the same intervals, upward — 07 is arriving
+   from below, and two masses crossing in opposite directions read as one
+   replacing the other rather than as both sliding. */
+.js-reveal .texture.is-out :is(.plate, .sec-head, .pillar, .principles__coda) {
+  opacity: 0;
+  transform: translateY(-2.5rem);
+}
 
-    /* The exits start three points later than they first did: the passage
-       now stands complete for about 300px of scroll before the first line
-       goes. Assembled-and-still is the frame this chapter is FOR.        */
-    /*                                   ARRIVES              LEAVES          */
-    .texture .plate               { animation-range: cover 8%  cover 16%, cover 47% cover 54%; }
-    .texture .sec-head            { animation-range: cover 13% cover 22%, cover 49% cover 56%; }
-    .texture .pillar:nth-child(1) { animation-range: cover 19% cover 28%, cover 51% cover 58%; }
-    .texture .pillar:nth-child(2) { animation-range: cover 23% cover 32%, cover 53% cover 60%; }
-    .texture .pillar:nth-child(3) { animation-range: cover 27% cover 36%, cover 55% cover 62%; }
-    .texture .principles__coda    { animation-range: cover 32% cover 41%, cover 57% cover 64%; }
+.texture .plate               { --seq: 0ms; }
+.texture .sec-head            { --seq: 110ms; }
+.texture .pillar:nth-child(1) { --seq: 240ms; }
+.texture .pillar:nth-child(2) { --seq: 350ms; }
+.texture .pillar:nth-child(3) { --seq: 460ms; }
+.texture .principles__coda    { --seq: 580ms; }
+
+@media (prefers-reduced-motion: reduce) {
+  .js-reveal .texture :is(.plate, .sec-head, .pillar, .principles__coda) {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
 
@@ -817,4 +818,40 @@
     background: var(--surface);
     padding-block-start: var(--section-pt);
   }
+}
+
+
+/* ============================================================================
+   SECTION 02 — SEVERAL LIGHTS, NONE OF THEM CENTRED
+   Every other dark section takes one wide wash from the top edge. This is the
+   longest chapter on the page — a feature block and an eight-row index — and
+   one light across all of it reads as a flat panel with a bright top. Four
+   sources instead, at unequal sizes, unequal falloffs and unequal positions,
+   so the ground has somewhere to be brighter and somewhere to be dark and the
+   eye stops reading it as a rectangle.
+
+   Uneven ON PURPOSE: nothing here is centred, no two share a radius, and the
+   falloffs differ, so they never resolve into one symmetrical shape.
+
+   Alpha stacks where two overlap, and lightening the ground is exactly what
+   `ink-dim` cannot afford (tokens.css says so). They are placed to overlap
+   only at their tails, and the render was swept afterwards.
+   ========================================================================= */
+/* `isolation: isolate` is not decoration here, it is what makes the light
+   visible at all. `.section` is `position: relative` with `z-index: auto`, so
+   it establishes NO stacking context — and a `z-index: -1` pseudo-element then
+   joins the nearest ancestor context and paints BEHIND the section's own
+   opaque background. Measured before this line: the ground was uniform
+   #0D0E10 across the entire section, brightest pixel identical to darkest.
+   Isolating the section keeps the negative layer inside it, above its
+   background and below its text. */
+#services { isolation: isolate; }
+
+#services::after {
+  block-size: 100%;
+  background:
+    radial-gradient(44% 34% at 14% 6%,   var(--glow) 0%, transparent 64%),
+    radial-gradient(34% 46% at 86% 22%,  var(--glow) 0%, transparent 68%),
+    radial-gradient(56% 30% at 30% 63%,  var(--glow) 0%, transparent 72%),
+    radial-gradient(28% 36% at 78% 88%,  var(--glow) 0%, transparent 66%);
 }

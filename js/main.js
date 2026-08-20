@@ -354,3 +354,51 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
     sync();
   }
 }
+
+/* ---- SECTION 06: THE SEQUENCE ---------------------------------------------
+   The scroll DECIDES, the motion RUNS ITSELF. Two decisions, two classes:
+
+     is-in   the chapter has arrived — its lines play in, one after another,
+             on their own clock rather than being dragged frame-by-frame by
+             the wheel. Set once and kept: a passage that re-plays every time
+             the reader scrolls back past it is a toy, not a page.
+
+     is-out  section 07 now covers about half the screen — the chapter has been
+             replaced and its lines leave, same order, upward. This one
+             toggles, so scrolling back up brings the passage back.
+
+   Not added at all under reduced motion (the block simply stays present) or
+   under ?static, which exists so a screenshot catches one settled frame.
+--------------------------------------------------------------------------- */
+{
+  const chapter = document.querySelector('.texture');
+  const cover = document.querySelector('.section--overlap');
+
+  if (chapter && !staticCapture && 'IntersectionObserver' in window) {
+    const arrived = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        chapter.classList.add('is-in');
+        arrived.disconnect();
+      }
+    }, { threshold: 0.3 });
+    arrived.observe(chapter);
+
+    if (cover && !reduceMotion) {
+      let queued = false;
+      const settle = () => {
+        queued = false;
+        const covered = window.innerHeight - cover.getBoundingClientRect().top;
+        chapter.classList.toggle('is-out', covered > window.innerHeight * 0.5);
+      };
+      const onScroll = () => {
+        if (queued) return;
+        queued = true;
+        requestAnimationFrame(settle);
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', onScroll, { passive: true });
+      settle();
+    }
+  }
+}
