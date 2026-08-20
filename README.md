@@ -48,10 +48,12 @@ css/
 js/main.js         reveal-on-scroll (opt-in), footer year, disclosure scroll guard
 assets/img/
   hero/            the client's supplied hero crops (desktop / mobile / master)
-                   + service_hero.jpg — the supplied dusk master, 2302x1544,
-                   2.2 MB. The page loads service-hero.jpg, the same frame
-                   re-encoded at the same dimensions (369 KB). The master is
-                   kept untouched; only the web copy is referenced.
+                   + hero-forecourt-dusk.jpg — the dusk frame the hero loads: three cars
+                   on the wet apron outside the lit showroom, 2302x1544, 369 KB.
+                   The 2.2 MB uncompressed master of the same frame (service_hero.jpg)
+                   was deleted 2026-08-19 at Alex’s request — same pixels, same
+                   dimensions. If it is ever wanted back it is in git:
+                     git show f3f559d:assets/img/hero/service_hero.jpg > master.jpg
                    + logo.png — the supplied mark. TWO CONSTRAINTS, measured:
                    white-on-transparent (dark grounds only; it vanishes on
                    `paper`), and it needs >= 18rem of width before "OF
@@ -84,7 +86,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=65`**.
+  browser serves stale styles. Currently at **`?v=66`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
@@ -94,7 +96,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
 **The header is transparent over the hero.** Navigation legibility is carried by
 a gradient scrim, not by a solid bar, so it depends on the hero photograph.
 
-Re-measured 2026-08-19 against the dusk frame `service-hero.jpg`, glyph pixels
+Re-measured 2026-08-19 against the dusk frame `hero-forecourt-dusk.jpg`, glyph pixels
 only (the text layer diffed against a render with it hidden, so the figure is
 the ground the strokes actually cover rather than the worst pixel in a bounding
 box): **active nav 15.72:1 · inactive nav 7.44:1 · logo 17.27:1.**
