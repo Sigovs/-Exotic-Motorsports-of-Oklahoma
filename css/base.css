@@ -231,6 +231,12 @@ a { color: inherit; text-decoration: none; }
    a light source on top of that is two depth ideas in one view. Its ::before
    is the scrim and is left alone. */
 .section.texture::after { display: none; }
+/* --tight is not “a smaller section”. It means THIS SECTION CONTINUES THE ONE
+   ABOVE IT — same chapter, second movement — and the halved opening interval
+   is what says so. Used anywhere else it just makes one chapter start closer
+   to its own top edge than its neighbours, which is the difference Alex could
+   see: 96px above every other plate and 48 above these. One user left on each
+   page, and it is the one the name describes. */
 .section--tight { padding-block: var(--space-7) var(--space-8); }
 .section--flush-top { padding-block-start: 0; }
 
