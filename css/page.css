@@ -462,7 +462,17 @@
 }
 @media (max-width: 48rem) {
   .band__media { block-size: clamp(17rem, 62vw, 22rem); }
-  .band::after { background: linear-gradient(to top, #0D0E10F7 0%, #0D0E10D6 42%, #0D0E1000 82%); }
+  /* The narrow override had gone back to a single bottom-up ramp — the exact
+     assumption the note above says fails the moment the photograph changes.
+     It did: on the Lamborghini frame the eyebrow landed on a lit tool chest at
+     1.91:1. Same three layers as the wide case, re-centred on a block that is
+     bottom-aligned here rather than centred. */
+  .band::after {
+    background:
+      radial-gradient(130% 88% at 32% 80%, #0D0E10FA 0%, #0D0E10E8 42%, #0D0E1000 80%),
+      linear-gradient(to top, #0D0E10E6 0%, #0D0E1000 64%),
+      linear-gradient(#0D0E1040, #0D0E1040);
+  }
   .band__content { align-items: flex-end; padding-block-end: var(--space-6); }
 }
 
@@ -550,12 +560,6 @@
      of them, which sit in the lower two thirds. The sunset above them is the
      part the crop can afford to lose. */
   object-fit: cover; object-position: 50% 62%;
-}
-/* The bay is a wide interior and the car sits centre-right; anchored a touch
-   left and low keeps both technicians in frame and the lit ceiling square
-   above the headline rather than behind it. */
-.texture--bay > img {
-  object-position: 44% 58%;
 }
 /* The ground used to be a flat concrete wall and took a flat 87% wash. This
    frame is a sunset — a flat wash that dark turns it to mud and throws away the
