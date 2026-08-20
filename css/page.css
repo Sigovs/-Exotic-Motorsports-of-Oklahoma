@@ -215,17 +215,29 @@
    drawn element rather than a photograph we do not have. Every word in it is
    the client's own (content-provenance: nothing invented to fill a shape).
 --------------------------------------------------------------------------- */
-.legend { display: grid; gap: var(--space-4); }
+.legend { display: grid; gap: var(--space-5); }
 .legend__row { display: flex; align-items: flex-start; gap: var(--space-4); }
-.legend__key {
+
+/* The key was a coloured square, which put the whole distinction in the one
+   channel a colour-blind reader does not receive. It is a glyph now: round,
+   almond, rectangle — three silhouettes that stay apart with the colour taken
+   away, drawn on the same 24 grid at the same 1.5 stroke as every other mark
+   on the page (typography I9 — one set, no second voice).
+   Compound selector because .icon sets its own size further down this file. */
+.legend__key.icon {
   flex: none;
-  inline-size: 0.75rem; block-size: 0.75rem;
-  margin-block-start: 0.34em;
-  border-radius: 2px;
+  inline-size: 1.15rem; block-size: 1.15rem;
+  margin-block-start: 0.16em;            /* optical seat against the name’s cap */
+  /* The name beside it is Inter 600 at 15-16px, whose stems measure ~1.9px. The
+     set’s default 1.5 stroke reads lighter than the words it labels, so it is
+     scaled to the type rather than to the set (typography I9). */
+  stroke-width: 1.7;
 }
-.legend__key--now  { background: var(--red); }
-.legend__key--soon { background: var(--warn); }
-.legend__key--ok   { background: var(--ok); }
+/* Measured on #FAFAF9, the card ground: 4.79 / 3.46 / 3.85 — all clear of the
+   3:1 an icon owes its background (color-taste I1). */
+.legend__key--now  { color: var(--red); }
+.legend__key--soon { color: var(--warn); }
+.legend__key--ok   { color: var(--ok); }
 .legend__name { color: var(--on-surface); font-weight: var(--weight-strong); font-size: var(--text-sm); }
 .legend__text { color: var(--on-surface-muted); font-size: var(--text-micro); line-height: 1.5; }
 

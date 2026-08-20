@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=66">
-<link rel="stylesheet" href="css/base.css?v=66">
-<link rel="stylesheet" href="css/components.css?v=66">
-<link rel="stylesheet" href="css/page.css?v=66">
+<link rel="stylesheet" href="css/tokens.css?v=68">
+<link rel="stylesheet" href="css/base.css?v=68">
+<link rel="stylesheet" href="css/components.css?v=68">
+<link rel="stylesheet" href="css/page.css?v=68">
 </head>
 
 <body>
@@ -81,6 +81,26 @@
     <symbol id="i-transmission" viewBox="0 0 24 24">
       <circle cx="12" cy="4.6" r="1.8"/>
       <path d="M12 6.4v13.2M12 12H6.4V7.2M12 12h5.6V7.2"/>
+    </symbol>
+
+    <!-- inspection findings: the three dispositions. Drawn so the SILHOUETTE
+         separates them — round, almond, rectangle — because the colour is the
+         one channel a colour-blind reader does not get, and the swatch these
+         replace carried nothing else. Each glyph is the verb in its own label:
+         attend to it, watch it, schedule it. -->
+    <symbol id="i-alert" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.4"/>
+      <path d="M12 7.9v4.9"/>
+      <path d="M12 16.1h.01"/>
+    </symbol>
+    <symbol id="i-watch" viewBox="0 0 24 24">
+      <path d="M2.7 12S6.2 5.9 12 5.9 21.3 12 21.3 12 17.8 18.1 12 18.1 2.7 12 2.7 12Z"/>
+      <circle cx="12" cy="12" r="2.7"/>
+    </symbol>
+    <symbol id="i-schedule" viewBox="0 0 24 24">
+      <rect x="3.2" y="5.4" width="17.6" height="15.4" rx="2"/>
+      <path d="M3.2 10.2h17.6"/>
+      <path d="M8.2 3.2v3.6M15.8 3.2v3.6"/>
     </symbol>
 
     <symbol id="i-chevron" viewBox="0 0 24 24">
@@ -911,15 +931,15 @@
         <p class="label t-muted">How findings are reported to you</p>
         <div class="legend" style="margin-block-start: var(--space-5)">
           <div class="legend__row">
-            <span class="legend__key legend__key--now" aria-hidden="true"></span>
+            <svg class="icon legend__key legend__key--now" aria-hidden="true"><use href="#i-alert"/></svg>
             <span><span class="legend__name">Requires immediate attention</span><br><span class="legend__text">Supported by inspection findings, diagnostic results, photographs, or documented testing.</span></span>
           </div>
           <div class="legend__row">
-            <span class="legend__key legend__key--soon" aria-hidden="true"></span>
+            <svg class="icon legend__key legend__key--soon" aria-hidden="true"><use href="#i-watch"/></svg>
             <span><span class="legend__name">Should be monitored</span><br><span class="legend__text">Recorded now, re-checked at your next visit.</span></span>
           </div>
           <div class="legend__row">
-            <span class="legend__key legend__key--ok" aria-hidden="true"></span>
+            <svg class="icon legend__key legend__key--ok" aria-hidden="true"><use href="#i-schedule"/></svg>
             <span><span class="legend__name">Can be planned for a future visit</span><br><span class="legend__text">Explained so you can budget and schedule it on your terms.</span></span>
           </div>
         </div>
@@ -1314,6 +1334,6 @@
   <a class="btn btn--primary" href="#schedule">Request service</a>
 </div>
 
-<script src="js/main.js?v=66" type="module"></script>
+<script src="js/main.js?v=68" type="module"></script>
 </body>
 </html>
