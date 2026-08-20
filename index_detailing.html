@@ -12,10 +12,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Saira:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="css/tokens.css?v=88">
-<link rel="stylesheet" href="css/base.css?v=88">
-<link rel="stylesheet" href="css/components.css?v=88">
-<link rel="stylesheet" href="css/page.css?v=88">
+<link rel="stylesheet" href="css/tokens.css?v=90">
+<link rel="stylesheet" href="css/base.css?v=90">
+<link rel="stylesheet" href="css/components.css?v=90">
+<link rel="stylesheet" href="css/page.css?v=90">
 </head>
 
 <body>
@@ -796,27 +796,53 @@
         <p>The recommendation should fit the vehicle, its condition, and the way you plan to use it.</p>
       </div>
 
-      <div class="card" data-reveal>
+      <!-- Seventeen items in one column is the dense table the vault entry
+           warns about; four named groups is the same seventeen with rhythm.
+           Not one word changed and nothing reordered inside a group — only
+           the grouping and its labels are ours. -->
+      <div class="card choose" data-reveal>
         <p class="label t-muted">Our customers choose us for</p>
-        <ul class="spec" style="margin-block-start: var(--space-5)">
-          <li>Exotic and luxury vehicle experience</li>
-          <li>A clean, organized professional facility</li>
-          <li>Professional paint correction</li>
-          <li>Premium ceramic coating options</li>
-          <li>Paint protection film</li>
-          <li>Factory-safe hand-washing methods</li>
-          <li>No automated car washes</li>
-          <li>Paint thickness awareness</li>
-          <li>Premium chemicals and professional equipment</li>
-          <li>Before-and-after documentation</li>
-          <li>Transparent recommendations</li>
-          <li>Direct communication</li>
-          <li>Careful vehicle handling</li>
-          <li>Consistent quality control</li>
-          <li>Final inspection before delivery</li>
-          <li>Select pickup and delivery options</li>
-          <li>Long-term vehicle maintenance support</li>
-        </ul>
+
+        <div class="choose__group">
+          <p class="label t-dim">What we can do</p>
+          <ul class="spec">
+            <li>Exotic and luxury vehicle experience</li>
+            <li>Professional paint correction</li>
+            <li>Premium ceramic coating options</li>
+            <li>Paint protection film</li>
+          </ul>
+        </div>
+
+        <div class="choose__group">
+          <p class="label t-dim">How the work is done</p>
+          <ul class="spec">
+            <li>A clean, organized professional facility</li>
+            <li>Factory-safe hand-washing methods</li>
+            <li>No automated car washes</li>
+            <li>Paint thickness awareness</li>
+            <li>Premium chemicals and professional equipment</li>
+            <li>Careful vehicle handling</li>
+          </ul>
+        </div>
+
+        <div class="choose__group">
+          <p class="label t-dim">What you are told</p>
+          <ul class="spec">
+            <li>Before-and-after documentation</li>
+            <li>Transparent recommendations</li>
+            <li>Direct communication</li>
+          </ul>
+        </div>
+
+        <div class="choose__group">
+          <p class="label t-dim">Before it leaves, and after</p>
+          <ul class="spec">
+            <li>Consistent quality control</li>
+            <li>Final inspection before delivery</li>
+            <li>Select pickup and delivery options</li>
+            <li>Long-term vehicle maintenance support</li>
+          </ul>
+        </div>
       </div>
 
     </div>
@@ -996,54 +1022,52 @@
       <p class="t-lead t-muted">Our maintenance services are designed for owners who want their vehicles professionally cared for on a recurring basis rather than waiting until the interior and exterior require significant restoration.</p>
     </div>
 
-    <div class="sec-body index">
+    <!-- THE DOMINANT OF THIS CHAPTER. It was seven equal rows, which is no
+         hierarchy at all and no entry point (C1). The maintenance programme
+         leads because the chapter's own H2 is the client's sentence about it
+         and because it is the only offer here that turns a visit into a
+         relationship — everything below is bought once. Same feature card the
+         services chapter uses, so the page gains a rank and not a device. -->
+    <div class="sec-body feature" data-reveal>
+      <div class="feature__lede stack">
+        <h3 class="t-h3">Maintenance Detailing and Long-Term Vehicle Care</h3>
+        <p class="t-sm t-muted">A single detail can improve a vehicle. A consistent maintenance program helps preserve that condition over time.</p>
+        <p class="t-sm t-muted">Our team can recommend a maintenance schedule based on how frequently the vehicle is driven, where it is stored, and how it is used.</p>
+        <a class="btn btn--link" href="#schedule" data-service="Maintenance program">Ask about a maintenance program</a>
+      </div>
 
-      <details class="disc" data-reveal data-slide>
-        <summary class="disc__summary">
-          <svg class="icon icon--lg disc__icon" aria-hidden="true"><use href="#i-schedule"/></svg>
-          <span class="disc__titles">
-            <span class="t-h4 disc__title">Maintenance Detailing and Long-Term Vehicle Care</span>
-            <span class="disc__hint">A consistent program helps preserve the condition a single detail creates.</span>
-          </span>
-          <span class="disc__mark" aria-hidden="true"></span>
-        </summary>
-        <div class="disc__panel">
-          <p class="t-sm">A single detail can improve a vehicle. A consistent maintenance program helps preserve that condition over time.</p>
-          <div class="split">
-            <div class="stack">
-              <p class="label t-muted">Available maintenance services include</p>
-              <ul class="spec">
-                <li>Hand washing</li>
-                <li>Maintenance washing</li>
-                <li>Interior maintenance</li>
-                <li>Exterior maintenance</li>
-                <li>Ceramic coating inspections</li>
-                <li>Ceramic coating maintenance</li>
-                <li>Glass maintenance</li>
-                <li>Wheel maintenance</li>
-                <li>Trim maintenance</li>
-                <li>Interior protection maintenance</li>
-                <li>Scheduled vehicle-care programs</li>
-              </ul>
-            </div>
-            <div class="stack">
-              <p class="label t-muted">A maintenance program may be especially valuable for</p>
-              <ul class="spec">
-                <li>Exotic vehicles</li>
-                <li>Ceramic-coated vehicles</li>
-                <li>Collector cars</li>
-                <li>Performance vehicles</li>
-                <li>Daily-driven luxury vehicles</li>
-                <li>Executive vehicles</li>
-                <li>Vehicles maintained for resale</li>
-                <li>Vehicles being preserved for long-term ownership</li>
-              </ul>
-            </div>
-          </div>
-          <p class="t-sm">Our team can recommend a maintenance schedule based on how frequently the vehicle is driven, where it is stored, and how it is used.</p>
-          <a class="btn btn--link" href="#schedule" data-service="Maintenance program">Ask about a maintenance program</a>
-        </div>
-      </details>
+      <div class="feature__list stack">
+        <p class="label t-dim">Available maintenance services include</p>
+        <ul class="spec spec--flow">
+          <li>Hand washing</li>
+          <li>Maintenance washing</li>
+          <li>Interior maintenance</li>
+          <li>Exterior maintenance</li>
+          <li>Ceramic coating inspections</li>
+          <li>Ceramic coating maintenance</li>
+          <li>Glass maintenance</li>
+          <li>Wheel maintenance</li>
+          <li>Trim maintenance</li>
+          <li>Interior protection maintenance</li>
+          <li>Scheduled vehicle-care programs</li>
+        </ul>
+      </div>
+
+      <!-- The client’s eight are a LIST and stay one. They were briefly a
+           three-part pull line here, which read well and quietly ate two of
+           them — the same compression this build has been undoing all along. -->
+      <div class="feature__aside stack">
+        <p class="label t-dim">A maintenance program may be especially valuable for</p>
+        <ul class="spec spec--2col">
+          <li>Exotic vehicles</li><li>Ceramic-coated vehicles</li>
+          <li>Collector cars</li><li>Performance vehicles</li>
+          <li>Daily-driven luxury vehicles</li><li>Executive vehicles</li>
+          <li>Vehicles maintained for resale</li><li>Vehicles being preserved for long-term ownership</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="sec-body index">
 
       <details class="disc" data-reveal data-slide>
         <summary class="disc__summary">
@@ -1388,6 +1412,6 @@
   <a class="btn btn--primary" href="#schedule">Request detailing</a>
 </div>
 
-<script src="js/main.js?v=88" type="module"></script>
+<script src="js/main.js?v=90" type="module"></script>
 </body>
 </html>

@@ -526,6 +526,14 @@
   border-radius: var(--r-md);
   background: var(--surface-raised);
 }
+/* A feature may close on a promise or on a second list. Both run the full
+   width under the two columns, on the same rule, for the same reason. */
+.feature__aside {
+  grid-column: 1 / -1;
+  padding-block-start: var(--space-6);
+  border-block-start: 1px solid var(--rule);
+}
+
 /* The promise runs the full width under both columns, on its own rule. It is
    the conclusion of the chapter, and it was previously the last item at the
    bottom of the right-hand column — read as a footnote to a list. */

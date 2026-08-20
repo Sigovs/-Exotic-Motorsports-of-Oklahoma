@@ -890,6 +890,13 @@
 }
 
 
+/* ---- CHOOSE — one long list, told as four -----------------------------
+   The groups need separating from each other more than their items need
+   separating inside a group, which is spacing I1 in one line: the interval
+   carries the structure, not a rule or a box. */
+.choose { display: grid; gap: var(--space-6); }
+.choose__group { display: grid; gap: var(--space-3); }
+
 /* ---- RAIL — a sequence that reads as one --------------------------------
    Four phases side by side instead of four columns stacked in a grid. The
    whole page is vertical; this is the one piece of content that is literally
