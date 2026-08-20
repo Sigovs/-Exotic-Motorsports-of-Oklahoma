@@ -226,8 +226,8 @@
    Compound selector because .icon sets its own size further down this file. */
 .legend__key.icon {
   flex: none;
-  inline-size: 1.15rem; block-size: 1.15rem;
-  margin-block-start: 0.16em;            /* optical seat against the name’s cap */
+  inline-size: 1.38rem; block-size: 1.38rem;
+  margin-block-start: 0.02em;            /* optical seat against the name’s cap */
   /* The name beside it is Inter 600 at 15-16px, whose stems measure ~1.9px. The
      set’s default 1.5 stroke reads lighter than the words it labels, so it is
      scaled to the type rather than to the set (typography I9). */
