@@ -33,9 +33,15 @@ http://localhost:8145/index_service.html?static
 | `index_service.html` | **built** — service and repair, `/service-and-repair/` |
 | `index_detailing.html` | **built** — detailing and protection, `/detailing-and-ceramic-coating-and-window-tinting/` |
 
-Content source for both: the approved `.docx` in `content/` (gitignored). The
-detailing deck is `content/exoticmotook-detailing-page.docx` — 22 H2 sections,
-217 bullets, and 32 `<<< SLOT >>>` markers the client placed himself.
+Content source for both: the approved `.docx` in `content/` (gitignored) —
+`exoticmotook-service page.docx` (195 bullets, 21 slot markers) and
+`exoticmotook-detailing-page.docx` (217 bullets, 32 slot markers).
+
+Both pages have been audited line by line against their deck. The audit
+script lives in the session scratchpad rather than the repo; what it does is
+simple enough to rebuild: strip HTML comments first (copy that survives only
+in a comment has not shipped), normalise entities and punctuation, then check
+every heading, paragraph and bullet for presence.
 
 ## Structure
 
@@ -88,7 +94,7 @@ _reference/        live clone of the Design DNA repo (gitignored, see .gitignore
   and every component inside follows. There are no `-on-dark` component variants
   by design.
 - **Bump `?v=N`** on the CSS/JS links in the HTML after editing them, or the
-  browser serves stale styles. Currently at **`?v=74`**.
+  browser serves stale styles. Currently at **`?v=75`**.
 - **Two type voices only** — Saira (display, tracked uppercase labels) and Inter
   (reading, UI). A third voice needs a systemic job the other two cannot do.
 - **One icon set**, drawn inline in `<defs>` at a single 1.5 stroke on one grid.
