@@ -528,6 +528,17 @@
 .field__help { font-size: var(--text-micro); color: var(--on-surface-dim); }
 
 .field-row { display: grid; gap: var(--space-5); grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+/* TWO FIELDS IN A ROW SHARE THEIR ROWS, not just their columns. Each .field is
+   its own little grid, so a label that wraps pushes only its own input down —
+   at 1024 “Year, make and model” takes two lines while the label beside it
+   takes one, and the two inputs sat 11px out of line on both pages. Subgrid
+   makes the label band as tall as the taller label and the inputs start
+   together, whatever either label does at whatever width. */
+@supports (grid-template-rows: subgrid) {
+  .field-row { grid-template-rows: auto auto; align-items: start; }
+  .field-row > .field { grid-row: span 2; grid-template-rows: subgrid; }
+}
 @media (max-width: 40rem) { .field-row { grid-template-columns: minmax(0, 1fr); } }
 
 /* connected radio group — contact preference */

@@ -427,7 +427,10 @@
    deep enough to carry type would cover the cars, which are the subject
    (color-taste I4 escalation order, I6 axis clause). ----------------------- */
 .band { position: relative; isolation: isolate; background: var(--black); }
-.band__media { block-size: clamp(15rem, 30vw, 27rem); overflow: clip; }
+/* Raised from clamp(15rem, 30vw, 27rem). The band is the page’s one
+   photographic beat with type on it, and at 432px it was reading as a strip
+   under a headline rather than as a screen the headline sits in. */
+.band__media { block-size: clamp(18rem, 38vw, 34rem); overflow: clip; }
 .band__media img { inline-size: 100%; block-size: 100%; object-fit: cover; object-position: 50% 58%; }
 /* The scrim was a single left-to-right ramp, which assumes the photograph is
    dark on the left — and the moment the frame changes, that assumption is what
@@ -461,7 +464,7 @@
   color: var(--ink);
 }
 @media (max-width: 48rem) {
-  .band__media { block-size: clamp(17rem, 62vw, 22rem); }
+  .band__media { block-size: clamp(20rem, 74vw, 26rem); }   /* raised with the wide case: the band grew from 432 to 544 there and 272 here read short beside it */
   /* The narrow override had gone back to a single bottom-up ramp — the exact
      assumption the note above says fails the moment the photograph changes.
      It did: on the Lamborghini frame the eyebrow landed on a lit tool chest at
@@ -474,6 +477,25 @@
       linear-gradient(#0D0E1040, #0D0E1040);
   }
   .band__content { align-items: flex-end; padding-block-end: var(--space-6); }
+}
+
+/* THE DRIFT, ON OBJECT-POSITION.
+   The texture chapter is pinned and has to hang its parallax off a wrapper.
+   A band is not pinned — it travels normally — so it drives its own view
+   timeline, and the frame is panned INSIDE its box rather than moved through
+   it. Nothing overflows, so no slack has to be reserved and no edge can be
+   exposed at any viewport or any aspect ratio.
+   Each range is centred on the anchor that band already had, so the crop the
+   photograph was chosen for is the midpoint of the movement rather than one
+   end of it. */
+@supports (animation-timeline: view()) {
+  .band__media img { animation: band-drift linear both; animation-timeline: view(); }
+  .band--plain img { animation-name: band-drift-plain; }
+  @keyframes band-drift       { from { object-position: 50% 42%; } to { object-position: 50% 74%; } }
+  @keyframes band-drift-plain { from { object-position: 50% 34%; } to { object-position: 50% 66%; } }
+  @media (prefers-reduced-motion: reduce) {
+    .band__media img { animation: none; }
+  }
 }
 
 /* ---- FEATURE — the ranked lead service. Dominant, not one of nine. ------- */
@@ -709,7 +731,14 @@
    No scrim, because nothing is being read over it. It exists to give the eye
    somewhere to rest between two dense chapters. ---------------------------- */
 .band--plain::after { content: none; }
-.band--plain .band__media { block-size: clamp(12rem, 24vw, 21rem); }
+/* Raised from clamp(12rem, 24vw, 21rem). At 1500 that was a 336px slot taking
+   a 2.14:1 photograph and cropping it to 4.46:1 — the band was keeping about a
+   third of the frame and reading as a strip rather than as a pause. 400px at
+   the same width keeps enough of the picture for the subject to be a subject.
+   Shared with the service page’s break on purpose: it is one beat in one
+   rhythm, and two sibling pages resting the eye for different lengths is a
+   difference with nothing behind it. */
+.band--plain .band__media { block-size: clamp(14rem, 28vw, 25rem); }
 .band--plain img { object-position: 50% 50%; }
 .band__note {
   position: absolute; inset-block-end: 0; inset-inline-end: 0; z-index: 2;
