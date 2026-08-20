@@ -23,3 +23,8 @@ assets/img/all images/
 
 # editor-local
 .vscode/
+
+# Client copy. The approved DOCX the pages are built from — Ivaylo's source,
+# not our deliverable, and it must never reach the public repo. Drop new copy
+# decks here; nothing in this folder is ever committed.
+content/

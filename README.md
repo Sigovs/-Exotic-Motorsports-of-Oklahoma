@@ -33,7 +33,9 @@ http://localhost:8145/index_service.html?static
 | `index_service.html` | **built** — service and repair, `/service-and-repair/` |
 | `index_detailing.html` | not started — detailing, ceramic, PPF, tint |
 
-Content source for both: the two approved `.docx` in `not to git./` (gitignored).
+Content source for both: the approved `.docx` in `content/` (gitignored). The
+detailing deck is `content/exoticmotook-detailing-page.docx` — 22 H2 sections,
+217 bullets, and 32 `<<< SLOT >>>` markers the client placed himself.
 
 ## Structure
 
