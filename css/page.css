@@ -642,6 +642,33 @@
   }
 }
 
+/* THE SEAM, WHERE THE CHAPTER FOLLOWS THE DEEP BAND.
+   Measured on the render: rgb(8,9,10) above the boundary, rgb(13,14,16)
+   below it, and the photograph at full strength on the next pixel. Two
+   faults in one line — a five-level step between two flat near-blacks, and
+   a picture that starts rather than arrives.
+   The scrim now BEGINS at the exact ground above it and opens across the
+   first sixth of the chapter. Scoped, because where this chapter follows a
+   paper one the cut is the point. */
+/* And the band above it stops sooner. Where the next chapter is a hard cut,
+   a full closing interval is the pause before it; where the next chapter
+   fades UP out of the same black, that interval and the fade are two pauses
+   in a row and the reader gets a screen of nothing. Only in that case. */
+.reviews-band:has(+ .sticky-stack) { padding-block-end: var(--space-7); }
+
+.texture--joins-deep::before {
+  background: linear-gradient(
+    to bottom,
+    #08090A 0%,
+    #08090AF7 4%,
+    #0B0C0EDB 10%,
+    #0D0E10B8 19%,
+    #0D0E10CC 40%,
+    #0D0E10E6 64%,
+    #0D0E10F0 100%
+  );
+}
+
 /* ---- IDENTITY MARK — the sign frame, used once, as a sign-off ----------- */
 .markplate { border: 1px solid var(--rule); border-radius: var(--r-sm); overflow: clip; background: var(--black); }
 .markplate img { inline-size: 100%; block-size: auto; }
@@ -738,7 +765,7 @@
    Shared with the service page’s break on purpose: it is one beat in one
    rhythm, and two sibling pages resting the eye for different lengths is a
    difference with nothing behind it. */
-.band--plain .band__media { block-size: clamp(14rem, 28vw, 25rem); }
+.band--plain .band__media { block-size: clamp(17rem, 36vw, 34rem); }   /* 400 -> 540 at 1500. The source is 2016x941; at 400 the band was still keeping barely half of it. */
 .band--plain img { object-position: 50% 50%; }
 .band__note {
   position: absolute; inset-block-end: 0; inset-inline-end: 0; z-index: 2;
