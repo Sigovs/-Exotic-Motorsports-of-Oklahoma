@@ -73,6 +73,24 @@
   object-position: 50% 35%;
 }
 
+/* A crop is a property of the photograph, not of the box — the same reason
+   .crop-top exists in components.css. The detailing hero is a 1.5 interior
+   scene rather than a 2.13 exterior one, so it gets its own anchor here
+   instead of the shared value being nudged and quietly moving the service
+   page’s first screen with it. */
+.hero__media img.crop-bay { object-position: 50% 42%; }
+
+/* Tried and REVERTED 2026-08-20, on the detailing hero. That frame is an
+   interior: the car sits at 44-58% of the width, exactly where this pass is
+   still at 65%, so the light bars lying across its paint — the one thing in
+   the photograph that proves a corrected finish — were being scrimmed away.
+   Moving the falloff ten points left brought the car back and dropped the H1
+   to 2.42:1. Four points left dropped the locator to 2.91:1. Both under the
+   3:1 large-text floor, so both are out: the headline and the subject occupy
+   the same horizontal band on that photograph and an X-axis pass cannot
+   separate them. Measured, not judged. If the subject has to come back, it
+   costs a local ground behind the type, not a lighter pass over the picture.
+*/
 /* THE SCRIM, ON THE HORIZONTAL AXIS.
    The type sits in the left column and the lit showroom is on the right, so
    the pass runs left-to-right: it darkens the ground under the headline and
@@ -148,6 +166,12 @@
      can carry five lines of display type on a 390px screen. The lit windows
      stay in the picture but move out from under the headline. */
   .hero__media img { object-position: 88% 56%; }
+
+  /* The detail bay, recomposed rather than re-cropped (C12): a 0.46 viewport
+     takes a tall slot out of a 1.5 scene, and centring it leaves the car half
+     out of frame with the empty right-hand bench filling the screen. Anchored
+     just left of centre puts the car and the polisher in the slot. */
+  .hero__media img.crop-bay { object-position: 44% 52%; }
 
   /* The bottom-up pass has to reach much further here: the type occupies the
      middle of the screen rather than its foot, because the column is tall. */

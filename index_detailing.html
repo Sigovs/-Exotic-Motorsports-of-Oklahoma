@@ -171,26 +171,40 @@
        evidence   the four commitments, one rank below
        excluded   the sticky header (72px) and the mobile action bar (64px)
 
-     ASSET SUITABILITY, declared (C17). The service page's first screen rests
-     on a wide environmental frame of the building. Nothing equivalent exists
-     for detailing, so this screen rests instead on a CLOSE frame: a hand, a
-     mitt, foam on black paint. It is a smaller scene than the default and it
-     is chosen deliberately — the alternative was the same dusk forecourt the
-     service page already owns, and a visitor who lands on both pages in one
-     session would meet the identical first screen twice. A shared first
-     screen is not a shared identity; it is a page that failed to say which
-     one it is.
-     The crop is a horizontal band through the middle of a 1440x1920 portrait,
-     which is where the hand, the mitt and the roundel sit. Alex is shooting
-     replacements; when a wide detailing scene exists this frame moves down
-     the page and the declaration above gets rewritten, not deleted.
+     ASSET SUITABILITY, declared (C17). Replaced 2026-08-20 with the frame
+     Alex supplied, and the declaration is rewritten rather than patched: this
+     screen no longer rests on a close crop of a mitt on a panel but on a
+     FULL SCENE — the detail bay, two technicians, a car under the light bars.
+     What it buys is the argument the page spends nine chapters making, stated
+     once in a photograph: the overhead bars land on the black paint as clean
+     unbroken streaks, which is what a corrected finish does and what an
+     uncorrected one cannot fake.
+       viewport ownership  the whole first screen below the 72px header
+       scene treatment     interior, controlled overhead light, wet floor
+       object scale        the car occupies the middle third; the air above it
+                           and the reflection below it are part of the event
+       focal point         the polisher on the bonnet, then the car
+       negative space      the floor, which is where the light bars repeat
+       text safe zone      the left column, over the open door and the cart —
+                           the brightest region in the frame, and the reason
+                           the left-to-right scrim starts at 94% rather than
+                           the 88% the dusk shot needed
+       desktop crop        50% 42%, holding the ceiling bars in frame
+       mobile crop         decided separately below — a 0.46 viewport takes a
+                           tall slot out of a 1.5 scene, and centring it puts
+                           the car half out of view
+       asset suitability   generated, not photographed in Edmond. The frame is
+                           deliberately generic: no signage, no window graphic,
+                           nothing that would make it a depiction of 724
+                           Hundred Oaks Drive. The alt text describes only what
+                           is in the picture and claims no location.
 -->
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__media">
     <picture>
-      <img src="assets/img/detailing/dtl-hand-wash-foam.jpg"
-           alt="A hand drawing a blue microfibre mitt across the foamed black bonnet and grille of a BMW."
-           width="1440" height="1920" fetchpriority="high">
+      <img class="crop-bay" src="assets/img/detailing/dtl-hero-detail-bay.jpg"
+           alt="A detailing bay: a black Porsche 911 under overhead light bars, one technician running a machine polisher across the bonnet and another working at a cart behind him."
+           width="2200" height="1468" fetchpriority="high">
     </picture>
   </div>
 
@@ -1110,6 +1124,13 @@
       </details>
 
     </div>
+  </div>
+</section>
+
+<!-- VISUAL BREAK — image only, no type over it -->
+<section class="band band--plain" aria-hidden="true">
+  <div class="band__media">
+    <img src="assets/img/detailing/dtl-hand-wash-foam.jpg" alt="" width="1440" height="1920" loading="lazy">
   </div>
 </section>
 
