@@ -300,6 +300,15 @@ a { color: inherit; text-decoration: none; }
 }
 .js-reveal [data-reveal].is-visible { opacity: 1; transform: none; }
 
+/* ARRIVING FROM THE SIDE, not from below. Opt-in, and used on one page: the
+   detailing index is a stack of full-width bars against a rule, and a bar that
+   comes in ALONG that rule reads as the list assembling itself rather than as
+   one more thing rising up the page. Same system, same duration, same easing,
+   same token — only the axis differs, which is the cheapest way for two
+   sibling pages to have different handwriting without a second vocabulary. */
+.js-reveal [data-reveal][data-slide] { transform: translateX(calc(-1 * var(--space-6))); }
+.js-reveal [data-reveal][data-slide].is-visible { transform: none; }
+
 /* ---------------------------------------------------------------------------
    HEADINGS ARRIVE A LINE AT A TIME, FROM THE SIDE.
 

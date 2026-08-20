@@ -890,6 +890,34 @@
 }
 
 
+/* ---- RAIL — a sequence that reads as one --------------------------------
+   Four phases side by side instead of four columns stacked in a grid. The
+   whole page is vertical; this is the one piece of content that is literally
+   an order, so it is the one that moves the other way. Snap is `proximity`,
+   not `mandatory`: a reader dragging through eleven steps should be able to
+   stop between two phases to finish a sentence. ------------------------- */
+.rail__head {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-5);
+  padding-block-end: var(--space-5);
+  border-block-end: 1px solid var(--rule);
+  margin-block-end: var(--space-7);
+}
+.rail {
+  display: flex;
+  gap: clamp(var(--space-6), 4vw, var(--space-8));
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  padding-block-end: var(--space-3);
+}
+.rail::-webkit-scrollbar { display: none; }
+.rail > .phase { flex: 0 0 clamp(16rem, 24vw, 21rem); scroll-snap-align: start; }
+@media (max-width: 60rem) {
+  .rail > .phase { flex-basis: 78%; }
+}
+
 /* ============================================================================
    16 · CAROUSEL — the reviews track
    Scroll-snap first, controls second. The track is a real horizontal scroller,

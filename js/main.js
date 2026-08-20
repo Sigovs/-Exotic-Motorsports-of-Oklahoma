@@ -282,11 +282,14 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
    never be marked current. The positions are measured from the DOM and
    re-measured on resize, so the control can never disagree with the layout.
 --------------------------------------------------------------------------- */
-{
-  const track = document.getElementById('reviews-track');
-  const dotsBox = document.querySelector('[data-rev-dots]');
-  const prev = document.querySelector('[data-rev-prev]');
-  const next = document.querySelector('[data-rev-next]');
+/* Bound per [data-carousel] block rather than to one id: the detailing page
+   runs two of them — the reviews and the process rail — and two copies of
+   this logic is two places for it to drift. */
+for (const box of document.querySelectorAll('[data-carousel]')) {
+  const track = box.querySelector('[data-track]');
+  const dotsBox = box.querySelector('[data-rev-dots]');
+  const prev = box.querySelector('[data-rev-prev]');
+  const next = box.querySelector('[data-rev-next]');
 
   /* The dots were removed from the markup: with two views they duplicated
      the arrows, and a control that says the same thing twice is one control
@@ -319,7 +322,7 @@ if (!reduceMotion && !staticCapture && 'IntersectionObserver' in window) {
       });
 
       /* nothing to drive — the controls leave rather than sit there inert */
-      track.closest('[data-carousel]')?.toggleAttribute('data-carousel-idle', stops.length < 2);
+      box.toggleAttribute('data-carousel-idle', stops.length < 2);
     };
 
     const current = () => {
